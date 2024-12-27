@@ -1,0 +1,17 @@
+# 内容：IPTV服务相关域名规则
+# 数量：10条
+
+# TVB相关
+DOMAIN-SUFFIX,tvb.com
+DOMAIN-SUFFIX,mytvsuper.com
+
+## ITV
+DOMAIN-SUFFIX,dnsany.com
+DOMAIN-SUFFIX,cmvideo.cn
+DOMAIN-SUFFIX,chinamobile.com
+
+# 海外流媒体
+## 4GTV & Hamivideo
+DOMAIN-SUFFIX,4gtv.tv
+DOMAIN-SUFFIX,hinet.net
+DOMAIN-SUFFIX,ofiii.com
