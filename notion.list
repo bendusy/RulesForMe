@@ -1,0 +1,41 @@
+# 内容：Notion相关域名规则
+# 数量：26条
+
+# Notion 基础服务
+DOMAIN-SUFFIX,notion.com
+DOMAIN-SUFFIX,notion.site
+DOMAIN-SUFFIX,notion.so
+
+# Notion CDN和资源
+DOMAIN-SUFFIX,notion-static.com
+DOMAIN-SUFFIX,notion.new
+
+# Notion API和服务
+DOMAIN-SUFFIX,notion.wiki
+DOMAIN-SUFFIX,notion.pet
+DOMAIN-SUFFIX,notion.cal.com
+
+# Notion 图片和文件存储
+DOMAIN-SUFFIX,amazonaws.com
+DOMAIN-SUFFIX,prod-files-secure.s3.us-west-2.amazonaws.com
+DOMAIN-SUFFIX,s3.us-west-2.amazonaws.com
+
+# Notion 协作和实时功能
+DOMAIN-SUFFIX,loggly.com
+DOMAIN-SUFFIX,segment.io
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,amplitude.com
+DOMAIN-SUFFIX,mixpanel.com
+
+# Notion IP地址
+IP-CIDR,154.40.44.47/32,no-resolve
+DOMAIN,www.notion.so
+DOMAIN,msgstore.www.notion.so
+DOMAIN,api.pgncs.notion.so
+DOMAIN,exp.notion.so
+IP-CIDR,119.28.13.121/32,no-resolve
+IP-CIDR,43.128.3.53/32,no-resolve
+IP-CIDR,101.32.183.34/32,no-resolve
+IP-CIDR,119.28.13.121/32,no-resolve
+IP-CIDR,43.128.3.53/32,no-resolve
+IP-CIDR,101.32.183.34/32,no-resolve 
