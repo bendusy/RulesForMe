@@ -69,7 +69,8 @@ DOMAIN-SUFFIX,github.dev
 DOMAIN-SUFFIX,auth0.com
 DOMAIN-SUFFIX,identrust.com
 DOMAIN-SUFFIX,groq.com
-
+DOMAIN-SUFFIX,console.groq.com
+DOMAIN-SUFFIX,chat.groq.com
 # AI服务依赖
 DOMAIN-SUFFIX,intercom.io
 DOMAIN-SUFFIX,intercomcdn.com
