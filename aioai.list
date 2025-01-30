@@ -68,6 +68,7 @@ DOMAIN-SUFFIX,github.dev
 # 通用AI服务认证
 DOMAIN-SUFFIX,auth0.com
 DOMAIN-SUFFIX,identrust.com
+DOMAIN-SUFFIX,groq.com
 
 # AI服务依赖
 DOMAIN-SUFFIX,intercom.io
