@@ -2,13 +2,21 @@
 # 数量：30条
 
 # Google AI相关
+DOMAIN,ai.google.dev
 DOMAIN,alkalimakersuite-pa.clients6.google.com
-DOMAIN,generativelanguage.googleapis.com
+DOMAIN,makersuite.google.com
 DOMAIN-SUFFIX,bard.google.com
 DOMAIN-SUFFIX,deepmind.com
+DOMAIN-SUFFIX,deepmind.google
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,googleai.com
 DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+DOMAIN-SUFFIX,apis.google.com
+DOMAIN-SUFFIX,labs.google
+DOMAIN-SUFFIX,aisandbox-pa.googleapis.com
+DOMAIN-SUFFIX,notebooklm.google
+DOMAIN-SUFFIX,notebooklm.google.com
 DOMAIN-KEYWORD,colab
 DOMAIN-KEYWORD,developerprofiles
 DOMAIN-KEYWORD,generativelanguage
@@ -23,6 +31,7 @@ DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,openaiapi-site.azureedge.net
 DOMAIN-SUFFIX,chat.com
 DOMAIN-SUFFIX,sora.com
+DOMAIN-SUFFIX,ai.com
 DOMAIN,chat.openai.com.cdn.cloudflare.net
 DOMAIN,openai-api.arkoselabs.com
 DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
@@ -42,8 +51,11 @@ DOMAIN-SUFFIX,cdn.oaistatic.com
 DOMAIN,o33249.ingest.sentry.io
 
 # Claude相关
+DOMAIN,cdn.usefathom.com
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,claude.ai
+DOMAIN-KEYWORD,anthropic
+DOMAIN-KEYWORD,claude
 
 # GitHub Copilot相关
 DOMAIN-SUFFIX,copilot.github.com
@@ -81,6 +93,7 @@ DOMAIN-SUFFIX,codeium.com
 DOMAIN-SUFFIX,codeiumdata.com
 DOMAIN-SUFFIX,hcompany.ai
 DOMAIN-SUFFIX,x.ai
+DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-KEYWORD,cohere
 DOMAIN-KEYWORD,hcompany
 DOMAIN-KEYWORD,groq
@@ -91,13 +104,4 @@ DOMAIN,gateway.bingviz.microsoft.net
 DOMAIN,gateway.bingviz.microsoftapp.net
 DOMAIN-SUFFIX,api.microsoftapp.net
 DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
-DOMAIN-SUFFIX,edgeservices.bing.com 
-
-# Google AI Studio
-DOMAIN-KEYWORD,alkalimakersuite-pa.clients6.google.com  
-DOMAIN,alkalicore-pa.clients6.google.com
-DOMAIN,waa-pa.clients6.google.com
-
-# Google NotebookLM
-DOMAIN-SUFFIX,notebooklm.google
-DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-SUFFIX,edgeservices.bing.com
