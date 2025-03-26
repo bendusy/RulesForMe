@@ -1,0 +1,9 @@
+# NAME: Cloudflare argotunnel
+# UPDATED: 2025-03-26 09:12:03
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+
+DOMAIN,region1.argotunnel.com
+DOMAIN,region2.argotunnel.com
+DOMAIN,region1.v2.argotunnel.com
+DOMAIN,region2.v2.argotunnel.com
