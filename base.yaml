@@ -1,35 +1,35 @@
 proxy-providers:
   ProviderALL:
-    url: https:// 
+    url: https://freesu7.flyi.me/storage?token=tva&filename=all.yaml 
     type: http
     interval: 600
     proxy: DIRECT
     path: ./proxy_provider/ALL.yaml
   ProviderSpeed:
-    url: https://
+    url: https://freesu7.flyi.me/storage?token=tva&filename=speed.yaml 
     type: http
     interval: 600
     proxy: DIRECT
     path: ./proxy_provider/Speed.yaml
   ProviderOpenai:
-    url: https:// 
+    url: https://freesu7.flyi.me/storage?token=tva&filename=openai.yaml 
     type: http
     interval: 600
     proxy: DIRECT
     path: ./proxy_provider/Openai.yaml
   ProviderYoutube:
-    url: https:// 
+    url: https://freesu7.flyi.me/storage?token=tva&filename=youtube.yaml 
     type: http
     interval: 600
     proxy: DIRECT
     path: ./proxy_provider/Youtube.yaml
   ProviderNetflix:
-    url: https:// 
+    url: https://freesu7.flyi.me/storage?token=tva&filename=netflix.yaml 
     type: http
     proxy: DIRECT
     path: ./proxy_provider/Netflix.yaml
   ProviderDisney:
-    url: https:// 
+    url: https://freesu7.flyi.me/storage?token=tva&filename=disney.yaml 
     type: http
     interval: 600
     proxy: DIRECT
