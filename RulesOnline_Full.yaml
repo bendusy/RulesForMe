@@ -399,9 +399,9 @@ rule-providers:
     interval: 86400
     format: text
     type: http
-  IPTV:
-    url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/iptv.list
-    path: ./ruleset/IPTV.list
+  TVB:
+    url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list
+    path: ./ruleset/TVB.list
     behavior: classical
     interval: 86400
     format: text
@@ -470,7 +470,7 @@ rules:
   - "RULE-SET,Notion,📝 Notion"
   - "RULE-SET,YouTube,📹 油管视频"
   - "RULE-SET,DisneyPlus,🎥 迪士尼+"
-  - "RULE-SET,IPTV,🎥 TVB"
+  - "RULE-SET,TVB,🎥 TVB"
   - "RULE-SET,ProxyMedia,🌍 国外媒体"
   - "RULE-SET,ProxyLite,🚀 节点选择"
   - "RULE-SET,CMBlog,🚀 节点选择"

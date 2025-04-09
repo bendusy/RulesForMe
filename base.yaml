@@ -2252,9 +2252,9 @@ rule-providers:
     interval: 86400
     format: text
     type: http
-  IPTV:
-    url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/iptv.list
-    path: ./ruleset/IPTV.list
+  TVB:
+    url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list
+    path: ./ruleset/TVB.list
     behavior: classical
     interval: 86400
     format: text
@@ -2302,7 +2302,6 @@ rules:
   - RULE-SET,ArgoTunnel,DIRECT
   - RULE-SET,GoogleCN,DIRECT
   - RULE-SET,SteamCN,DIRECT
-  - RULE-SET,IPTV,DIRECT
   - RULE-SET,ChinaDomain,DIRECT
   - RULE-SET,ChinaCompanyIp,DIRECT
   - RULE-SET,ChinaMedia,DIRECT
@@ -2344,7 +2343,7 @@ rules:
   - RULE-SET,TikTok,TikTok
   - RULE-SET,ProxyMedia,GlobalMedia
   - RULE-SET,GlobalMedia,GlobalMedia
-  
+  - RULE-SET,TVB,Disney+
   # 通讯工具
   - RULE-SET,Telegram,Telegram
   
