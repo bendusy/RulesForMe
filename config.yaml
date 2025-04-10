@@ -127,6 +127,7 @@ proxy-groups:
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
 rules:
   # 广告和隐私拦截 (来自 base.yaml)
+  - RULE-SET,reject_domains,REJECT   # 使用合并的广告拦截规则
   - RULE-SET,BanAD,REJECT
   - RULE-SET,RejectList,REJECT
   - RULE-SET,BlackList,REJECT
@@ -135,6 +136,7 @@ rules:
 
   # 本地网络和直连规则 (部分来自 base.yaml, 部分来自 config.yaml)
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理 # 保留原始规则
+  - RULE-SET,direct_all,🎯 直连   # 使用合并的直连规则
   - RULE-SET,CFnat,🎯 直连
   - RULE-SET,LocalAreaNetwork,🎯 直连
   - RULE-SET,UnBan,🎯 直连
@@ -151,40 +153,35 @@ rules:
   - RULE-SET,cn_ip,🎯 直连
 
   # 系统服务 & 特殊应用
-  - RULE-SET,apple_domain,🍎 Apple
+  - RULE-SET,apple_domains,🍎 Apple  # 使用本地apple_domains规则
   - RULE-SET,speedtest_domain,✈️ Speedtest
   - RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,WeChat,🎯 直连 # 来自 base.yaml, 设为直连
 
   # 常用服务规则
-  - RULE-SET,ai,🤖 ChatGPT
-  - RULE-SET,AiExtra,🤖 ChatGPT # 来自 base.yaml
-  - RULE-SET,Copilot,🤖 ChatGPT # 来自 base.yaml
-  - RULE-SET,GithubCopilot,🤖 ChatGPT # 来自 base.yaml
-  - RULE-SET,Claude,🤖 ChatGPT # 来自 base.yaml
-  - RULE-SET,AIoAI,🤖 ChatGPT # 来自 base.yaml (自定义)
-  - RULE-SET,Talkatone,🤖 ChatGPT # 来自 base.yaml (特定代理)
-  - RULE-SET,github_domain,👨🏿‍💻 GitHub
-  - RULE-SET,youtube_domain,📹 YouTube
+  - RULE-SET,ai_all,🤖 ChatGPT  # 使用项目合并的AI规则
+  - RULE-SET,github,👨🏿‍💻 GitHub  # 使用本地github规则
+  - RULE-SET,youtube,📹 YouTube  # 使用本地youtube规则
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive
-  - RULE-SET,microsoft_domain,🪟 Microsoft
-  - RULE-SET,tiktok_domain,🎵 TikTok
-  - RULE-SET,telegram_domain,📲 Telegram
-  - RULE-SET,netflix_domain,🎥 NETFLIX
+  - RULE-SET,microsoft,🪟 Microsoft  # 使用本地microsoft规则
+  - RULE-SET,tiktok,🎵 TikTok  # 使用本地tiktok规则
+  - RULE-SET,telegram,📲 Telegram  # 使用本地telegram规则
+  - RULE-SET,netflix,🎥 NETFLIX  # 使用本地netflix规则
   - RULE-SET,Notion,🚀 默认代理 # 来自 base.yaml (自定义)
   - RULE-SET,TVB,🎥 NETFLIX # 来自 base.yaml (自定义), 归入NETFLIX策略组
-  - RULE-SET,Spotify,🚀 默认代理 # 来自 base.yaml
+  - RULE-SET,spotify,🚀 默认代理 # 使用本地spotify规则
   - RULE-SET,Cloudflare,🚀 默认代理 # 来自 base.yaml
 
   # 游戏服务 (来自 base.yaml)
+  - RULE-SET,gaming,🚀 默认代理 # 使用项目合并的游戏规则
   - RULE-SET,Nintendo,🚀 默认代理 # 可考虑新建Gamer策略组
   - RULE-SET,PlayStation,🚀 默认代理
   - RULE-SET,Epic,🚀 默认代理
   - RULE-SET,Xbox,🚀 默认代理
 
   # 代理规则 & 国际流量
-  - RULE-SET,proxylite,🚀 默认代理 # 来自 config.yaml
+  - RULE-SET,proxy_common,🚀 默认代理 # 使用本地proxy_common规则
   - RULE-SET,ProxyLite_classical,🚀 默认代理 # 来自 base.yaml (重命名)
   - RULE-SET,CMBlog,🚀 默认代理 # 来自 base.yaml
   - RULE-SET,Proxy,🚀 默认代理 # 来自 base.yaml
@@ -209,79 +206,61 @@ rule-anchor:
   ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
   domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
   class: &class {type: http, interval: 86400, behavior: classical, format: text}
-  yaml_class: &yaml_class {type: http, interval: 86400, behavior: classical, format: yaml} # 新增yaml格式锚点
+  yaml_class: &yaml_class {type: http, interval: 86400, behavior: classical, format: yaml} # yaml格式锚点
+  repo_class: &repo_class {type: http, interval: 86400, behavior: classical, format: text} # 替换local_class，用于GitHub仓库规则
+  
+  # 本地文件锚点 - 新增用于本地文件引用
+  local_ip: &local_ip {type: file, behavior: ipcidr, format: mrs}
+  local_domain: &local_domain {type: file, behavior: domain, format: mrs}
+  local_class: &local_class {type: file, behavior: classical, format: text}
+  local_yaml: &local_yaml {type: file, behavior: classical, format: yaml}
 
 rule-providers:
-  # --- config.yaml 原始规则集 (MetaCubeX) ---
-  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs", path: ./rulesets/geosite/private_domain.mrs }
-  proxylite: { <<: *class, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/master/ProxyLite.list", path: ./rulesets/classical/proxylite.list }
-  ai: { <<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs", path: ./rulesets/geosite/ai.mrs }
-  youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs", path: ./rulesets/geosite/youtube_domain.mrs }
-  google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs", path: ./rulesets/geosite/google_domain.mrs }
-  github_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs", path: ./rulesets/geosite/github_domain.mrs }
-  telegram_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs", path: ./rulesets/geosite/telegram_domain.mrs }
-  netflix_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs", path: ./rulesets/geosite/netflix_domain.mrs }
-  paypal_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs", path: ./rulesets/geosite/paypal_domain.mrs }
-  onedrive_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs", path: ./rulesets/geosite/onedrive_domain.mrs }
-  microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs", path: ./rulesets/geosite/microsoft_domain.mrs }
-  apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs", path: ./rulesets/geosite/apple_domain.mrs }
-  speedtest_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs", path: ./rulesets/geosite/speedtest_domain.mrs }
-  tiktok_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs", path: ./rulesets/geosite/tiktok_domain.mrs }
-  gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs", path: ./rulesets/geosite/gfw_domain.mrs }
-  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs", path: ./rulesets/geosite/geolocation-!cn.mrs }
-  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs", path: ./rulesets/geosite/cn_domain.mrs }
-  cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs", path: ./rulesets/geoip/cn_ip.mrs }
-  google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs", path: ./rulesets/geoip/google_ip.mrs }
-  telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs", path: ./rulesets/geoip/telegram_ip.mrs }
-  netflix_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs", path: ./rulesets/geoip/netflix_ip.mrs }
+  # --- 使用本地规则集文件 ---
+  # Classical格式规则
+  ai_all: { <<: *local_class, path: ./rulesets/classical/ai_all.list }
+  gaming: { <<: *local_class, path: ./rulesets/classical/gaming.list }
+  reject_domains: { <<: *local_class, path: ./rulesets/classical/reject_domains.list }
+  direct_all: { <<: *local_class, path: ./rulesets/classical/direct_all.list }
+  apple_domains: { <<: *local_class, path: ./rulesets/classical/apple_domains.list }
+  proxy_common: { <<: *local_class, path: ./rulesets/classical/proxy_common.list }
+  telegram: { <<: *local_class, path: ./rulesets/classical/telegram.list }
+  disney: { <<: *local_class, path: ./rulesets/classical/disney.list }
+  github: { <<: *local_class, path: ./rulesets/classical/github.list }
+  microsoft: { <<: *local_class, path: ./rulesets/classical/microsoft.list }
+  netflix: { <<: *local_class, path: ./rulesets/classical/netflix.list }
+  spotify: { <<: *local_class, path: ./rulesets/classical/spotify.list }
+  tiktok: { <<: *local_class, path: ./rulesets/classical/tiktok.list }
+  youtube: { <<: *local_class, path: ./rulesets/classical/youtube.list }
 
-  # --- base.yaml 添加的规则集 (部分来自 blackmatrix7, ACL4SSR, 自定义等) ---
-  GlobalMedia: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml", path: ./rulesets/classical/GlobalMedia.yaml }
-  ChinaMedia: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMedia/ChinaMedia.yaml", path: ./rulesets/classical/ChinaMedia.yaml }
-  Disney+: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney_No_Resolve.yaml", path: ./rulesets/classical/Disney+.yaml }
-  Apple_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml", path: ./rulesets/classical/Apple_classical.yaml }
-  Microsoft_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft_No_Resolve.yaml", path: ./rulesets/classical/Microsoft_classical.yaml }
-  Nintendo: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Nintendo/Nintendo.yaml", path: ./rulesets/classical/Nintendo.yaml }
-  PlayStation: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PlayStation/PlayStation.yaml", path: ./rulesets/classical/PlayStation.yaml }
-  Epic: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Epic/Epic.yaml", path: ./rulesets/classical/Epic.yaml }
-  Xbox: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Xbox/Xbox.yaml", path: ./rulesets/classical/Xbox.yaml }
-  TikTok_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok_No_Resolve.yaml", path: ./rulesets/classical/TikTok_classical.yaml }
-  Spotify: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml", path: ./rulesets/classical/Spotify.yaml }
-  OpenAI_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI_No_Resolve.yaml", path: ./rulesets/classical/OpenAI_classical.yaml }
-  Proxy: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy_Classical_No_Resolve.yaml", path: ./rulesets/classical/Proxy.yaml }
-  China: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml", path: ./rulesets/classical/China.yaml }
-  Tencent: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Tencent/Tencent.yaml", path: ./rulesets/classical/Tencent.yaml }
-  LAN: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml", path: ./rulesets/classical/LAN.yaml }
-  Cloudflare: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare.yaml", path: ./rulesets/classical/Cloudflare.yaml }
-  Onedrive_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml", path: ./rulesets/classical/Onedrive_classical.yaml }
-  Bing: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml", path: ./rulesets/classical/Bing.yaml }
-  Github_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml", path: ./rulesets/classical/Github_classical.yaml }
-  Telegram_classical: { <<: *yaml_class, url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml", path: ./rulesets/classical/Telegram_classical.yaml }
+  # 自定义规则集
+  WeChat: { <<: *local_class, path: ./rulesets/custom/WeChat.list }
+  Notion: { <<: *local_class, path: ./rulesets/custom/notion.list }
+  TVB: { <<: *local_class, path: ./rulesets/custom/tvb.list }
+  ArgoTunnel: { <<: *local_class, path: ./rulesets/custom/argotunnel.list }
+  aioai: { <<: *local_class, path: ./rulesets/custom/aioai.list }
 
-  # --- base.yaml 添加的规则集 (ACL4SSR .list/.txt 格式) ---
-  LocalAreaNetwork: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/LocalAreaNetwork.list", path: ./rulesets/classical/LocalAreaNetwork.list }
-  UnBan: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/UnBan.list", path: ./rulesets/classical/UnBan.list }
-  CFnat: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/refs/heads/main/Clash/CFnat.list", path: ./rulesets/classical/CFnat.list }
-  ArgoTunnel: { <<: *class, url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/argotunnel.list", path: ./rulesets/custom/ArgoTunnel.list } # 自定义
-  BanAD: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanAD.list", path: ./rulesets/classical/BanAD.list }
-  RejectList: { <<: *class, url: "https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/reject-list.txt", path: ./rulesets/classical/RejectList.list }
-  BlackList: { <<: *class, url: "https://raw.githubusercontent.com/Steve5wutongyu6/DNSBlock/refs/heads/main/BlackList.txt", path: ./rulesets/classical/BlackList.list }
-  BanProgramAD: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanProgramAD.list", path: ./rulesets/classical/BanProgramAD.list }
-  Adobe: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/adobe.list", path: ./rulesets/classical/Adobe.list }
-  WeChat: { <<: *class, url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/WeChat.list", path: ./rulesets/custom/WeChat.list } # 自定义
-  GoogleFCM: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list", path: ./rulesets/classical/GoogleFCM.list }
-  GoogleCN: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/GoogleCN.list", path: ./rulesets/classical/GoogleCN.list }
-  SteamCN: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/SteamCN.list", path: ./rulesets/classical/SteamCN.list }
-  AiExtra: { <<: *class, url: "https://raw.githubusercontent.com/juewuy/ShellClash/master/rules/ai.list", path: ./rulesets/classical/AiExtra.list }
-  Copilot: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Copilot.list", path: ./rulesets/classical/Copilot.list }
-  GithubCopilot: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/GithubCopilot.list", path: ./rulesets/classical/GithubCopilot.list }
-  Claude: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Claude.list", path: ./rulesets/classical/Claude.list }
-  AIoAI: { <<: *class, url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/aioai.list", path: ./rulesets/custom/AIoAI.list } # 自定义
-  Talkatone: { <<: *class, url: "https://raw.githubusercontent.com/SIJULY/Rules/main/Surge/talkatone.list", path: ./rulesets/classical/Talkatone.list }
-  Notion: { <<: *class, url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/notion.list", path: ./rulesets/custom/Notion.list } # 自定义
-  TVB: { <<: *class, url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list", path: ./rulesets/custom/TVB.list } # 自定义
-  ProxyMedia: { <<: *class, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list", path: ./rulesets/classical/ProxyMedia.list }
-  ProxyLite_classical: { <<: *class, url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list", path: ./rulesets/classical/ProxyLite_classical.list }
-  CMBlog: { <<: *class, url: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list", path: ./rulesets/classical/CMBlog.list }
-  ChinaDomain: { type: http, behavior: domain, interval: 86400, format: text, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list", path: ./rulesets/geosite/ChinaDomain.list } # 归类到 geosite
-  ChinaCompanyIp: { type: http, behavior: ipcidr, interval: 86400, format: text, url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list", path: ./rulesets/geoip/ChinaCompanyIp.list } # 归类到 geoip
+  # GeoSite格式规则
+  ChinaDomain: { <<: *local_class, path: ./rulesets/geosite/ChinaDomain.list }
+  private_domain: { <<: *local_domain, path: ./rulesets/geosite/private_domain.mrs }
+  cn_domain: { <<: *local_domain, path: ./rulesets/geosite/cn_domain.mrs }
+  geolocation-!cn: { <<: *local_domain, path: ./rulesets/geosite/geolocation-!cn.mrs }
+  gfw_domain: { <<: *local_domain, path: ./rulesets/geosite/gfw_domain.mrs }
+  tiktok_domain: { <<: *local_domain, path: ./rulesets/geosite/tiktok_domain.mrs }
+  speedtest_domain: { <<: *local_domain, path: ./rulesets/geosite/speedtest_domain.mrs }
+  apple_domain: { <<: *local_domain, path: ./rulesets/geosite/apple_domain.mrs }
+  microsoft_domain: { <<: *local_domain, path: ./rulesets/geosite/microsoft_domain.mrs }
+  onedrive_domain: { <<: *local_domain, path: ./rulesets/geosite/onedrive_domain.mrs }
+  paypal_domain: { <<: *local_domain, path: ./rulesets/geosite/paypal_domain.mrs }
+  netflix_domain: { <<: *local_domain, path: ./rulesets/geosite/netflix_domain.mrs }
+  telegram_domain: { <<: *local_domain, path: ./rulesets/geosite/telegram_domain.mrs }
+  github_domain: { <<: *local_domain, path: ./rulesets/geosite/github_domain.mrs }
+  google_domain: { <<: *local_domain, path: ./rulesets/geosite/google_domain.mrs }
+  youtube_domain: { <<: *local_domain, path: ./rulesets/geosite/youtube_domain.mrs }
+
+  # GeoIP格式规则
+  ChinaCompanyIp: { <<: *local_class, path: ./rulesets/geoip/ChinaCompanyIp.list }
+  cn_ip: { <<: *local_ip, path: ./rulesets/geoip/cn_ip.mrs }
+  google_ip: { <<: *local_ip, path: ./rulesets/geoip/google_ip.mrs }
+  telegram_ip: { <<: *local_ip, path: ./rulesets/geoip/telegram_ip.mrs }
+  netflix_ip: { <<: *local_ip, path: ./rulesets/geoip/netflix_ip.mrs }
