@@ -100,22 +100,22 @@ proxy-groups:
   - {name: 🚀 默认代理, type: select, proxies: [🔯 香港故转, ♻️ 香港自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🇸🇬 新加坡节点, 🇬🇧 英国节点, 🇫🇷 法国节点, 🇩🇪 德国节点, 🇨🇦 加拿大节点, 🇦🇺 澳大利亚节点, 🇳🇱 荷兰节点, 🇷🇺 俄罗斯节点, 🇭🇺 匈牙利节点, 🇺🇦 乌克兰节点, 🇵🇱 波兰节点, 🇮🇹 意大利节点, 🇮🇷 伊朗节点, 🌐 全部节点, 直连]}
   - {name: 📹 油管视频, <<: *pr}
   - {name: 🍀 Google, <<: *pr}
-  - {name: 🤖 OpenAi, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🤖 OpenAi, type: select, proxies: [🇸🇬 新加坡自动, 🇺🇲 美国自动, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
   - {name: 👨🏿‍💻 GitHub, <<: *pr}
   - {name: 🐬 OneDrive, <<: *pr}
   - {name: Ⓜ️ 微软服务, <<: *pr}
   - {name: 🎵 TikTok, <<: *pr}
   - {name: 📲 电报信息, <<: *pr}
-  - {name: 🎥 Netflix, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
-  - {name: 🎥 迪士尼+, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🎥 Netflix, type: select, proxies: [🇸🇬 新加坡自动, 🇺🇲 美国自动, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🎥 迪士尼+, type: select, proxies: [🇸🇬 新加坡自动, 🇺🇲 美国自动, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
   - {name: 🎥 tvb, type: select, proxies: [直连, 🇭🇰 香港节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点]}
   - {name: 🎵 Spotify, <<: *pr}
   - {name: 🎬 流媒体解锁, type: select, include-all: true, filter: "(?i)流媒体|媒体|解锁"}
   - {name: ✈️ Speedtest, type: select, proxies: [直连, 🚀 默认代理, ♻️ 自动选择]}
   - {name: 💶 PayPal, type: select, proxies: [直连, 🇺🇲 美国节点, 🚀 默认代理]}
-  - {name: 🍎 苹果服务, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
-  - {name: 📝 Notion, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
-  - {name: ⚡ Cloudflare, type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, 🇸🇬 新加坡节点, 🇭🇰 香港节点, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🍎 苹果服务, type: select, proxies: [🇸🇬 新加坡自动, 🇺🇲 美国自动, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 📝 Notion, type: select, proxies: [🇸🇬 新加坡自动, 🇺🇲 美国自动, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: ⚡ Cloudflare, type: select, proxies: [🚀 默认代理, 🇺🇲 美国自动, 🇸🇬 新加坡自动, 🇭🇰 香港自动, ♻️ 自动选择, 🌐 全部节点, 直连]}
   - {name: 🎮 游戏, type: select, proxies: [🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
   - {name: 🌍 国外媒体, type: select, proxies: [🚀 默认代理, ♻️ 自动选择, 🎯 直连, 🌐 全部节点]}
   - {name: 🎯 直连, type: select, proxies: [直连, 🚀 默认代理, ♻️ 自动选择]}
