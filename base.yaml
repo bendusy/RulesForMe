@@ -2295,6 +2295,7 @@ rule-providers:
     format: text
     type: http
 rules:
+  - DOMAIN-SUFFIX,qichiyu.com,Proxy
   # 本地网络和直连规则
   - RULE-SET,CFnat,DIRECT
   - RULE-SET,LocalAreaNetwork,DIRECT
