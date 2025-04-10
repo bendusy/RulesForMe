@@ -54,6 +54,7 @@ curl -L --fail -o 'rulesets/classical/China.yaml' 'https://cdn.jsdelivr.net/gh/b
 curl -L --fail -o 'rulesets/classical/Tencent.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Tencent/Tencent.yaml' || echo "WARN: Failed to download Tencent.yaml"
 curl -L --fail -o 'rulesets/classical/LAN.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml' || echo "WARN: Failed to download LAN.yaml"
 curl -L --fail -o 'rulesets/classical/Cloudflare.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare.yaml' || echo "WARN: Failed to download Cloudflare.yaml"
+curl -L --fail -o 'rulesets/classical/Cloudflare.list' 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.list' || echo "WARN: Failed to download Cloudflare.list"
 curl -L --fail -o 'rulesets/classical/Onedrive_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml' || echo "WARN: Failed to download Onedrive_classical.yaml"
 curl -L --fail -o 'rulesets/classical/Bing.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml' || echo "WARN: Failed to download Bing.yaml"
 curl -L --fail -o 'rulesets/classical/Github_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml' || echo "WARN: Failed to download Github_classical.yaml"
