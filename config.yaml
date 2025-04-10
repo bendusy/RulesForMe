@@ -126,67 +126,53 @@ proxy-groups:
 # 规则匹配
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
 rules:
-  # 广告和隐私拦截 (来自 base.yaml)
+  # 广告和隐私拦截
   - RULE-SET,reject_domains,REJECT   # 使用合并的广告拦截规则
-  - RULE-SET,BanAD,REJECT
-  - RULE-SET,RejectList,REJECT
-  - RULE-SET,BlackList,REJECT
-  - RULE-SET,BanProgramAD,REJECT
-  - RULE-SET,Adobe,REJECT
 
-  # 本地网络和直连规则 (部分来自 base.yaml, 部分来自 config.yaml)
+  # 本地网络和直连规则
   - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理 # 保留原始规则
   - RULE-SET,direct_all,🎯 直连   # 使用合并的直连规则
-  - RULE-SET,CFnat,🎯 直连
-  - RULE-SET,LocalAreaNetwork,🎯 直连
-  - RULE-SET,UnBan,🎯 直连
   - RULE-SET,ArgoTunnel,🎯 直连
-  - RULE-SET,GoogleCN,🎯 直连
-  - RULE-SET,SteamCN,🎯 直连
   - RULE-SET,ChinaDomain,🎯 直连
   - RULE-SET,ChinaCompanyIp,🎯 直连
-  - RULE-SET,ChinaMedia,🎯 直连
-  - RULE-SET,Tencent,🎯 直连 # 来自 base.yaml
-  - RULE-SET,LAN,🎯 直连
   - RULE-SET,private_domain,🎯 直连
   - RULE-SET,cn_domain,🎯 直连
   - RULE-SET,cn_ip,🎯 直连
 
   # 系统服务 & 特殊应用
-  - RULE-SET,apple_domains,🍎 Apple  # 使用本地apple_domains规则
+  - RULE-SET,apple_domains,🍎 Apple  # 使用apple_domains规则
+  - RULE-SET,apple_domain,🍎 Apple  # 使用apple_domain规则
   - RULE-SET,speedtest_domain,✈️ Speedtest
   - RULE-SET,paypal_domain,💶 PayPal
-  - RULE-SET,WeChat,🎯 直连 # 来自 base.yaml, 设为直连
+  - RULE-SET,WeChat,🎯 直连 # 设为直连
 
   # 常用服务规则
   - RULE-SET,ai_all,🤖 ChatGPT  # 使用项目合并的AI规则
-  - RULE-SET,github,👨🏿‍💻 GitHub  # 使用本地github规则
-  - RULE-SET,youtube,📹 YouTube  # 使用本地youtube规则
+  - RULE-SET,aioai,🤖 ChatGPT  # 使用自定义AI规则
+  - RULE-SET,github,👨🏿‍💻 GitHub  # 使用github规则
+  - RULE-SET,github_domain,👨🏿‍💻 GitHub  # 使用github_domain规则
+  - RULE-SET,youtube,📹 YouTube  # 使用youtube规则
+  - RULE-SET,youtube_domain,📹 YouTube  # 使用youtube_domain规则
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive
-  - RULE-SET,microsoft,🪟 Microsoft  # 使用本地microsoft规则
-  - RULE-SET,tiktok,🎵 TikTok  # 使用本地tiktok规则
-  - RULE-SET,telegram,📲 Telegram  # 使用本地telegram规则
-  - RULE-SET,netflix,🎥 NETFLIX  # 使用本地netflix规则
-  - RULE-SET,Notion,🚀 默认代理 # 来自 base.yaml (自定义)
-  - RULE-SET,TVB,🎥 NETFLIX # 来自 base.yaml (自定义), 归入NETFLIX策略组
-  - RULE-SET,spotify,🚀 默认代理 # 使用本地spotify规则
-  - RULE-SET,Cloudflare,🚀 默认代理 # 来自 base.yaml
+  - RULE-SET,microsoft,🪟 Microsoft  # 使用microsoft规则
+  - RULE-SET,microsoft_domain,🪟 Microsoft  # 使用microsoft_domain规则
+  - RULE-SET,tiktok,🎵 TikTok  # 使用tiktok规则
+  - RULE-SET,tiktok_domain,🎵 TikTok  # 使用tiktok_domain规则
+  - RULE-SET,telegram,📲 Telegram  # 使用telegram规则
+  - RULE-SET,telegram_domain,📲 Telegram  # 使用telegram_domain规则
+  - RULE-SET,netflix,🎥 NETFLIX  # 使用netflix规则
+  - RULE-SET,netflix_domain,🎥 NETFLIX  # 使用netflix_domain规则
+  - RULE-SET,Notion,🚀 默认代理
+  - RULE-SET,TVB,🎥 NETFLIX
+  - RULE-SET,spotify,🚀 默认代理
+  - RULE-SET,disney,🚀 默认代理
 
-  # 游戏服务 (来自 base.yaml)
+  # 游戏服务
   - RULE-SET,gaming,🚀 默认代理 # 使用项目合并的游戏规则
-  - RULE-SET,Nintendo,🚀 默认代理 # 可考虑新建Gamer策略组
-  - RULE-SET,PlayStation,🚀 默认代理
-  - RULE-SET,Epic,🚀 默认代理
-  - RULE-SET,Xbox,🚀 默认代理
 
   # 代理规则 & 国际流量
-  - RULE-SET,proxy_common,🚀 默认代理 # 使用本地proxy_common规则
-  - RULE-SET,ProxyLite_classical,🚀 默认代理 # 来自 base.yaml (重命名)
-  - RULE-SET,CMBlog,🚀 默认代理 # 来自 base.yaml
-  - RULE-SET,Proxy,🚀 默认代理 # 来自 base.yaml
-  - RULE-SET,GlobalMedia,🚀 默认代理 # 来自 base.yaml
-  - RULE-SET,ProxyMedia,🚀 默认代理 # 来自 base.yaml
+  - RULE-SET,proxy_common,🚀 默认代理 # 使用proxy_common规则
   - RULE-SET,gfw_domain,🚀 默认代理
   - RULE-SET,geolocation-!cn,🚀 默认代理
 
@@ -194,9 +180,6 @@ rules:
   - RULE-SET,google_ip,🍀 Google,no-resolve
   - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
-
-  # Google 服务 (来自 base.yaml)
-  - RULE-SET,GoogleFCM,🚀 默认代理
 
   # 最终匹配
   - MATCH,🐟 漏网之鱼
@@ -209,58 +192,58 @@ rule-anchor:
   yaml_class: &yaml_class {type: http, interval: 86400, behavior: classical, format: yaml} # yaml格式锚点
   repo_class: &repo_class {type: http, interval: 86400, behavior: classical, format: text} # 替换local_class，用于GitHub仓库规则
   
-  # 本地文件锚点 - 新增用于本地文件引用
+  # A本地文件锚点 - 新增用于本地文件引用
   local_ip: &local_ip {type: file, behavior: ipcidr, format: mrs}
   local_domain: &local_domain {type: file, behavior: domain, format: mrs}
   local_class: &local_class {type: file, behavior: classical, format: text}
   local_yaml: &local_yaml {type: file, behavior: classical, format: yaml}
 
 rule-providers:
-  # --- 使用本地规则集文件 ---
+  # --- 从GitHub网络拉取规则集 ---
   # Classical格式规则
-  ai_all: { <<: *local_class, path: ./rulesets/classical/ai_all.list }
-  gaming: { <<: *local_class, path: ./rulesets/classical/gaming.list }
-  reject_domains: { <<: *local_class, path: ./rulesets/classical/reject_domains.list }
-  direct_all: { <<: *local_class, path: ./rulesets/classical/direct_all.list }
-  apple_domains: { <<: *local_class, path: ./rulesets/classical/apple_domains.list }
-  proxy_common: { <<: *local_class, path: ./rulesets/classical/proxy_common.list }
-  telegram: { <<: *local_class, path: ./rulesets/classical/telegram.list }
-  disney: { <<: *local_class, path: ./rulesets/classical/disney.list }
-  github: { <<: *local_class, path: ./rulesets/classical/github.list }
-  microsoft: { <<: *local_class, path: ./rulesets/classical/microsoft.list }
-  netflix: { <<: *local_class, path: ./rulesets/classical/netflix.list }
-  spotify: { <<: *local_class, path: ./rulesets/classical/spotify.list }
-  tiktok: { <<: *local_class, path: ./rulesets/classical/tiktok.list }
-  youtube: { <<: *local_class, path: ./rulesets/classical/youtube.list }
+  ai_all: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/ai_all.list }
+  gaming: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/gaming.list }
+  reject_domains: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/reject_domains.list }
+  direct_all: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/direct_all.list }
+  apple_domains: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/apple_domains.list }
+  proxy_common: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/proxy_common.list }
+  telegram: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/telegram.list }
+  disney: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/disney.list }
+  github: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/github.list }
+  microsoft: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/microsoft.list }
+  netflix: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/netflix.list }
+  spotify: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/spotify.list }
+  tiktok: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/tiktok.list }
+  youtube: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/youtube.list }
 
   # 自定义规则集
-  WeChat: { <<: *local_class, path: ./rulesets/custom/WeChat.list }
-  Notion: { <<: *local_class, path: ./rulesets/custom/notion.list }
-  TVB: { <<: *local_class, path: ./rulesets/custom/tvb.list }
-  ArgoTunnel: { <<: *local_class, path: ./rulesets/custom/argotunnel.list }
-  aioai: { <<: *local_class, path: ./rulesets/custom/aioai.list }
+  WeChat: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/WeChat.list }
+  Notion: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/notion.list }
+  TVB: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/tvb.list }
+  ArgoTunnel: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/argotunnel.list }
+  aioai: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/aioai.list }
 
   # GeoSite格式规则
-  ChinaDomain: { <<: *local_class, path: ./rulesets/geosite/ChinaDomain.list }
-  private_domain: { <<: *local_domain, path: ./rulesets/geosite/private_domain.mrs }
-  cn_domain: { <<: *local_domain, path: ./rulesets/geosite/cn_domain.mrs }
-  geolocation-!cn: { <<: *local_domain, path: ./rulesets/geosite/geolocation-!cn.mrs }
-  gfw_domain: { <<: *local_domain, path: ./rulesets/geosite/gfw_domain.mrs }
-  tiktok_domain: { <<: *local_domain, path: ./rulesets/geosite/tiktok_domain.mrs }
-  speedtest_domain: { <<: *local_domain, path: ./rulesets/geosite/speedtest_domain.mrs }
-  apple_domain: { <<: *local_domain, path: ./rulesets/geosite/apple_domain.mrs }
-  microsoft_domain: { <<: *local_domain, path: ./rulesets/geosite/microsoft_domain.mrs }
-  onedrive_domain: { <<: *local_domain, path: ./rulesets/geosite/onedrive_domain.mrs }
-  paypal_domain: { <<: *local_domain, path: ./rulesets/geosite/paypal_domain.mrs }
-  netflix_domain: { <<: *local_domain, path: ./rulesets/geosite/netflix_domain.mrs }
-  telegram_domain: { <<: *local_domain, path: ./rulesets/geosite/telegram_domain.mrs }
-  github_domain: { <<: *local_domain, path: ./rulesets/geosite/github_domain.mrs }
-  google_domain: { <<: *local_domain, path: ./rulesets/geosite/google_domain.mrs }
-  youtube_domain: { <<: *local_domain, path: ./rulesets/geosite/youtube_domain.mrs }
+  ChinaDomain: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list }
+  private_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/private_domain.mrs }
+  cn_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/cn_domain.mrs }
+  geolocation-!cn: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-!cn.mrs }
+  gfw_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/gfw_domain.mrs }
+  tiktok_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/tiktok_domain.mrs }
+  speedtest_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/speedtest_domain.mrs }
+  apple_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/apple_domain.mrs }
+  microsoft_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/microsoft_domain.mrs }
+  onedrive_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/onedrive_domain.mrs }
+  paypal_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/paypal_domain.mrs }
+  netflix_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/netflix_domain.mrs }
+  telegram_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/telegram_domain.mrs }
+  github_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/github_domain.mrs }
+  google_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/google_domain.mrs }
+  youtube_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/youtube_domain.mrs }
 
   # GeoIP格式规则
-  ChinaCompanyIp: { <<: *local_class, path: ./rulesets/geoip/ChinaCompanyIp.list }
-  cn_ip: { <<: *local_ip, path: ./rulesets/geoip/cn_ip.mrs }
-  google_ip: { <<: *local_ip, path: ./rulesets/geoip/google_ip.mrs }
-  telegram_ip: { <<: *local_ip, path: ./rulesets/geoip/telegram_ip.mrs }
-  netflix_ip: { <<: *local_ip, path: ./rulesets/geoip/netflix_ip.mrs }
+  ChinaCompanyIp: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/ChinaCompanyIp.list }
+  cn_ip: { <<: *ip, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/cn_ip.mrs }
+  google_ip: { <<: *ip, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/google_ip.mrs }
+  telegram_ip: { <<: *ip, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/telegram_ip.mrs }
+  netflix_ip: { <<: *ip, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/netflix_ip.mrs }
