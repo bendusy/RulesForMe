@@ -5,6 +5,10 @@ on:
     - cron: '0 0 * * *'  # 每天 UTC 时间 0:00（北京时间 8:00）运行
   workflow_dispatch:     # 允许手动触发
 
+# 添加权限配置
+permissions:
+  contents: write
+
 jobs:
   update-rules:
     runs-on: ubuntu-latest
@@ -33,7 +37,8 @@ jobs:
         env:
           BARK_URL: ${{ secrets.BARK_URL }}
         run: |
-          python scripts/consolidate_rules.py update --notify
+          # 即使Bark通知失败也继续执行
+          python scripts/consolidate_rules.py update --notify || echo "规则更新完成，但通知可能失败"
           
       - name: 提交更改
         run: |

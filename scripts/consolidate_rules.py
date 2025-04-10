@@ -8,6 +8,7 @@ import json
 from collections import defaultdict
 from urllib.parse import urlparse
 from datetime import datetime
+import time
 
 # --- 配置 ---
 
@@ -658,13 +659,28 @@ def send_bark_notification(title, content):
     
     try:
         full_url = f"{bark_url.rstrip('/')}/{title}/{content}"
-        response = requests.get(full_url)
-        if response.status_code == 200:
-            print(f"Bark推送成功: {title}")
-            return True
-        else:
-            print(f"Bark推送失败: {response.status_code}, {response.text}")
-            return False
+        # 添加超时设置和重试机制
+        for attempt in range(3):  # 最多尝试3次
+            try:
+                response = requests.get(full_url, timeout=10)  # 设置10秒超时
+                if response.status_code == 200:
+                    print(f"Bark推送成功: {title}")
+                    return True
+                else:
+                    print(f"Bark推送失败: {response.status_code}, {response.text}")
+                    # 如果是服务器错误(5xx)，等待后重试
+                    if 500 <= response.status_code < 600 and attempt < 2:
+                        print(f"等待2秒后重试... (尝试 {attempt+1}/3)")
+                        time.sleep(2)
+                        continue
+                    return False
+            except requests.Timeout:
+                print(f"Bark推送超时 (尝试 {attempt+1}/3)")
+                if attempt < 2:
+                    time.sleep(2)
+                    continue
+                return False
+        return False
     except Exception as e:
         print(f"Bark推送异常: {e}")
         return False
