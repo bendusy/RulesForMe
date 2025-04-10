@@ -2,7 +2,7 @@ name: 更新规则集
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天 UTC 时间 0:00（北京时间 8:00）运行
+    - cron: '0 3 * * *'  # 每天 UTC 时间 3:00（北京时间 11:00）运行
   workflow_dispatch:     # 允许手动触发
 
 # 添加权限配置
@@ -15,7 +15,7 @@ jobs:
     
     steps:
       - name: 检出代码
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # 获取完整历史记录以确保所有文件都被检出
         
@@ -29,9 +29,34 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pyyaml
           
-      - name: 确保自定义规则目录存在
+      - name: 创建目录结构
         run: |
-          mkdir -p rulesets/custom
+          mkdir -p rulesets/geosite rulesets/geoip rulesets/classical rulesets/custom
+      
+      - name: 下载 MetaCubeX 规则
+        run: |
+          # 下载 MetaCubeX .mrs 格式规则
+          echo "下载 MetaCubeX 规则..."
+          curl -L --fail -o 'rulesets/geosite/private_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs' || echo "WARN: Failed to download private_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/ai.mrs' 'https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs' || echo "WARN: Failed to download ai.mrs"
+          curl -L --fail -o 'rulesets/geosite/youtube_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs' || echo "WARN: Failed to download youtube_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/google_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs' || echo "WARN: Failed to download google_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/github_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs' || echo "WARN: Failed to download github_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/telegram_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs' || echo "WARN: Failed to download telegram_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/netflix_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs' || echo "WARN: Failed to download netflix_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/paypal_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs' || echo "WARN: Failed to download paypal_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/onedrive_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs' || echo "WARN: Failed to download onedrive_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/microsoft_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs' || echo "WARN: Failed to download microsoft_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/apple_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs' || echo "WARN: Failed to download apple_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/speedtest_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs' || echo "WARN: Failed to download speedtest_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/tiktok_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs' || echo "WARN: Failed to download tiktok_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/gfw_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs' || echo "WARN: Failed to download gfw_domain.mrs"
+          curl -L --fail -o 'rulesets/geosite/geolocation-!cn.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs' || echo "WARN: Failed to download geolocation-!cn.mrs"
+          curl -L --fail -o 'rulesets/geosite/cn_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs' || echo "WARN: Failed to download cn_domain.mrs"
+          curl -L --fail -o 'rulesets/geoip/cn_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs' || echo "WARN: Failed to download cn_ip.mrs"
+          curl -L --fail -o 'rulesets/geoip/google_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs' || echo "WARN: Failed to download google_ip.mrs"
+          curl -L --fail -o 'rulesets/geoip/telegram_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs' || echo "WARN: Failed to download telegram_ip.mrs"
+          curl -L --fail -o 'rulesets/geoip/netflix_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs' || echo "WARN: Failed to download netflix_ip.mrs"
           
       - name: 更新规则
         env:
@@ -42,8 +67,16 @@ jobs:
           
       - name: 提交更改
         run: |
-          git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add rulesets/classical/
-          git add rule_stats.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "自动更新规则 $(date +'%Y-%m-%d')" && git push) 
+          git config --local user.email "action@github.com"
+          
+          # 添加所有更改的规则目录
+          git add rulesets/ rule_stats.json
+          
+          # 检查是否有更改需要提交
+          if git diff --staged --quiet; then
+            echo "没有规则变更，无需提交"
+          else
+            git commit -m "自动更新规则 $(date +'%Y-%m-%d %H:%M:%S')"
+            git push
+          fi 
