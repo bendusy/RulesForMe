@@ -1,0 +1,17 @@
+{
+  "last_update": "2025-04-10T17:58:26.274197",
+  "categories": {
+    "reject_domains": {
+      "rule_count": 113618,
+      "last_updated": "2025-04-10T17:47:49.174885"
+    },
+    "direct_domains": {
+      "rule_count": 127650,
+      "last_updated": "2025-04-10T17:49:00.575823"
+    },
+    "ai_domains": {
+      "rule_count": 40,
+      "last_updated": "2025-04-10T17:58:26.273723"
+    }
+  }
+}

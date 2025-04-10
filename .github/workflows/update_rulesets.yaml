@@ -1,0 +1,38 @@
+name: Update Rulesets
+
+on:
+  schedule:
+    # 每天凌晨 3 点 (UTC) 执行一次
+    - cron: '0 3 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # 获取仓库代码
+
+      - name: Create directories
+        run: |
+          mkdir -p rulesets/geosite rulesets/geoip rulesets/classical rulesets/custom # 创建所有子目录
+
+      - name: Download Rulesets
+        run: |
+          # 赋予脚本执行权限
+          chmod +x scripts/update_rules.sh
+          # 执行脚本
+          ./scripts/update_rules.sh
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]' # 设置提交者信息
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add rulesets/ # 添加 rulesets 目录下的所有更改
+          # 检查是否有更改需要提交
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update rulesets (`date +'%Y-%m-%d %H:%M:%S'`)" # 提交更改，包含时间戳
+            git push # 推送更改到仓库
+          fi

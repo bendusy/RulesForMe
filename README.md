@@ -1,35 +1,128 @@
 # RulesForMe
-一个用于管理和配置规则的项目。
 
-## 项目说明
-RulesForMe 是一个规则配置管理工具,支持通过 .ini 文件定制不同国家/地区的规则配置。
+这是一个用于整合和管理Clash规则的项目，可以自动从多个来源收集、合并和去重规则，并生成可直接用于Clash的规则文件。
 
-## 文件结构
-- `RFM_Online_SomeCountry.ini` - 特定国家/地区的规则配置文件
-- `aioai.list` - AI 服务相关域名规则
-- `google.list` - Google 服务相关域名规则
-- `notion.list` - Notion 服务相关域名规则
-- `WeChat.list` - 微信服务相关域名规则
-- `iptv.list` - IPTV 服务相关域名规则
-- `LICENSE` - 项目许可证文件
-- `.gitattributes` - Git 属性配置文件
+## 特性
 
-## 使用说明
-1. 选择或创建对应国家/地区的 .ini 配置文件
-2. 按照配置文件格式编写规则
-3. 保存并应用规则配置
+- 支持从多个来源收集规则
+- 自动合并和去重规则
+- 支持按类别组织规则
+- 提供完整的CRUD操作（创建、读取、更新、删除）
+- 自动统计和记录规则数量变化
+- 支持通过Bark进行更新通知
+- 通过GitHub Action自动定期更新规则
 
-## 规则文件说明
-- `aioai.list`: 包含 OpenAI、Google AI、Claude 等 AI 服务的域名规则
-- `google.list`: Google 基础服务的域名规则
-- `notion.list`: Notion 工作区及其依赖服务的域名规则
-- `WeChat.list`: 微信及其相关服务的域名规则
-- `iptv.list`: IPTV 流媒体服务的域名规则
+## 使用方法
 
-## 致谢
-- [ACL4SSR](https://github.com/ACL4SSR/ACL4SSR) - 提供基础规则集
-- [cmliu/ACL4SSR](https://github.com/cmliu/ACL4SSR) - 提供扩展规则集
-- [juewuy/ShellClash](https://github.com/juewuy/ShellClash) - 提供AI相关规则
+### 本地使用
 
-## 许可证
-本项目采用 MIT 许可证，详细信息请参见 [LICENSE](LICENSE) 文件。
+1. 克隆仓库：
+
+```bash
+git clone https://github.com/bendusy/RulesForMe.git
+cd RulesForMe
+```
+
+2. 安装依赖：
+
+```bash
+pip install requests pyyaml
+```
+
+3. 运行脚本：
+
+```bash
+# 创建所有规则
+python scripts/consolidate_rules.py create --clean
+
+# 更新特定类别规则
+python scripts/consolidate_rules.py update --categories netflix disney
+
+# 查看规则统计信息
+python scripts/consolidate_rules.py read
+
+# 查看特定分类的规则
+python scripts/consolidate_rules.py read --categories netflix
+
+# 删除规则
+python scripts/consolidate_rules.py delete --categories tiktok
+
+# 发送更新通知
+python scripts/consolidate_rules.py update --notify
+```
+
+### 参数说明
+
+- `action`: 必须指定的操作类型，可选值为`create`、`read`、`update`、`delete`
+- `--categories`: 要处理的规则分类，不指定则处理所有分类
+- `--clean`: 清理输出目录，重新生成所有文件
+- `--notify`: 操作完成后发送Bark通知
+
+## 自动更新配置
+
+本项目使用GitHub Actions进行自动更新。默认每天UTC时间0:00（北京时间8:00）自动运行。
+
+### 配置Bark通知
+
+1. 在GitHub仓库设置中添加Secret：
+   - 名称：`BARK_URL`
+   - 值：您的Bark推送URL，格式如`https://api.day.app/yourkey/`
+
+2. 也可以在本地设置环境变量：
+
+```bash
+# Linux/Mac
+export BARK_URL="https://api.day.app/yourkey/"
+
+# Windows
+set BARK_URL=https://api.day.app/yourkey/
+```
+
+## 规则类别
+
+目前支持的规则类别包括：
+
+- `reject_domains`: 广告和恶意域名拦截规则
+- `direct_domains`: 国内直连域名规则
+- `direct_ips`: 国内直连IP规则
+- 流媒体服务: `netflix`, `disney`, `youtube`, `spotify`, `tiktok`等
+- 科技公司服务: `microsoft`, `github`, `telegram`等
+- `gaming`: 游戏平台规则
+- `proxy_common`: 通用代理规则
+- `ai_domains`: AI服务规则
+- `apple_domains`: 苹果服务规则
+
+## 自定义规则
+
+项目支持在`rulesets/custom`目录中放置自定义规则文件。此目录中的规则不会被脚本清理，便于用户添加和维护自己的规则集。
+
+### 现有自定义规则
+
+- `aioai.list`: AI服务相关域名规则，包括OpenAI、Google AI、Claude等
+- `notion.list`: Notion工作区及依赖服务的域名规则
+- `WeChat.list`: 微信及相关服务的域名规则
+- `tvb.list`: TVB流媒体服务的域名规则
+
+### 添加自定义规则
+
+1. 将您的规则文件放入`rulesets/custom`目录
+2. 在`scripts/consolidate_rules.py`中的`RULE_CATEGORIES`字典中引用该文件：
+
+```python
+'your_category': {
+    'urls': [
+        'rulesets/custom/your_rule.list',  # 您的自定义规则
+        # 其他来源...
+    ],
+    'type': 'classical',
+    'merge': True/False  # 是否与同类规则合并
+},
+```
+
+## 自定义规则源
+
+如需自定义规则源，请编辑`scripts/consolidate_rules.py`文件中的`RULE_CATEGORIES`字典。
+
+## 许可
+
+MIT License
