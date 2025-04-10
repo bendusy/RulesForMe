@@ -2,7 +2,7 @@
 # 机场订阅
 proxy-providers:
   base1:
-    url: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/base.yaml"
+    url: "https://freesu7.flyi.me/storage?token=tva&filename=all.yaml "
     type: http
     interval: 86400
     health-check:
@@ -95,30 +95,50 @@ dns:
  
 # 出站策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
-pr: &pr {type: select, proxies: [🚀 默认代理, 🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
+pr: &pr {type: select, proxies: [🚀 默认代理, 🔯 香港故转, ♻️ 香港自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🇸🇬 新加坡节点, 🇬🇧 英国节点, 🇫🇷 法国节点, 🇩🇪 德国节点, 🇨🇦 加拿大节点, 🇦🇺 澳大利亚节点, 🇳🇱 荷兰节点, 🇷🇺 俄罗斯节点, 🇭🇺 匈牙利节点, 🇺🇦 乌克兰节点, 🇵🇱 波兰节点, 🇮🇹 意大利节点, 🇮🇷 伊朗节点, 🌐 全部节点, 直连]}
 proxy-groups:
-  - {name: 🚀 默认代理, type: select, proxies: [🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 直连]}
-  - {name: 📹 YouTube, <<: *pr}
+  - {name: 🚀 默认代理, type: select, proxies: [🔯 香港故转, ♻️ 香港自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🇸🇬 新加坡节点, 🇬🇧 英国节点, 🇫🇷 法国节点, 🇩🇪 德国节点, 🇨🇦 加拿大节点, 🇦🇺 澳大利亚节点, 🇳🇱 荷兰节点, 🇷🇺 俄罗斯节点, 🇭🇺 匈牙利节点, 🇺🇦 乌克兰节点, 🇵🇱 波兰节点, 🇮🇹 意大利节点, 🇮🇷 伊朗节点, 🌐 全部节点, 直连]}
+  - {name: 📹 油管视频, <<: *pr}
   - {name: 🍀 Google, <<: *pr}
-  - {name: 🤖 ChatGPT, <<: *pr}
+  - {name: 🤖 OpenAi, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
   - {name: 👨🏿‍💻 GitHub, <<: *pr}
   - {name: 🐬 OneDrive, <<: *pr}
-  - {name: 🪟 Microsoft, <<: *pr}
+  - {name: Ⓜ️ 微软服务, <<: *pr}
   - {name: 🎵 TikTok, <<: *pr}
-  - {name: 📲 Telegram, <<: *pr}
-  - {name: 🎥 NETFLIX, <<: *pr}
-  - {name: ✈️ Speedtest, <<: *pr}
-  - {name: 💶 PayPal, <<: *pr}
-  - {name: 🍎 Apple, type: select, proxies: [直连, 🚀 默认代理]}
-  - {name: 🎯 直连, type: select, proxies: [直连, 🚀 默认代理]}
+  - {name: 📲 电报信息, <<: *pr}
+  - {name: 🎥 Netflix, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🎥 迪士尼+, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🎬 流媒体解锁, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🎥 tvb, type: select, proxies: [直连, 🇭🇰 香港节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点]}
+  - {name: 🎵 Spotify, <<: *pr}
+  - {name: 🎬 流媒体解锁, type: select, include-all: true, filter: "(?i)流媒体|媒体|解锁"}
+  - {name: ✈️ Speedtest, type: select, proxies: [直连, 🚀 默认代理, ♻️ 自动选择]}
+  - {name: 💶 PayPal, type: select, proxies: [直连, 🇺🇲 美国节点, 🚀 默认代理]}
+  - {name: 🍎 苹果服务, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 📝 Notion, type: select, proxies: [🇸🇬 新加坡节点, 🇺🇲 美国节点, 🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: ⚡ Cloudflare, type: select, proxies: [🚀 默认代理, 🇺🇲 美国节点, 🇸🇬 新加坡节点, 🇭🇰 香港节点, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🎮 游戏, type: select, proxies: [🚀 默认代理, ♻️ 自动选择, 🌐 全部节点, 直连]}
+  - {name: 🌍 国外媒体, type: select, proxies: [🚀 默认代理, ♻️ 自动选择, 🎯 直连, 🌐 全部节点]}
+  - {name: 🎯 直连, type: select, proxies: [直连, 🚀 默认代理, ♻️ 自动选择]}
   - {name: 🐟 漏网之鱼, <<: *pr}
   - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?i)港|hk|hongkong|hong kong"}
   - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?i)日|jp|japan"}
   - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states"}
+  - {name: 🇸🇬 新加坡节点, type: select, include-all: true, filter: "(?i)新|sg|singapore"}
+  - {name: 🇬🇧 英国节点, type: select, include-all: true, filter: "(?i)英|uk|unitedkingdom|united kingdom"}
+  - {name: 🇫🇷 法国节点, type: select, include-all: true, filter: "(?i)法|fr|france"}
+  - {name: 🇩🇪 德国节点, type: select, include-all: true, filter: "(?i)德|de|germany"}
+  - {name: 🇨🇦 加拿大节点, type: select, include-all: true, filter: "(?i)加|ca|canada"}
+  - {name: 🇦🇺 澳大利亚节点, type: select, include-all: true, filter: "(?i)澳|au|australia"}
+  - {name: 🇳🇱 荷兰节点, type: select, include-all: true, filter: "(?i)荷|nl|netherlands"}
+  - {name: 🇷🇺 俄罗斯节点, type: select, include-all: true, filter: "(?i)俄|ru|russia"}
+  - {name: 🇭🇺 匈牙利节点, type: select, include-all: true, filter: "(?i)匈|hu|hungary"}
+  - {name: 🇺🇦 乌克兰节点, type: select, include-all: true, filter: "(?i)乌|ua|ukraine"}
+  - {name: 🇵🇱 波兰节点, type: select, include-all: true, filter: "(?i)波|pl|poland"}
+  - {name: 🇮🇹 意大利节点, type: select, include-all: true, filter: "(?i)意|it|italy"}
+  - {name: 🇮🇷 伊朗节点, type: select, include-all: true, filter: "(?i)伊|ir|iran"}
   - {name: 🔯 香港故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: 🔯 日本故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$" }
   - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美)).)*$" }
+  - {name: ♻️ 新加坡自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(新|SG|(?i)Singapore))^((?!(港|台|日|韩|美)).)*$"}
   - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连)).)*$"}
   - {name: 🌐 全部节点, type: select, include-all: true}
@@ -140,33 +160,33 @@ rules:
   - RULE-SET,cn_ip,🎯 直连
 
   # 系统服务 & 特殊应用
-  - RULE-SET,apple_domains,🍎 Apple  # 使用apple_domains规则
-  - RULE-SET,apple_domain,🍎 Apple  # 使用apple_domain规则
+  - RULE-SET,apple_domains,🍎 苹果服务  # 使用apple_domains规则
+  - RULE-SET,apple_domain,🍎 苹果服务  # 使用apple_domain规则
   - RULE-SET,speedtest_domain,✈️ Speedtest
   - RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,WeChat,🎯 直连 # 设为直连
 
   # 常用服务规则
-  - RULE-SET,ai_all,🤖 ChatGPT  # 使用项目合并的AI规则
-  - RULE-SET,aioai,🤖 ChatGPT  # 使用自定义AI规则
+  - RULE-SET,ai_all,🤖 OpenAi  # 使用项目合并的AI规则
+  - RULE-SET,aioai,🤖 OpenAi  # 使用自定义AI规则
   - RULE-SET,github,👨🏿‍💻 GitHub  # 使用github规则
   - RULE-SET,github_domain,👨🏿‍💻 GitHub  # 使用github_domain规则
-  - RULE-SET,youtube,📹 YouTube  # 使用youtube规则
-  - RULE-SET,youtube_domain,📹 YouTube  # 使用youtube_domain规则
+  - RULE-SET,youtube,📹 油管视频  # 使用youtube规则
+  - RULE-SET,youtube_domain,📹 油管视频  # 使用youtube_domain规则
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive
-  - RULE-SET,microsoft,🪟 Microsoft  # 使用microsoft规则
-  - RULE-SET,microsoft_domain,🪟 Microsoft  # 使用microsoft_domain规则
+  - RULE-SET,microsoft,Ⓜ️ 微软服务  # 使用microsoft规则
+  - RULE-SET,microsoft_domain,Ⓜ️ 微软服务  # 使用microsoft_domain规则
   - RULE-SET,tiktok,🎵 TikTok  # 使用tiktok规则
   - RULE-SET,tiktok_domain,🎵 TikTok  # 使用tiktok_domain规则
-  - RULE-SET,telegram,📲 Telegram  # 使用telegram规则
-  - RULE-SET,telegram_domain,📲 Telegram  # 使用telegram_domain规则
-  - RULE-SET,netflix,🎥 NETFLIX  # 使用netflix规则
-  - RULE-SET,netflix_domain,🎥 NETFLIX  # 使用netflix_domain规则
-  - RULE-SET,Notion,🚀 默认代理
-  - RULE-SET,TVB,🎥 NETFLIX
-  - RULE-SET,spotify,🚀 默认代理
-  - RULE-SET,disney,🚀 默认代理
+  - RULE-SET,telegram,📲 电报信息  # 使用telegram规则
+  - RULE-SET,telegram_domain,📲 电报信息  # 使用telegram_domain规则
+  - RULE-SET,netflix,🎥 Netflix  # 使用netflix规则
+  - RULE-SET,netflix_domain,🎥 Netflix  # 使用netflix_domain规则
+  - RULE-SET,Notion,📝 Notion
+  - RULE-SET,TVB,🎥 tvb
+  - RULE-SET,spotify,🎵 Spotify
+  - RULE-SET,disney,🎥 迪士尼+
 
   # 游戏服务
   - RULE-SET,gaming,🚀 默认代理 # 使用项目合并的游戏规则
@@ -178,8 +198,8 @@ rules:
 
   # IP 规则 (放在后面，no-resolve)
   - RULE-SET,google_ip,🍀 Google,no-resolve
-  - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
-  - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - RULE-SET,netflix_ip,🎥 Netflix,no-resolve
+  - RULE-SET,telegram_ip,📲 电报信息,no-resolve
 
   # 最终匹配
   - MATCH,🐟 漏网之鱼
@@ -224,7 +244,7 @@ rule-providers:
   aioai: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/aioai.list }
 
   # GeoSite格式规则
-  ChinaDomain: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list }
+  ChinaDomain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list }
   private_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/private_domain.mrs }
   cn_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/cn_domain.mrs }
   geolocation-!cn: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-!cn.mrs }
