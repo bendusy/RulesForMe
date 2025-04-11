@@ -159,8 +159,6 @@ https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/gam
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/proxy_common.list, policy=节点选择, tag=通用代理, enabled=true
 
 # 补充规则 - 以下是Loon原有规则中RFM没有的
-https://kelee.one/Tool/Loon/Rule/Speedtest.list, policy=Speedtest, tag=Speedtest, enabled=true
-https://kelee.one/Tool/Loon/Rule/PayPal.list, policy=PayPal, tag=PayPal, enabled=true
 https://kelee.one/Tool/Loon/Rule/LAN_SPLITTER, policy=全球直连, tag=LAN补充, enabled=true
 https://kelee.one/Tool/Loon/Rule/REGION_SPLITTER, policy=全球直连, tag=CN REGION补充, enabled=true
 https://rule.kelee.one/Loon/Twitter.list, policy=节点选择, tag=Twitter, enabled=true
