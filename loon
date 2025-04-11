@@ -168,8 +168,6 @@ https://rule.kelee.one/Loon/OneDrive.list, policy=OneDrive, tag=OneDrive, enable
 https://rule.kelee.one/Loon/Google.list, policy=谷歌服务, tag=Google, enabled=true
 
 [Host]
-ssid:CloseAI5G = server:10.9.8.1
-ssid:TVA = server:10.11.12.1
 
 [Rewrite]
 
