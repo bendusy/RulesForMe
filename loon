@@ -1,4 +1,4 @@
-sni-sniffing# Date: 2024-12-24 17:33:22
+# Date: 2025-04-10 14:33:22
 # Author: https://t.me/iKeLee
 # 更多的插件可以前往此处安装 https://github.com/luestr/ProxyResource/blob/main/README.md
 
@@ -25,9 +25,10 @@ ipasn-url = https://geodata.kelee.one/GeoLite2-ASN-P3TERX.mmdb
 skip-proxy = 192.168.0.0/16,10.9.8.0/24,172.16.0.0/12,localhost,*.local,e.crashlynatics.com
 bypass-tun = 10.9.8.0/24,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.0.0.0/24,192.0.2.0/24,192.88.99.0/24,192.168.0.0/16,198.51.100.0/24,203.0.113.0/24,224.0.0.0/4,255.255.255.255/32
 
-[Proxy]
 
-[Remote Proxy]
+[Proxy] 
+[Remote Proxy] 
+
 
 [Remote Filter]
 新加坡节点 = NameRegex, FilterKey = "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
@@ -129,16 +130,10 @@ https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/rej
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/direct_all.list, policy=全球直连, tag=全球直连, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/argotunnel.list, policy=全球直连, tag=Argotunnel, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list, policy=全球直连, tag=中国域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/private_domain.mrs, policy=全球直连, tag=私有域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/cn_domain.mrs, policy=全球直连, tag=CN域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/ChinaCompanyIp.list, policy=全球直连, tag=中国公司IP, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/cn_ip.mrs, policy=全球直连, tag=中国IP, enabled=true
 
 # 系统服务和特殊应用
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/apple_domains.list, policy=苹果服务, tag=Apple域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/apple_domain.mrs, policy=苹果服务, tag=Apple域名MRS, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/speedtest_domain.mrs, policy=Speedtest, tag=Speedtest, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/paypal_domain.mrs, policy=PayPal, tag=PayPal, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/WeChat.list, policy=微信服务, tag=微信, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/Cloudflare.list, policy=Cloudflare, tag=Cloudflare, enabled=true
 
@@ -146,19 +141,11 @@ https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/Clo
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/ai_all.list, policy=OpenAi, tag=AI, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/aioai.list, policy=OpenAi, tag=AIOAI, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/github.list, policy=GitHub, tag=GitHub, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/github_domain.mrs, policy=GitHub, tag=GitHub域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/youtube.list, policy=油管视频, tag=YouTube, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/youtube_domain.mrs, policy=油管视频, tag=YouTube域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/google_domain.mrs, policy=谷歌服务, tag=Google域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/onedrive_domain.mrs, policy=OneDrive, tag=OneDrive, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/microsoft.list, policy=微软服务, tag=Microsoft, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/microsoft_domain.mrs, policy=微软服务, tag=Microsoft域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/tiktok.list, policy=TikTok, tag=TikTok, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/tiktok_domain.mrs, policy=TikTok, tag=TikTok域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/telegram.list, policy=电报信息, tag=Telegram, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/telegram_domain.mrs, policy=电报信息, tag=Telegram域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/netflix.list, policy=Netflix, tag=Netflix, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/netflix_domain.mrs, policy=Netflix, tag=Netflix域名, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/notion.list, policy=Notion, tag=Notion, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/tvb.list, policy=TVB, tag=TVB, enabled=true
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/spotify.list, policy=Spotify, tag=Spotify, enabled=true
@@ -170,17 +157,17 @@ https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/gam
 
 # 代理规则和国际流量
 https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/proxy_common.list, policy=节点选择, tag=通用代理, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/gfw_domain.mrs, policy=节点选择, tag=GFW域名, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-!cn.mrs, policy=节点选择, tag=非中国地区, enabled=true
-
-# IP规则
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/google_ip.mrs, policy=谷歌服务, tag=Google IP, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/netflix_ip.mrs, policy=Netflix, tag=Netflix IP, enabled=true
-https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/telegram_ip.mrs, policy=电报信息, tag=Telegram IP, enabled=true
 
 # 补充规则 - 以下是Loon原有规则中RFM没有的
+https://kelee.one/Tool/Loon/Rule/Speedtest.list, policy=Speedtest, tag=Speedtest, enabled=true
+https://kelee.one/Tool/Loon/Rule/PayPal.list, policy=PayPal, tag=PayPal, enabled=true
 https://kelee.one/Tool/Loon/Rule/LAN_SPLITTER, policy=全球直连, tag=LAN补充, enabled=true
 https://kelee.one/Tool/Loon/Rule/REGION_SPLITTER, policy=全球直连, tag=CN REGION补充, enabled=true
+https://rule.kelee.one/Loon/Twitter.list, policy=节点选择, tag=Twitter, enabled=true
+https://rule.kelee.one/Loon/Facebook.list, policy=节点选择, tag=Facebook, enabled=true
+https://rule.kelee.one/Loon/Instagram.list, policy=节点选择, tag=Instagram, enabled=true
+https://rule.kelee.one/Loon/OneDrive.list, policy=OneDrive, tag=OneDrive, enabled=true
+https://rule.kelee.one/Loon/Google.list, policy=谷歌服务, tag=Google, enabled=true
 
 [Host]
 ssid:CloseAI5G = server:10.9.8.1
