@@ -159,9 +159,17 @@ RULE_CATEGORIES = {
         ],
         'type': 'classical',
         'merge': False # 保持独立
+    },
+    # Cloudflare
+    'Cloudflare': {
+        'urls': [
+            'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.list',
+        ],
+        'type': 'classical',
+        'merge': False 
     }
-    # 可以根据需要添加更多分类
 }
+
 
 # 定义输出目录
 OUTPUT_DIR_CLASSICAL = "rulesets/classical"
