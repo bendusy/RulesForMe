@@ -30,66 +30,80 @@ bypass-tun = 10.9.8.0/24,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,
 [Remote Proxy]
 
 [Remote Filter]
+新加坡节点 = NameRegex, FilterKey = "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
 香港节点 = NameRegex, FilterKey = "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
 美国节点 = NameRegex, FilterKey = "^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
-新国节点 = NameRegex, FilterKey = "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+其他节点 = NameRegex, FilterKey = "^(?=.*((?i)🇯🇵|🇰🇷|🇹🇼|🇦🇺|🇬🇧|🇩🇪|🇫🇷|🇮🇳|🇮🇹|日本|台湾|韩国|法国|德国|英国|俄罗斯|加拿大|巴西|印度|泰国|越南|菲律宾|印尼|阿根廷|西班牙|土耳其|卢森堡|匈牙利|波兰|埃及|以色列|马来西亚|摩纳哥|尼日利亚|巴基斯坦|沙特|瑞典|瑞士|荷兰|阿联酋|南非|川日|东京|大阪|泉日|埼玉|韓|首尔|墨西哥|(\b(JP|Japan|KR|Korea|TW|Taiwan|AU|UK|DE|FR|IT|RU|CA|BR|IN|TH|VN|PH|ID|AR|ES|TR|LU|HU|PL|EG|IL|MY|MC|NG|PK|SA|SE|CH|NL|AE|ZA|MX)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
 全球节点 = NameRegex, FilterKey = "^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel)\b|(\d{4}-\d{2}-\d{2}|\dG)))).*$"
-台湾节点 = NameRegex, FilterKey = "^(?=.*((?i)🇹🇼|台湾|(\b(TW|Tai|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
-韩国节点 = NameRegex, FilterKey = "^(?=.*((?i)🇰🇷|韩国|韓|首尔|(\b(KR|Korea)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
 游戏节点 = NameRegex, FilterKey = "^(?=.*((?i)游戏|🎮|(\b(GAME)(\d+)?\b)))(?!.*((?i)回国|校园)).*$"
-日本节点 = NameRegex, FilterKey = "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+AI解锁节点 = NameRegex, FilterKey = "^(?=.*((?i)openai|ai解锁|chatgpt|智能|ai|gpt))(?!.*((?i)回国|校园)).*$"
+流媒体解锁节点 = NameRegex, FilterKey = "^(?=.*((?i)流媒体|解锁|netflix|disney|hulu|hbo|prime|youtube))(?!.*((?i)回国|校园)).*$"
 
 [Proxy Group]
 # --------------------------------
-# 场景策略
-新国时延优选 = url-test,新国节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-新国自动策略 = select,新国时延优选,新国故障转移,新国负载均衡,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-新国负载均衡 = load-balance,新国节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-新国手动场景 = ssid,default=新国手动策略,cellular=新国手动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-香港手动场景 = ssid,default=香港手动策略,cellular=香港手动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-美国手动场景 = ssid,default=美国手动策略,cellular=美国手动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-游戏手动场景 = ssid,default=游戏手动策略,cellular=游戏手动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-全球手动场景 = ssid,default=全球手动策略,cellular=全球手动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-香港自动场景 = ssid,default=香港自动策略,cellular=香港自动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-新国自动场景 = ssid,default=新国自动策略,cellular=新国自动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
-美国自动场景 = ssid,default=美国自动策略,cellular=美国自动策略,"PHICOMM_5G"=DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SSID.png
+# 基础策略组
+节点选择 = select,自动选择,新加坡自动,香港自动,美国自动,其他自动,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
+自动选择 = url-test,全球节点,interval = 300,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png
+手动切换 = select,全球节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png
+
 # --------------------------------
-# 地区策略
-香港手动策略 = select,香港节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
-新国手动策略 = select,新国节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-美国手动策略 = select,美国节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
-游戏手动策略 = select,游戏节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/GAME.png
-全球手动策略 = select,全球节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
-香港自动策略 = select,香港时延优选,香港故障转移,香港负载均衡,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
-美国自动策略 = select,美国时延优选,美国故障转移,美国负载均衡,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
-# --------------------------------
-# 自动策略
+# 地区策略组（按优先级）
+# 时延优选
+新加坡自动 = select,新加坡时延优选,新加坡负载均衡,新加坡节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
+香港自动 = select,香港时延优选,香港负载均衡,香港节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
+美国自动 = select,美国时延优选,美国负载均衡,美国节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+其他自动 = select,其他时延优选,其他负载均衡,其他节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
+
+新加坡时延优选 = url-test,新加坡节点,interval = 60,tolerance = 80,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
 香港时延优选 = url-test,香港节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
-台湾时延优选 = url-test,台湾节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png
-日本时延优选 = url-test,日本节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png
-韩国时延优选 = url-test,韩国节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
-美国时延优选 = url-test,美国节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+美国时延优选 = url-test,美国节点,interval = 60,tolerance = 190,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+其他时延优选 = url-test,其他节点,interval = 60,tolerance = 50,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
 
-香港故障转移 = fallback,香港节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
-台湾故障转移 = fallback,台湾节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png
-日本故障转移 = fallback,日本节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png
-韩国故障转移 = fallback,韩国节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
-新国故障转移 = fallback,新国节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-美国故障转移 = fallback,美国节点,interval = 60,max-timeout = 2000,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+# 负载均衡
+新加坡负载均衡 = load-balance,新加坡节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
+香港负载均衡 = load-balance,香港节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
+美国负载均衡 = load-balance,美国节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+其他负载均衡 = load-balance,其他节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
 
-香港负载均衡 = load-balance,香港节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
-台湾负载均衡 = load-balance,台湾节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png
-日本负载均衡 = load-balance,日本节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png
-韩国负载均衡 = load-balance,韩国节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
-美国负载均衡 = load-balance,美国节点,interval = 60,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
-# --------------------------------
+# 流媒体解锁和AI解锁
+流媒体解锁 = load-balance,流媒体解锁节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Streaming.png
+AI解锁 = load-balance,AI解锁节点,interval = 300,max-timeout = 2000,algorithm = pcc,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Catalyst.png
+
 # 兜底策略后备
-兜底后备策略 = fallback,香港自动场景,新国自动场景,美国自动场景,interval = 60,max-timeout = 2000,img-url = https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/fallback.png
+兜底后备策略 = fallback,香港自动,新加坡自动,美国自动,其他自动,interval = 60,max-timeout = 2000,img-url = https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/fallback.png
+
+# --------------------------------
+# 应用策略组（按优先级）
+OpenAi = select,AI解锁,美国自动,新加坡自动,节点选择,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Catalyst.png
+迪士尼 = select,流媒体解锁,新加坡自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/DisneyPlus.png
+Netflix = select,流媒体解锁,新加坡自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Netflix.png
+油管视频 = select,香港自动,流媒体解锁,新加坡自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/YouTube.png
+电报信息 = select,节点选择,新加坡自动,香港自动,美国自动,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png
+TikTok = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TikTok.png
+Spotify = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Spotify.png
+苹果服务 = select,DIRECT,新加坡自动,美国自动,节点选择,手动切换,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Apple.png
+微软服务 = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Microsoft.png
+谷歌服务 = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png
+GitHub = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/GitHub.png
+OneDrive = select,新加坡自动,美国自动,节点选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/OneDrive.png
+Notion = select,新加坡自动,美国自动,节点选择,自动选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Notion.png
+Cloudflare = select,节点选择,美国自动,新加坡自动,香港自动,自动选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Cloudflare.png
+Speedtest = select,DIRECT,节点选择,自动选择,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Speedtest.png
+PayPal = select,DIRECT,美国自动,节点选择,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Paypal.png
+微信服务 = select,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/WeChat.png
+国外媒体 = select,节点选择,自动选择,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Streaming.png
+游戏 = select,新加坡自动,美国自动,节点选择,自动选择,手动切换,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/GAME.png
+TVB = select,DIRECT,流媒体解锁,节点选择,自动选择,手动切换,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/TVB.png
+全球直连 = select,DIRECT,节点选择,自动选择,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Direct.png
+全球拦截 = select,REJECT,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png
+应用净化 = select,REJECT,DIRECT,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adguard.png
+漏网之鱼 = select,香港自动,新加坡自动,美国自动,节点选择,自动选择,手动切换,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png
+
 [Rule]
 DOMAIN,10.8.0.1,DIRECT
 IP-CIDR,10.8.0.0/24,DIRECT
 IP-CIDR,10.11.12.0/24,DIRECT
-DOMAIN,chat.signal.org,美国负载均衡
+DOMAIN,chat.signal.org,美国自动
 # Local Rule
 # Type:DOMAIN-SUFFIX,DOMAIN,DOMAIN-KEYWORD,USER-AGENT,URL-REGEX,IP-CIDR,IP-CIDR6,IP-ASN
 # Strategy:DIRECT,Proxy,REJECT
@@ -104,26 +118,69 @@ IP-CIDR,28.0.0.1/8,DIRECT
 IP-CIDR,198.18.0.1/16,DIRECT
 IP-CIDR,198.18.0.0/15,DIRECT
 IP-CIDR6,fc00::/18,DIRECT
-FINAL,美国自动策略
+FINAL,兜底后备策略
 
 [Remote Rule]
-https://rule.kelee.one/Loon/Telegram.list, policy=兜底后备策略, tag=Telegram, enabled=true
-https://kelee.one/Tool/Loon/Rule/TikTok.list, policy=新国手动场景, tag=TikTok, enabled=true
-https://kelee.one/Tool/Loon/Rule/AI.list, policy=美国手动场景, tag=AI, enabled=true
-https://kelee.one/Tool/Loon/Rule/AppleID.list, policy=DIRECT, tag=Apple Account, enabled=true
-https://kelee.one/Tool/Loon/Rule/AppStore.list, policy=DIRECT, tag=App Store, enabled=true
-https://rule.kelee.one/Loon/GitHub.list, policy=兜底后备策略, tag=GitHub, enabled=true
-https://rule.kelee.one/Loon/Netflix.list, policy=新国手动场景, tag=Netflix, enabled=true
-https://rule.kelee.one/Loon/YouTube.list, policy=兜底后备策略, tag=Youtube, enabled=true
-https://rule.kelee.one/Loon/Disney.list, policy=兜底后备策略, tag=Disney, enabled=true
-https://rule.kelee.one/Loon/Twitter.list, policy=兜底后备策略, tag=Twitter, enabled=true
-https://rule.kelee.one/Loon/Facebook.list, policy=兜底后备策略, tag=Facebook, enabled=true
-https://rule.kelee.one/Loon/Instagram.list, policy=兜底后备策略, tag=Instagram, enabled=true
-https://rule.kelee.one/Loon/Spotify.list, policy=兜底后备策略, tag=Spotify, enabled=true
-https://rule.kelee.one/Loon/Google.list, policy=兜底后备策略, tag=Google, enabled=true
-https://rule.kelee.one/Loon/OneDrive.list, policy=兜底后备策略, tag=OneDrive, enabled=true
-https://kelee.one/Tool/Loon/Rule/LAN_SPLITTER, policy=DIRECT, tag=LAN, enabled=true
-https://kelee.one/Tool/Loon/Rule/REGION_SPLITTER, policy=DIRECT, tag=CN REGION, enabled=true
+# 广告和隐私拦截规则
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/reject_domains.list, policy=全球拦截, tag=全球拦截, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/reject_domains.list, policy=应用净化, tag=应用净化, enabled=true
+
+# 本地网络和直连规则
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/direct_all.list, policy=全球直连, tag=全球直连, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/argotunnel.list, policy=全球直连, tag=Argotunnel, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list, policy=全球直连, tag=中国域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/private_domain.mrs, policy=全球直连, tag=私有域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/cn_domain.mrs, policy=全球直连, tag=CN域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/ChinaCompanyIp.list, policy=全球直连, tag=中国公司IP, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/cn_ip.mrs, policy=全球直连, tag=中国IP, enabled=true
+
+# 系统服务和特殊应用
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/apple_domains.list, policy=苹果服务, tag=Apple域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/apple_domain.mrs, policy=苹果服务, tag=Apple域名MRS, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/speedtest_domain.mrs, policy=Speedtest, tag=Speedtest, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/paypal_domain.mrs, policy=PayPal, tag=PayPal, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/WeChat.list, policy=微信服务, tag=微信, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/Cloudflare.list, policy=Cloudflare, tag=Cloudflare, enabled=true
+
+# 常用服务规则
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/ai_all.list, policy=OpenAi, tag=AI, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/aioai.list, policy=OpenAi, tag=AIOAI, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/github.list, policy=GitHub, tag=GitHub, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/github_domain.mrs, policy=GitHub, tag=GitHub域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/youtube.list, policy=油管视频, tag=YouTube, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/youtube_domain.mrs, policy=油管视频, tag=YouTube域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/google_domain.mrs, policy=谷歌服务, tag=Google域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/onedrive_domain.mrs, policy=OneDrive, tag=OneDrive, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/microsoft.list, policy=微软服务, tag=Microsoft, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/microsoft_domain.mrs, policy=微软服务, tag=Microsoft域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/tiktok.list, policy=TikTok, tag=TikTok, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/tiktok_domain.mrs, policy=TikTok, tag=TikTok域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/telegram.list, policy=电报信息, tag=Telegram, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/telegram_domain.mrs, policy=电报信息, tag=Telegram域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/netflix.list, policy=Netflix, tag=Netflix, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/netflix_domain.mrs, policy=Netflix, tag=Netflix域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/notion.list, policy=Notion, tag=Notion, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/tvb.list, policy=TVB, tag=TVB, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/spotify.list, policy=Spotify, tag=Spotify, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/disney.list, policy=迪士尼, tag=Disney, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/proxy_common.list, policy=国外媒体, tag=国外媒体, enabled=true
+
+# 游戏服务
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/gaming.list, policy=游戏, tag=游戏, enabled=true
+
+# 代理规则和国际流量
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/proxy_common.list, policy=节点选择, tag=通用代理, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/gfw_domain.mrs, policy=节点选择, tag=GFW域名, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-!cn.mrs, policy=节点选择, tag=非中国地区, enabled=true
+
+# IP规则
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/google_ip.mrs, policy=谷歌服务, tag=Google IP, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/netflix_ip.mrs, policy=Netflix, tag=Netflix IP, enabled=true
+https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geoip/telegram_ip.mrs, policy=电报信息, tag=Telegram IP, enabled=true
+
+# 补充规则 - 以下是Loon原有规则中RFM没有的
+https://kelee.one/Tool/Loon/Rule/LAN_SPLITTER, policy=全球直连, tag=LAN补充, enabled=true
+https://kelee.one/Tool/Loon/Rule/REGION_SPLITTER, policy=全球直连, tag=CN REGION补充, enabled=true
 
 [Host]
 ssid:CloseAI5G = server:10.9.8.1
@@ -142,7 +199,7 @@ https://raw.githubusercontent.com/sooyaaabo/Loon/main/Plugin/StreamingMedia.plug
 https://raw.githubusercontent.com/sooyaaabo/Loon/main/Plugin/WeChat.plugin, enabled=false
 https://raw.githubusercontent.com/sooyaaabo/Loon/main/Plugin/Bank.plugin, enabled=true
 https://raw.githubusercontent.com/sooyaaabo/Loon/main/Plugin/NodeSeek.plugin, policy=香港时延优选, enabled=false
-https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.loon.plugin, policy=新国自动策略, enabled=true
+https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.loon.plugin, policy=新加坡自动, enabled=true
 https://raw.githubusercontent.com/deezertidal/private/master/plugallery/gddt.plugin, enabled=true
 https://raw.githubusercontent.com/deezertidal/private/master/plugallery/fileball.plugin, enabled=true
 https://raw.githubusercontent.com/chengkongyiban/Loon/main/Loon-Gallery/UnblockURLinWeChat.plugin, enabled=true
