@@ -1,69 +1,69 @@
 {
-  "last_update": "2025-04-11T06:26:00.432751",
+  "last_update": "2025-04-12T03:30:32.452307",
   "categories": {
     "reject_domains": {
-      "rule_count": 117155,
-      "last_updated": "2025-04-11T06:25:50.710319"
+      "rule_count": 117315,
+      "last_updated": "2025-04-12T03:30:20.479414"
     },
     "direct_domains": {
       "rule_count": 129087,
-      "last_updated": "2025-04-11T06:25:58.347163"
+      "last_updated": "2025-04-12T03:30:28.666563"
     },
     "ai_domains": {
       "rule_count": 76,
-      "last_updated": "2025-04-11T06:26:00.090305"
+      "last_updated": "2025-04-12T03:30:32.028288"
     },
     "direct_ips": {
       "rule_count": 208,
-      "last_updated": "2025-04-11T06:25:58.388713"
+      "last_updated": "2025-04-12T03:30:28.697703"
     },
     "netflix": {
       "rule_count": 1157,
-      "last_updated": "2025-04-11T06:25:58.484841"
+      "last_updated": "2025-04-12T03:30:28.980073"
     },
     "disney": {
       "rule_count": 173,
-      "last_updated": "2025-04-11T06:25:58.528130"
+      "last_updated": "2025-04-12T03:30:29.103084"
     },
     "youtube": {
       "rule_count": 183,
-      "last_updated": "2025-04-11T06:25:58.573171"
+      "last_updated": "2025-04-12T03:30:29.228559"
     },
     "spotify": {
       "rule_count": 30,
-      "last_updated": "2025-04-11T06:25:58.605083"
+      "last_updated": "2025-04-12T03:30:29.448678"
     },
     "tiktok": {
       "rule_count": 28,
-      "last_updated": "2025-04-11T06:25:58.638899"
+      "last_updated": "2025-04-12T03:30:29.565168"
     },
     "microsoft": {
       "rule_count": 675,
-      "last_updated": "2025-04-11T06:25:58.744629"
+      "last_updated": "2025-04-12T03:30:29.727236"
     },
     "github": {
       "rule_count": 30,
-      "last_updated": "2025-04-11T06:25:58.777998"
+      "last_updated": "2025-04-12T03:30:29.740391"
     },
     "telegram": {
       "rule_count": 44,
-      "last_updated": "2025-04-11T06:25:58.810653"
+      "last_updated": "2025-04-12T03:30:29.859634"
     },
     "gaming": {
       "rule_count": 188,
-      "last_updated": "2025-04-11T06:25:58.959580"
+      "last_updated": "2025-04-12T03:30:30.439871"
     },
     "proxy_common": {
       "rule_count": 6561,
-      "last_updated": "2025-04-11T06:25:59.709649"
+      "last_updated": "2025-04-12T03:30:31.422484"
     },
     "apple_domains": {
       "rule_count": 1589,
-      "last_updated": "2025-04-11T06:26:00.213019"
+      "last_updated": "2025-04-12T03:30:32.228157"
     },
     "Cloudflare": {
       "rule_count": 65,
-      "last_updated": "2025-04-11T06:26:00.296538"
+      "last_updated": "2025-04-12T03:30:32.318635"
     }
   }
 }
