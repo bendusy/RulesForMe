@@ -1,5 +1,11 @@
-# Rule count: 65
-# Last updated: 2025-04-12T03:30:32.452255
+# NAME: Cloudflare
+# AUTHOR: blackmatrix7
+# REPO: https://github.com/blackmatrix7/ios_rule_script
+# UPDATED: 2024-08-14 02:12:03
+# DOMAIN-SUFFIX: 43
+# IP-CIDR: 15
+# IP-CIDR6: 7
+# TOTAL: 65
 DOMAIN-SUFFIX,cf-ipfs.com
 DOMAIN-SUFFIX,cf-ns.com
 DOMAIN-SUFFIX,cf-ns.net
