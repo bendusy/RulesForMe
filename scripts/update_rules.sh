@@ -88,5 +88,5 @@ curl -L --fail -o 'rulesets/classical/ProxyLite_classical.list' 'https://raw.git
 curl -L --fail -o 'rulesets/classical/CMBlog.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list' || echo "WARN: Failed to download CMBlog.list"
 curl -L --fail -o 'rulesets/geosite/ChinaDomain.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list' || echo "WARN: Failed to download ChinaDomain.list"
 curl -L --fail -o 'rulesets/geoip/ChinaCompanyIp.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list' || echo "WARN: Failed to download ChinaCompanyIp.list"
-
+curl -L --fail -o 'rulesets/custom/Unbreak.list' 'https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list' || echo "WARN: Failed to download Unbreak.list"
 echo "Downloads finished." 

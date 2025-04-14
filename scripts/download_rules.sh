@@ -28,6 +28,7 @@ curl -L -o 'rulesets/geoip/google_ip.mrs' 'https://raw.githubusercontent.com/Met
 curl -L -o 'rulesets/geoip/telegram_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs'
 curl -L -o 'rulesets/geoip/netflix_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs'
 
+
 # 其余的下载命令省略，与 GitHub Actions 工作流中相同
 
 echo "下载完成！"
