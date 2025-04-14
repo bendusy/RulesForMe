@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 创建目录
+echo "创建目录结构..."
+mkdir -p rulesets/geosite rulesets/geoip rulesets/classical rulesets/custom
+
 # 添加 -e 选项，确保脚本在任何命令失败时退出
 set -e
 
@@ -59,6 +63,20 @@ curl -L --fail -o 'rulesets/classical/Onedrive_classical.yaml' 'https://cdn.jsde
 curl -L --fail -o 'rulesets/classical/Bing.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml' || echo "WARN: Failed to download Bing.yaml"
 curl -L --fail -o 'rulesets/classical/Github_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml' || echo "WARN: Failed to download Github_classical.yaml"
 curl -L --fail -o 'rulesets/classical/Telegram_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml' || echo "WARN: Failed to download Telegram_classical.yaml"
+curl -L --fail -o 'rulesets/classical/blackmatrix7_BiliBili.list' 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/BiliBili/BiliBili.list' || echo "WARN: Failed to download blackmatrix7_BiliBili.list"
+
+# --- skk.moe rules ---
+echo "Downloading skk.moe rules..."
+curl -L --fail -o 'rulesets/classical/skk_reject_domainset.conf' 'https://ruleset.skk.moe/List/domainset/reject.conf' || echo "WARN: Failed to download skk_reject_domainset.conf"
+curl -L --fail -o 'rulesets/classical/skk_reject_extra_domainset.conf' 'https://ruleset.skk.moe/List/domainset/reject_extra.conf' || echo "WARN: Failed to download skk_reject_extra_domainset.conf"
+curl -L --fail -o 'rulesets/classical/skk_reject_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject.conf' || echo "WARN: Failed to download skk_reject_non_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_reject_no_drop_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf' || echo "WARN: Failed to download skk_reject_no_drop_non_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_reject_drop_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject-drop.conf' || echo "WARN: Failed to download skk_reject_drop_non_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_reject_ip.conf' 'https://ruleset.skk.moe/List/ip/reject.conf' || echo "WARN: Failed to download skk_reject_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_download_domainset.conf' 'https://ruleset.skk.moe/List/domainset/download.conf' || echo "WARN: Failed to download skk_download_domainset.conf"
+curl -L --fail -o 'rulesets/classical/skk_download_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/download.conf' || echo "WARN: Failed to download skk_download_non_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_apple_cn_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/apple_cn.conf' || echo "WARN: Failed to download skk_apple_cn_non_ip.conf"
+curl -L --fail -o 'rulesets/classical/skk_ai_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/ai.conf' || echo "WARN: Failed to download skk_ai_non_ip.conf"
 
 # --- ACL4SSR & cmliu & others (.list/.txt) ---
 echo "Downloading ACL4SSR and other rules..."
@@ -88,5 +106,8 @@ curl -L --fail -o 'rulesets/classical/ProxyLite_classical.list' 'https://raw.git
 curl -L --fail -o 'rulesets/classical/CMBlog.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list' || echo "WARN: Failed to download CMBlog.list"
 curl -L --fail -o 'rulesets/geosite/ChinaDomain.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list' || echo "WARN: Failed to download ChinaDomain.list"
 curl -L --fail -o 'rulesets/geoip/ChinaCompanyIp.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list' || echo "WARN: Failed to download ChinaCompanyIp.list"
-curl -L --fail -o 'rulesets/custom/Unbreak.list' 'https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list' || echo "WARN: Failed to download Unbreak.list"
+curl -L --fail -o 'rulesets/classical/Unbreak.list' 'https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list' || echo "WARN: Failed to download Unbreak.list"
+curl -L --fail -o 'rulesets/classical/ACL4SSR_BlockHttpDNS.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BlockHttpDNS.list' || echo "WARN: Failed to download ACL4SSR_BlockHttpDNS.list"
+curl -L --fail -o 'rulesets/classical/ACL4SSR_Privacy.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Privacy.list' || echo "WARN: Failed to download ACL4SSR_Privacy.list"
+curl -L --fail -o 'rulesets/classical/ACL4SSR_AdvertisingTest.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AdvertisingTest.list' || echo "WARN: Failed to download ACL4SSR_AdvertisingTest.list"
 echo "Downloads finished." 
