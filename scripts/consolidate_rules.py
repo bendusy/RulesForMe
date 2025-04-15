@@ -30,21 +30,59 @@ RULE_CATEGORIES = {
         ],
         'merge': True
     },
-    # --- 直连规则 ---
-    'direct_all': {
+    # --- 广告拦截整合 ---
+    'ad_all': {
         'urls': [
-            './rulesets/classical/LocalAreaNetwork.list',
-            './rulesets/classical/UnBan.list',
-            './rulesets/classical/CFnat.list',
-            './rulesets/classical/GoogleCN.list',
-            './rulesets/classical/SteamCN.list',
-            './rulesets/classical/ChinaDomain.list', # geosite/ChinaDomain.list from ACL4SSR
-            './rulesets/classical/ChinaMedia.yaml',
-            './rulesets/classical/Tencent.yaml',
-            './rulesets/classical/LAN.yaml',
-            './rulesets/classical/China.yaml', # ChinaMax_Classical from blackmatrix7
+            'rulesets/classical/BanAD.list',
+            'rulesets/classical/BanProgramAD.list',
         ],
         'merge': True
+    },
+    # --- 隐私保护整合 ---
+    'privacy_all': {
+        'urls': [
+            'rulesets/classical/Privacy.list',
+        ],
+        'merge': True
+    },
+    # --- 直连规则整合 ---
+    'direct_all': {
+        'urls': [
+            'rulesets/classical/LocalAreaNetwork.list',
+            'rulesets/classical/GoogleCN.list',
+            'rulesets/classical/SteamCN.list',
+            'rulesets/classical/ChinaMedia.yaml',
+            'rulesets/classical/Tencent.yaml',
+            'rulesets/classical/LAN.yaml',
+            'rulesets/classical/China.yaml',
+            'rulesets/geosite/ChinaDomain.list',
+        ],
+        'merge': True
+    },
+    # --- 流媒体服务 ---
+    'youtube': {
+        'urls': [
+            'rulesets/classical/GlobalMedia.yaml',
+        ],
+        'merge': False # 单一源
+    },
+    'netflix': {
+        'urls': [
+            'rulesets/classical/GlobalMedia.yaml',
+        ],
+        'merge': False # 单一源
+    },
+    'disney': {
+        'urls': [
+            './rulesets/classical/Disney+.yaml',
+        ],
+        'merge': False # 单一源
+    },
+    'tvb': {
+        'urls': [
+            './rulesets/custom/tvb.list',
+        ],
+        'merge': False # 单一源
     },
     # --- Apple 服务 ---
     'apple_domains': {
@@ -85,40 +123,7 @@ RULE_CATEGORIES = {
         ],
         'merge': True
     },
-    # --- Netflix (使用 GlobalMedia 替代) ---
-    'netflix': {
-        'urls': [
-            './rulesets/classical/GlobalMedia.yaml', # 注意：这是 GlobalMedia
-        ],
-        'merge': False # 单一源
-    },
-    # --- YouTube (使用 GlobalMedia 替代) ---
-    'youtube': {
-        'urls': [
-            './rulesets/classical/GlobalMedia.yaml', # 注意：这是 GlobalMedia
-        ],
-        'merge': False # 单一源
-    },
-    # --- Disney+ ---
-    'disney': {
-        'urls': [
-            './rulesets/classical/Disney+.yaml',
-        ],
-        'merge': False # 单一源
-    },
-     # --- Surge 使用的独立列表 ---
-    'BlockHttpDNS': {
-        'urls': ['./rulesets/classical/ACL4SSR_BlockHttpDNS.list'],
-        'merge': False
-    },
-    'Privacy': {
-        'urls': ['./rulesets/classical/ACL4SSR_Privacy.list'],
-        'merge': False
-    },
-    'AdvertisingTest': {
-        'urls': ['./rulesets/classical/ACL4SSR_AdvertisingTest.list'],
-        'merge': False
-    },
+    # --- Surge 使用的独立列表 ---
     'GoogleFCM': {
         'urls': ['./rulesets/classical/GoogleFCM.list'],
         'merge': False
