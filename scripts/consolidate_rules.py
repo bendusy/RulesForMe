@@ -38,13 +38,6 @@ RULE_CATEGORIES = {
         ],
         'merge': True
     },
-    # --- 隐私保护整合 ---
-    'privacy_all': {
-        'urls': [
-            'rulesets/classical/Privacy.list',
-        ],
-        'merge': True
-    },
     # --- 直连规则整合 ---
     'direct_all': {
         'urls': [
