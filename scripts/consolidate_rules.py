@@ -20,13 +20,13 @@ RULE_CATEGORIES = {
     # --- AI 服务 ---
     'ai_all': {
         'urls': [
-            './rulesets/classical/OpenAI_classical.yaml',
-            './rulesets/custom/aioai.list', # 本地自定义文件
-            './rulesets/classical/skk_ai_non_ip.conf',
-            './rulesets/classical/AiExtra.list',
-            './rulesets/classical/Copilot.list',
-            './rulesets/classical/GithubCopilot.list',
-            './rulesets/classical/Claude.list',
+            'rulesets/classical/ai_all.list',
+            'rulesets/custom/aioai.list',
+            'rulesets/classical/skk_ai_non_ip.conf',
+            'rulesets/classical/AiExtra.list',
+            'rulesets/classical/Copilot.list',
+            'rulesets/classical/GithubCopilot.list',
+            'rulesets/classical/Claude.list',
         ],
         'merge': True
     },
@@ -179,9 +179,10 @@ def clean_output_directories():
 
 def read_local_file_content(file_path):
     """读取本地文件内容，返回文本。"""
-    # 规范化相对路径，确保它相对于脚本的工作目录
+    # 规范化相对路径，确保它相对于项目根目录
     if not os.path.isabs(file_path):
-        script_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd()
+        # 获取脚本所在目录的父目录（项目根目录）
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) if '__file__' in globals() else os.getcwd()
         abs_path = os.path.normpath(os.path.join(script_dir, file_path))
     else:
         abs_path = file_path
