@@ -36,7 +36,6 @@ RULE_CATEGORIES = {
             'rulesets/classical/BanAD.list',
             'rulesets/classical/BanProgramAD.list',
             'https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt',
-            'https://easylist-downloads.adblockplus.org/easylistchina.txt',
             'https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt',
         ],
         'merge': True
@@ -246,11 +245,11 @@ def parse_list_content(content):
     whitelisted_domains = {
         "github.com",
         "notion.so",
-        # 可以根据需要添加更多核心域名
+        "live.com",        # For Outlook
+        "apple.com",       # For Apple services
+        "icloud.com",      # For iCloud
         # "google.com",
-        # "apple.com",
-        # "microsoft.com",
-        # "icloud.com",
+        # "microsoft.com", # live.com 应该足够，除非其他MS服务被屏蔽
     }
 
     if content is None:
