@@ -1,6 +1,24 @@
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
+const https = require('https'); // 引入 https 模块
+
+// 新增一个函数用于从 URL 获取内容
+function fetchUrlContent(url) {
+    return new Promise((resolve, reject) => {
+        https.get(url, (res) => {
+            let data = '';
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                resolve(data);
+            });
+        }).on('error', (err) => {
+            reject(err);
+        });
+    });
+}
 
 // Country codes and flags mapping
 const COUNTRY_MAP = {
@@ -49,7 +67,6 @@ for (const [code, keywords] of Object.entries(COUNTRY_MAP)) {
     });
 }
 const COUNTRY_CODES_FOR_REGEX = Object.keys(COUNTRY_MAP);
-
 
 // --- Parsing Functions ---
 
@@ -597,6 +614,7 @@ Object.keys(SERVICE_KEYWORDS).forEach(service => {
 const countryProtocolCounter = {};
 
 const inputFilePath = path.join('converter', 'base'); // Relative path from workspace root
+const remoteUrl = 'https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_RAW.txt'; // 新增远程 URL
 const outputFilePath = 'surge_proxies_js.txt';
 
 /**
@@ -619,239 +637,272 @@ function isBase64(str) {
 let globalConvertedCount = 0;
 let globalSkippedCount = 0;
 
-try {
-    // Check if input file exists
-    if (!fs.existsSync(inputFilePath)) {
-        throw new Error(`Input file '${inputFilePath}' not found. Make sure 'base' exists in the converter directory.`);
-    }
+// 使用 async IIFE (Immediately Invoked Function Expression) 来处理异步操作
+(async () => {
+    try {
+        let localFileContent = '';
+        let remoteFileContent = '';
+        let localReadSuccess = false;
+        let remoteFetchSuccess = false;
 
-    // 首先以二进制形式读取文件内容
-    const fileBuffer = fs.readFileSync(inputFilePath);
-    
-    // 尝试将内容视为base64编码的字符串解码
-    let fileContent = '';
-    
-    // 将前128个字节转为字符串来检测是否为base64
-    const sampleContent = fileBuffer.subarray(0, Math.min(128, fileBuffer.length)).toString('utf8').trim();
-    
-    if (isBase64(sampleContent)) {
-        console.log('Detected base64 encoded input file. Trying to decode...');
+        // 1. 尝试读取本地文件
         try {
-            // 尝试将整个文件内容作为base64解码
-            fileContent = Buffer.from(fileBuffer.toString().trim(), 'base64').toString('utf8');
-            console.log('Base64 decoding successful!');
-        } catch (e) {
-            console.warn(`Failed to decode as base64: ${e.message}. Falling back to UTF-8 reading.`);
-            fileContent = fileBuffer.toString('utf8');
-        }
-    } else {
-        // 如果不是base64编码，直接作为UTF-8读取
-        console.log('Input file appears to be in plain text. Reading as UTF-8.');
-        fileContent = fileBuffer.toString('utf8');
-    }
+            // Check if input file exists
+            if (!fs.existsSync(inputFilePath)) {
+                 console.warn(`本地输入文件 '${inputFilePath}' 不存在。将尝试仅从远程 URL 获取。`);
+                // throw new Error(`Input file '${inputFilePath}' not found. Make sure 'base' exists in the converter directory.`);
+            } else {
+                // 首先以二进制形式读取文件内容
+                const fileBuffer = fs.readFileSync(inputFilePath);
 
-    const lines = fileContent.split('\n');
-    console.log(`Loaded ${lines.length} lines from input file.`);
+                // 尝试将内容视为base64编码的字符串解码
+                // 将前128个字节转为字符串来检测是否为base64
+                const sampleContent = fileBuffer.subarray(0, Math.min(128, fileBuffer.length)).toString('utf8').trim();
 
-    let convertedCount = 0;
-    let skippedCount = 0;
-
-    lines.forEach(line => {
-        line = line.trim();
-        if (!line) return;
-
-        let surgeProxyLine = null;
-        let nodeNameForCountry = "";
-        let originalProtocol = "";
-
-        for (const [prefix, parserFunc] of Object.entries(parsers)) {
-            if (line.startsWith(prefix)) {
-                originalProtocol = getProtocolFromURL(line);
-                surgeProxyLine = parserFunc(line);
-                if (surgeProxyLine) {
-                    // Extract name from the generated line for country detection
-                    const match = surgeProxyLine.match(/^([^=]+?)\s*=/);
-                    if (match && match[1]) {
-                         nodeNameForCountry = match[1].trim();
-                    } else {
-                         // Fallback: try extracting name from original URL hash
-                         try {
-                              const parsedOriginal = new URL(line);
-                              if(parsedOriginal.hash) {
-                                   nodeNameForCountry = safeDecodeURIComponent(parsedOriginal.hash.substring(1));
-                              }
-                         } catch(e) { /* Ignore parsing errors for fallback */ }
+                if (isBase64(sampleContent)) {
+                    console.log('检测到本地文件为 base64 编码。尝试解码...');
+                    try {
+                        // 尝试将整个文件内容作为base64解码
+                        localFileContent = Buffer.from(fileBuffer.toString().trim(), 'base64').toString('utf8');
+                        console.log('本地文件 Base64 解码成功！');
+                        localReadSuccess = true;
+                    } catch (e) {
+                        console.warn(`本地文件 Base64 解码失败: ${e.message}。将尝试按 UTF-8 读取。`);
+                        localFileContent = fileBuffer.toString('utf8');
+                        localReadSuccess = true; // 即使解码失败，也按 UTF-8 读取了
                     }
-                    convertedCount++;
                 } else {
-                    skippedCount++;
+                    // 如果不是base64编码，直接作为UTF-8读取
+                    console.log('本地文件似乎是纯文本。按 UTF-8 读取。');
+                    localFileContent = fileBuffer.toString('utf8');
+                    localReadSuccess = true;
                 }
-                break; // Found a matching parser
             }
+        } catch (e) {
+            console.warn(`读取本地文件 '${inputFilePath}' 出错: ${e.message}。将尝试仅从远程 URL 获取。`);
         }
 
-        if (surgeProxyLine && nodeNameForCountry) {
-            // 检测节点国家
-            const countryCode = getCountryCode(nodeNameForCountry);
-            const targetCategory = COUNTRY_CODES_FOR_REGEX.includes(countryCode) ? countryCode : 'OTHERS';
-            
-            // 初始化计数器（如果不存在）
-            if (!countryProtocolCounter[countryCode]) {
-                countryProtocolCounter[countryCode] = {};
-            }
-            if (!countryProtocolCounter[countryCode][originalProtocol]) {
-                countryProtocolCounter[countryCode][originalProtocol] = 0;
-            }
-            
-            // 增加计数
-            countryProtocolCounter[countryCode][originalProtocol]++;
-            
-            // 创建新的节点名称
-            const newNodeName = formatNodeName(
-                nodeNameForCountry, 
-                countryCode, 
-                originalProtocol, 
-                countryProtocolCounter[countryCode][originalProtocol]
-            );
-            
-            // 替换原来的节点名称
-            surgeProxyLine = surgeProxyLine.replace(/^([^=]+?)\s*=/, `${newNodeName} =`);
-            
-            // 添加到对应国家分类中
-            if (!categorizedProxies[targetCategory]) {
-                categorizedProxies[targetCategory] = []; // 防止未初始化
-            }
-            categorizedProxies[targetCategory].push(surgeProxyLine);
-            
-            // 检测是否需要加入特殊服务分类
-            const services = detectServices(nodeNameForCountry);
-            services.forEach(service => {
-                if (categorizedProxies[service]) {
-                    categorizedProxies[service].push(surgeProxyLine);
+        // 2. 尝试获取远程内容
+        try {
+            console.log(`正在从 ${remoteUrl} 获取内容...`);
+            remoteFileContent = await fetchUrlContent(remoteUrl);
+            console.log('成功从远程 URL 获取内容。');
+            remoteFetchSuccess = true;
+        } catch (e) {
+            console.warn(`从 ${remoteUrl} 获取内容失败: ${e.message}。将尝试仅使用本地文件。`);
+        }
+
+        // 3. 检查是否有任何可用内容
+        if (!localReadSuccess && !remoteFetchSuccess) {
+            throw new Error("本地文件读取和远程 URL 获取均失败，无法继续。");
+        }
+
+        // 4. 合并内容
+        const combinedContent = localFileContent + '\n' + remoteFileContent; // 用换行符分隔
+        const lines = combinedContent.split('\n');
+        console.log(`共加载 ${lines.length} 行（包含本地和远程）。`);
+
+        // 5. 处理合并后的行 (原有的处理逻辑)
+        let convertedCount = 0;
+        let skippedCount = 0;
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            let surgeProxyLine = null;
+            let nodeNameForCountry = "";
+            let originalProtocol = "";
+
+            for (const [prefix, parserFunc] of Object.entries(parsers)) {
+                if (line.startsWith(prefix)) {
+                    originalProtocol = getProtocolFromURL(line);
+                    surgeProxyLine = parserFunc(line);
+                    if (surgeProxyLine) {
+                        // Extract name from the generated line for country detection
+                        const match = surgeProxyLine.match(/^([^=]+?)\s*=/);
+                        if (match && match[1]) {
+                            nodeNameForCountry = match[1].trim();
+                        } else {
+                            // Fallback: try extracting name from original URL hash
+                            try {
+                                const parsedOriginal = new URL(line);
+                                if(parsedOriginal.hash) {
+                                    nodeNameForCountry = safeDecodeURIComponent(parsedOriginal.hash.substring(1));
+                                }
+                            } catch(e) { /* Ignore parsing errors for fallback */ }
+                        }
+                        convertedCount++;
+                    } else {
+                        skippedCount++;
+                    }
+                    break; // Found a matching parser
                 }
-            });
-        } else if (surgeProxyLine) { // If name extraction failed but line was generated
-            categorizedProxies['OTHERS'].push(surgeProxyLine);
-        }
-        // else: Ignored or failed lines are implicitly skipped
-    });
-
-    // 将数据保存到全局变量
-    globalConvertedCount = convertedCount;
-    globalSkippedCount = skippedCount;
-
-    console.log(`Conversion summary: ${convertedCount} nodes converted, ${skippedCount} nodes skipped.`);
-
-} catch (e) {
-    console.error(`Error processing file: ${e.message}`);
-    process.exit(1);
-}
-
-// --- Output ---
-try {
-    let outputContent = "# Surge Proxy Configuration - Generated by Script (JavaScript Version)\n";
-    outputContent += "# 生成的配置文件包含节点和分组，请复制到Surge配置文件对应部分\n\n";
-
-    // 只保留指定的国家和服务
-    const filteredCountryOrder = ['US', 'HK', 'SG', 'OTHERS'];
-    const filteredServiceOrder = ['NETFLIX', 'OPENAI', 'GEMINI', 'DISNEY'];
-    
-    // 确保只输出有节点的分类
-    const validCountryOrder = filteredCountryOrder.filter(category => 
-        categorizedProxies[category] && categorizedProxies[category].length > 0
-    );
-    const validServiceOrder = filteredServiceOrder.filter(service => 
-        categorizedProxies[service] && categorizedProxies[service].length > 0
-    );
-    
-    // 先输出所有代理节点
-    outputContent += "# ==================== [Proxy] ====================\n";
-    validCountryOrder.forEach(category => {
-        if (categorizedProxies[category] && categorizedProxies[category].length > 0) {
-            // 获取国家信息用于显示更友好的名称
-            const countryInfo = COUNTRY_MAP[category];
-            const groupTitle = countryInfo ? `${countryInfo[0]} ${countryInfo[1]}` : category;
-            
-            outputContent += `# ========== ${groupTitle} 节点 (${categorizedProxies[category].length}) ==========\n`;
-            // Sort lines within category alphabetically by node name (the part before '=')
-            const sortedLines = categorizedProxies[category].sort((a, b) => {
-                 const nameA = (a.match(/^([^=]+?)\s*=/) || ['', ''])[1].trim();
-                 const nameB = (b.match(/^([^=]+?)\s*=/) || ['', ''])[1].trim();
-                 return nameA.localeCompare(nameB);
-            });
-            outputContent += sortedLines.join('\n') + '\n\n'; // Add a blank line between categories
-        }
-    });
-    
-    // 然后输出代理分组配置
-    outputContent += "\n# ==================== [Proxy Group] ====================\n";
-    
-    // 添加主分组
-    outputContent += "# 主策略组\n";
-    outputContent += "PROXY = select, ";
-    
-    // 将所有国家分组添加到主策略组
-    const countryGroups = validCountryOrder.map(code => {
-        // 将国家代码映射为友好名称
-        const countryInfo = COUNTRY_MAP[code];
-        if (countryInfo) {
-            return `${countryInfo[0]} ${countryInfo[1]}`; // 例如：🇺🇸 美国
-        }
-        return code; // 如果没有找到映射，使用代码
-    });
-    
-    // 将特殊服务分组添加到主策略组
-    const serviceGroups = validServiceOrder.map(service => service);
-    
-    // 组合所有分组名称
-    outputContent += [...countryGroups, ...serviceGroups].join(', ') + '\n\n';
-    
-    // 添加国家分组
-    outputContent += "# 国家和地区分组\n";
-    validCountryOrder.forEach(category => {
-        if (categorizedProxies[category] && categorizedProxies[category].length > 0) {
-            // 获取国家信息用于显示更友好的名称
-            const countryInfo = COUNTRY_MAP[category];
-            const groupName = countryInfo ? `${countryInfo[0]} ${countryInfo[1]}` : category;
-            
-            outputContent += `${groupName} = select, `;
-            
-            // 从该分类中提取所有节点名称
-            const nodeNames = categorizedProxies[category].map(line => {
-                const match = line.match(/^([^=]+?)\s*=/);
-                return match ? match[1].trim() : null;
-            }).filter(Boolean); // 过滤掉null值
-            
-            outputContent += nodeNames.join(', ') + '\n';
-        }
-    });
-    
-    // 添加特殊服务分组
-    if (validServiceOrder.length > 0) {
-        outputContent += "\n# 特殊服务分组\n";
-        validServiceOrder.forEach(service => {
-            if (categorizedProxies[service] && categorizedProxies[service].length > 0) {
-                outputContent += `${service} = select, `;
-                
-                // 从该分类中提取所有节点名称
-                const nodeNames = categorizedProxies[service].map(line => {
-                    const match = line.match(/^([^=]+?)\s*=/);
-                    return match ? match[1].trim() : null;
-                }).filter(Boolean); // 过滤掉null值
-                
-                outputContent += nodeNames.join(', ') + '\n';
             }
+
+            if (surgeProxyLine && nodeNameForCountry) {
+                 // 检测节点国家
+                 const countryCode = getCountryCode(nodeNameForCountry);
+                 const targetCategory = COUNTRY_CODES_FOR_REGEX.includes(countryCode) ? countryCode : 'OTHERS';
+
+                 // 初始化计数器（如果不存在）
+                 if (!countryProtocolCounter[countryCode]) {
+                     countryProtocolCounter[countryCode] = {};
+                 }
+                 if (!countryProtocolCounter[countryCode][originalProtocol]) {
+                     countryProtocolCounter[countryCode][originalProtocol] = 0;
+                 }
+
+                 // 增加计数
+                 countryProtocolCounter[countryCode][originalProtocol]++;
+
+                 // 创建新的节点名称
+                 const newNodeName = formatNodeName(
+                     nodeNameForCountry,
+                     countryCode,
+                     originalProtocol,
+                     countryProtocolCounter[countryCode][originalProtocol]
+                 );
+
+                 // 替换原来的节点名称
+                 surgeProxyLine = surgeProxyLine.replace(/^([^=]+?)\s*=/, `${newNodeName} =`);
+
+                 // 添加到对应国家分类中
+                 if (!categorizedProxies[targetCategory]) {
+                     categorizedProxies[targetCategory] = []; // 防止未初始化
+                 }
+                 categorizedProxies[targetCategory].push(surgeProxyLine);
+
+                 // 检测是否需要加入特殊服务分类
+                 const services = detectServices(nodeNameForCountry);
+                 services.forEach(service => {
+                     if (categorizedProxies[service]) {
+                         categorizedProxies[service].push(surgeProxyLine);
+                     }
+                 });
+            } else if (surgeProxyLine) { // If name extraction failed but line was generated
+                categorizedProxies['OTHERS'].push(surgeProxyLine);
+            }
+            // else: Ignored or failed lines are implicitly skipped
         });
+
+        // 将数据保存到全局变量
+        globalConvertedCount = convertedCount;
+        globalSkippedCount = skippedCount;
+
+        console.log(`转换摘要: ${convertedCount} 个节点已转换, ${skippedCount} 个节点已跳过。`);
+
+        // --- Output --- (原有的输出逻辑)
+        try {
+            let outputContent = "# Surge Proxy Configuration - Generated by Script (JavaScript Version)\n";
+            outputContent += "# 生成的配置文件包含节点和分组，请复制到Surge配置文件对应部分\n\n";
+
+            // 只保留指定的国家和服务
+            const filteredCountryOrder = ['US', 'HK', 'SG', 'OTHERS'];
+            const filteredServiceOrder = ['NETFLIX', 'OPENAI', 'GEMINI', 'DISNEY'];
+
+            // 确保只输出有节点的分类
+            const validCountryOrder = filteredCountryOrder.filter(category =>
+                categorizedProxies[category] && categorizedProxies[category].length > 0
+            );
+            const validServiceOrder = filteredServiceOrder.filter(service =>
+                categorizedProxies[service] && categorizedProxies[service].length > 0
+            );
+
+            // 先输出所有代理节点
+            outputContent += "# ==================== [Proxy] ====================\n";
+            validCountryOrder.forEach(category => {
+                if (categorizedProxies[category] && categorizedProxies[category].length > 0) {
+                    // 获取国家信息用于显示更友好的名称
+                    const countryInfo = COUNTRY_MAP[category];
+                    const groupTitle = countryInfo ? `${countryInfo[0]} ${countryInfo[1]}` : category;
+
+                    outputContent += `# ========== ${groupTitle} 节点 (${categorizedProxies[category].length}) ==========\n`;
+                    // Sort lines within category alphabetically by node name (the part before '=')
+                    const sortedLines = categorizedProxies[category].sort((a, b) => {
+                         const nameA = (a.match(/^([^=]+?)\s*=/) || ['', ''])[1].trim();
+                         const nameB = (b.match(/^([^=]+?)\s*=/) || ['', ''])[1].trim();
+                         return nameA.localeCompare(nameB);
+                    });
+                    outputContent += sortedLines.join('\n') + '\n\n'; // Add a blank line between categories
+                }
+            });
+
+            // 然后输出代理分组配置
+            outputContent += "\n# ==================== [Proxy Group] ====================\n";
+
+            // 添加主分组
+            outputContent += "# 主策略组\n";
+            outputContent += "PROXY = select, ";
+
+            // 将所有国家分组添加到主策略组
+            const countryGroups = validCountryOrder.map(code => {
+                // 将国家代码映射为友好名称
+                const countryInfo = COUNTRY_MAP[code];
+                if (countryInfo) {
+                    return `${countryInfo[0]} ${countryInfo[1]}`; // 例如：🇺🇸 美国
+                }
+                return code; // 如果没有找到映射，使用代码
+            });
+
+            // 将特殊服务分组添加到主策略组
+            const serviceGroups = validServiceOrder.map(service => service);
+
+            // 组合所有分组名称
+            outputContent += [...countryGroups, ...serviceGroups].join(', ') + '\n\n';
+
+            // 添加国家分组
+            outputContent += "# 国家和地区分组\n";
+            validCountryOrder.forEach(category => {
+                if (categorizedProxies[category] && categorizedProxies[category].length > 0) {
+                    // 获取国家信息用于显示更友好的名称
+                    const countryInfo = COUNTRY_MAP[category];
+                    const groupName = countryInfo ? `${countryInfo[0]} ${countryInfo[1]}` : category;
+
+                    outputContent += `${groupName} = select, `;
+
+                    // 从该分类中提取所有节点名称
+                    const nodeNames = categorizedProxies[category].map(line => {
+                        const match = line.match(/^([^=]+?)\s*=/);
+                        return match ? match[1].trim() : null;
+                    }).filter(Boolean); // 过滤掉null值
+
+                    outputContent += nodeNames.join(', ') + '\n';
+                }
+            });
+
+            // 添加特殊服务分组
+            if (validServiceOrder.length > 0) {
+                outputContent += "\n# 特殊服务分组\n";
+                validServiceOrder.forEach(service => {
+                    if (categorizedProxies[service] && categorizedProxies[service].length > 0) {
+                        outputContent += `${service} = select, `;
+
+                        // 从该分类中提取所有节点名称
+                        const nodeNames = categorizedProxies[service].map(line => {
+                            const match = line.match(/^([^=]+?)\s*=/);
+                            return match ? match[1].trim() : null;
+                        }).filter(Boolean); // 过滤掉null值
+
+                        outputContent += nodeNames.join(', ') + '\n';
+                    }
+                });
+            }
+
+            fs.writeFileSync(outputFilePath, outputContent, 'utf-8');
+
+            console.log(`成功转换节点并保存到 '${outputFilePath}'`);
+            console.log("文件已生成，包含代理节点和代理分组配置。");
+            console.log(`共转换 ${globalConvertedCount} 个节点，跳过 ${globalSkippedCount} 个节点。`);
+            console.log(`生成了 ${validCountryOrder.length} 个国家/地区分组和 ${validServiceOrder.length} 个特殊服务分组。`);
+
+        } catch (e) {
+            console.error(`写入输出文件 '${outputFilePath}' 时出错: ${e.message}`);
+            process.exit(1);
+        }
+
+    } catch (e) {
+        console.error(`处理文件时发生错误: ${e.message}`);
+        process.exit(1);
     }
-
-    fs.writeFileSync(outputFilePath, outputContent, 'utf-8');
-
-    console.log(`成功转换节点并保存到 '${outputFilePath}'`);
-    console.log("文件已生成，包含代理节点和代理分组配置。");
-    console.log(`共转换 ${globalConvertedCount} 个节点，跳过 ${globalSkippedCount} 个节点。`);
-    console.log(`生成了 ${validCountryOrder.length} 个国家/地区分组和 ${validServiceOrder.length} 个特殊服务分组。`);
-
-} catch (e) {
-    console.error(`写入输出文件 '${outputFilePath}' 时出错: ${e.message}`);
-    process.exit(1);
-}
+})(); // 立即执行 async IIFE
