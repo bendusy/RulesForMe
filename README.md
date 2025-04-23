@@ -162,3 +162,4 @@ permissions:
 ## 许可
 
 MIT License
+https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/icons-all.json
