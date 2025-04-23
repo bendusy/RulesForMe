@@ -540,8 +540,8 @@ function cleanNodeName(originalName) {
     return cleanedName.length < 2 ? originalName : cleanedName;
 }
 
-// 修改格式化节点名称函数，使用国家中文名和旗帜
-function formatNodeName(originalName, countryCode, protocol, index) {
+// 修改格式化节点名称函数，使用国家中文名和旗帜，对未知标识符直接使用
+function formatNodeName(originalName, identifier, protocol, index) {
     // 清理节点名称中的无关信息
     const cleanedName = cleanNodeName(originalName);
     
@@ -549,39 +549,65 @@ function formatNodeName(originalName, countryCode, protocol, index) {
     const services = detectServices(cleanedName);
     const serviceTag = services.length > 0 ? `|${services.join('|')}` : '';
     
-    // 获取国家信息
-    const countryInfo = COUNTRY_MAP[countryCode] || [];
-    const countryFlag = countryInfo[0] || '';
-    const countryName = countryInfo[1] || countryCode;
+    let prefix = identifier; // 默认使用 identifier
     
-    // 格式化为：旗帜中文-协议-编号
-    return `${countryFlag}${countryName}-${protocol}-${String(index).padStart(2, '0')}${serviceTag}`;
+    // 如果 identifier 是已知的国家代码，则使用旗帜和中文名
+    if (COUNTRY_MAP[identifier]) {
+        const countryInfo = COUNTRY_MAP[identifier];
+        const countryFlag = countryInfo[0] || '';
+        const countryName = countryInfo[1] || identifier;
+        prefix = `${countryFlag}${countryName}`;
+    } else if (identifier === 'OTHERS') {
+         // 如果是 OTHERS，可以考虑不加前缀或使用特定符号，这里暂时保留 OTHERS
+         prefix = 'OTHERS';
+    } // 其他情况（如直接是旗帜 🇦🇽 或未知代码 XX）将直接使用 identifier 作为 prefix
+    
+    // 格式化为：前缀-协议-编号|服务标签
+    return `${prefix}-${protocol}-${String(index).padStart(2, '0')}${serviceTag}`;
 }
 
 // --- Main Logic ---
 
 function getCountryCode(nodeName) {
-    // Prioritize keyword matches
-    for (const [keyword, code] of Object.entries(REVERSE_COUNTRY_MAP)) {
-         // Use word boundaries for codes like US, HK etc.
-         if (COUNTRY_CODES_FOR_REGEX.includes(code)) {
-             // Need case-insensitive regex match for keywords like 'US' or 'Hong Kong'
-             const regex = new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-             if (regex.test(nodeName)) {
-                 return code;
-             }
-         } else if (nodeName.includes(keyword)) { // Simple includes for flags or longer names
-             return code;
+    // 1. 优先匹配 COUNTRY_MAP 中的关键字 (大小写不敏感)
+    for (const [code, keywords] of Object.entries(COUNTRY_MAP)) {
+        for (const keyword of keywords) {
+            // 对字母关键词使用单词边界和不区分大小写匹配
+            if (/^[a-zA-Z\s]+$/.test(keyword)) { // 检查是否是纯字母/空格关键词
+                // Correctly escape keyword for regex and use \b for word boundaries
+                const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape regex metachars
+                const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'i');
+                if (regex.test(nodeName)) {
+                    return code;
+                }
+            } else { // 对非字母关键词（如旗帜）使用普通包含匹配
+                if (nodeName.includes(keyword)) {
+                    return code;
+                }
+            }
+        }
+    }
+    
+    // 2. 如果没有在 COUNTRY_MAP 中匹配到，则尝试提取第一个 Unicode 旗帜
+    // 正则表达式匹配两个连续的 Regional Indicator Symbols
+    const flagMatch = nodeName.match(/\p{Regional_Indicator}\p{Regional_Indicator}/u);
+    if (flagMatch) {
+        return flagMatch[0]; // 返回找到的旗帜字符串
+    }
+    
+    // 3. 如果没有找到旗帜，尝试提取两位大写字母代码
+    // 匹配被常见分隔符包围，或在开头/结尾的两位大写字母
+    // Corrected regex for separators
+    const codeMatch = nodeName.match(/(?:[\s\-_|\[(]|^)([A-Z]{2})(?:[\s\-_|\])]|$)/);
+    if (codeMatch && codeMatch[1]) {
+         // 验证这个提取的代码不是 COUNTRY_MAP 中的已知代码 (避免重复逻辑)
+         if (!COUNTRY_MAP[codeMatch[1]]) {
+             return codeMatch[1]; // 返回找到的两位代码
          }
     }
-     // Fallback to check flags again if no text match
-    for (const [code, keywords] of Object.entries(COUNTRY_MAP)) {
-         const flag = keywords[0]; // Assuming flag is the first item
-         if (nodeName.includes(flag)) {
-             return code;
-         }
-     }
-    return "OTHERS"; // Default if no match
+    
+    // 4. 如果以上都未找到，返回 "OTHERS"
+    return "OTHERS";
 }
 
 
@@ -741,28 +767,27 @@ let globalSkippedCount = 0;
             }
 
             if (surgeProxyLine && nodeNameForCountry) {
-                 // 检测节点国家
-                 const countryCode = getCountryCode(nodeNameForCountry);
-                 const targetCategory = COUNTRY_CODES_FOR_REGEX.includes(countryCode) ? countryCode : 'OTHERS';
+                 // 检测节点国家或标识符
+                 const identifier = getCountryCode(nodeNameForCountry);
+                 // 决定分类目标：如果是已知国家代码，则用代码；否则归入 OTHERS
+                 const targetCategory = COUNTRY_MAP[identifier] ? identifier : 'OTHERS';
 
-                 // 初始化计数器（如果不存在）
-                 if (!countryProtocolCounter[countryCode]) {
-                     countryProtocolCounter[countryCode] = {};
+                 // 获取协议用于计数器
+                 const protocolForCounter = originalProtocol || getProtocolFromURL(line); // 确保有协议
+
+                 // 初始化国家/标识符的协议计数器
+                 if (!countryProtocolCounter[identifier]) {
+                     countryProtocolCounter[identifier] = {};
                  }
-                 if (!countryProtocolCounter[countryCode][originalProtocol]) {
-                     countryProtocolCounter[countryCode][originalProtocol] = 0;
+                 if (!countryProtocolCounter[identifier][protocolForCounter]) {
+                     countryProtocolCounter[identifier][protocolForCounter] = 0;
                  }
 
-                 // 增加计数
-                 countryProtocolCounter[countryCode][originalProtocol]++;
+                 // 增加计数 (使用 identifier 和 protocolForCounter)
+                 countryProtocolCounter[identifier][protocolForCounter]++;
 
-                 // 创建新的节点名称
-                 const newNodeName = formatNodeName(
-                     nodeNameForCountry,
-                     countryCode,
-                     originalProtocol,
-                     countryProtocolCounter[countryCode][originalProtocol]
-                 );
+                 // 创建新的节点名称 (传入 identifier)
+                 const newNodeName = formatNodeName(nodeNameForCountry, identifier, protocolForCounter, countryProtocolCounter[identifier][protocolForCounter]);
 
                  // 替换原来的节点名称
                  surgeProxyLine = surgeProxyLine.replace(/^([^=]+?)\s*=/, `${newNodeName} =`);
