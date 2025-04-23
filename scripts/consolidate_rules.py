@@ -125,6 +125,14 @@ RULE_CATEGORIES = {
         'urls': ['./rulesets/classical/blackmatrix7_BiliBili.list'],
         'merge': False
     },
+    # --- PCDN 拦截 ---
+    'ban_pcdn': {
+        'urls': [
+            'https://cdn.jsdelivr.net/gh/susetao/PCDNFilter-CHN-@main/PCDNFilter.txt',
+            'https://thhbdd.github.io/Block-pcdn-domains/ban.txt',
+        ],
+        'merge': True
+    },
     # --- 以下是原配置中定义但 Surge 配置未使用的，已注释/删除 ---
     # 'reject_domains': {...},
     # 'direct_ips': {...},
@@ -207,8 +215,28 @@ def read_local_file_content(file_path):
         print(f"读取本地文件 {abs_path} 失败: {e}")
         return None
 
+def fetch_url_content(url):
+    """从 URL 下载内容，返回文本。"""
+    print(f"  正在下载: {url} ...")
+    try:
+        response = requests.get(url, timeout=30) # 增加超时
+        response.raise_for_status() # 检查 HTTP 错误
+        # 尝试使用 UTF-8 解码，如果失败则让 requests 自动检测
+        try:
+            content = response.content.decode('utf-8')
+        except UnicodeDecodeError:
+            response.encoding = response.apparent_encoding # 让 requests 猜测编码
+            content = response.text
+        return content
+    except requests.exceptions.RequestException as e:
+        print(f"错误: 下载 URL {url} 失败: {e}")
+        return None
+    except Exception as e:
+        print(f"错误: 处理 URL {url} 时发生未知错误: {e}")
+        return None
+
 def parse_list_content(content):
-    """解析 .list/.txt/.conf 文件内容，返回规则列表""" # conf 也按 list 处理
+    """解析 .list/.txt/.conf 文件内容，提取域名或模式，并转换为 Surge 格式。"""
     rules = set()
     if content is None:
         return rules
@@ -216,20 +244,53 @@ def parse_list_content(content):
     for line in lines:
         line = line.strip()
         # 移除注释和空行
-        if not line or line.startswith('#') or line.startswith('//') or line.startswith(';'):
+        if not line or line.startswith(('#', '!', ';')): # 增加 '!' 注释符
             continue
-        # 提取规则，去除行尾注释
-        rule = line.split('#')[0].split('//')[0].strip() # 处理两种注释
+
+        # 处理 AdGuard 域名规则: ||domain.com^
+        if line.startswith('||') and line.endswith('^'):
+            domain = line[2:-1]
+            # 简单的域名验证
+            if re.match(r"^[a-zA-Z0-9.\-\*]+$", domain):
+                # 如果包含通配符 *，则认为是 DOMAIN-KEYWORD，否则是 DOMAIN-SUFFIX
+                if '*' in domain:
+                    # 移除可能的前导点（如 *.example.com）
+                    keyword = domain.lstrip('.')
+                    rules.add(f"DOMAIN-KEYWORD,{keyword}")
+                else:
+                    rules.add(f"DOMAIN-SUFFIX,{domain}")
+            continue
+
+        # 处理 AdGuard 正则规则: /regex/
+        if line.startswith('/') and line.endswith('/'):
+            regex = line[1:-1]
+            # 尝试验证正则表达式是否有效？可能过于复杂，暂时信任源
+            rules.add(f"URL-REGEX,{regex}")
+            continue
+
+        # 处理其他 Surge/Clash 风格的规则（保留原有逻辑）
+        # 移除行尾注释
+        rule = line.split('#')[0].split('//')[0].strip()
         # 跳过特殊指令或空规则
         if rule and not rule.startswith(('payload:', 'proxies:', 'proxy-groups:', 'rules:', 'rule-providers:', 'policy-path', 'http-request', 'http-response')):
-             # 基本的域名/IP/关键词验证 (非常宽松)
-            # DOMAIN-SUFFIX, DOMAIN, DOMAIN-KEYWORD, IP-CIDR, PROCESS-NAME, USER-AGENT, URL-REGEX 等
+            # 基本的域名/IP/关键词验证 (非常宽松)
             # 允许逗号、斜杠、星号、加号、短横线、点、冒号、下划线等常见字符
-            # 修正：允许规则包含空格，例如 `USER-AGENT,*Safari*` 或 `PROCESS-NAME, Mail`
+            # 修正：允许规则包含空格
             if re.match(r"^[a-zA-Z0-9\.\-\_\:\/\*\+\,\s]+$", rule):
-                rules.add(rule)
+                # 简单判断是否已经是 Surge 格式
+                parts = rule.split(',')
+                if len(parts) > 1 and parts[0].isupper() and '-' in parts[0]:
+                    rules.add(rule) # 假定已经是 Surge 格式
+                elif '.' in rule or '*' in rule: # 可能是域名或关键词
+                    # 无法确定类型，暂时添加为 DOMAIN-KEYWORD
+                    # 注意：这里可能不准确，需要根据实际情况调整
+                    # print(f"  警告: 无法确定规则类型 '{rule}', 添加为 DOMAIN-KEYWORD")
+                    rules.add(f"DOMAIN-KEYWORD,{rule}")
+                # else:
+                #     print(f"  跳过疑似无效或无法处理的规则: {rule}")
             # else:
             #     print(f"  跳过疑似无效规则: {rule}") # 调试时开启
+
     return rules
 
 def parse_yaml_content(content):
@@ -392,34 +453,53 @@ def save_stats(stats):
 # --- 主逻辑 ---
 
 def process_category(category, config, existing_rules=None):
-    """处理单个分类的规则，从本地文件读取"""
+    """处理单个分类的规则，从源列表（本地文件或 URL）读取。"""
     print(f"\n处理分类: {category}...")
     category_rules = set()
-    local_files = config.get('urls', []) # 现在 urls 字段包含的是本地文件路径
+    sources = config.get('urls', []) # 现在 urls 可以包含本地路径或 URL
     should_merge = config.get('merge', True)
 
-    if not local_files:
-        print(f"警告: 分类 {category} 没有定义源文件")
+    if not sources:
+        print(f"警告: 分类 {category} 没有定义源")
         return category_rules, 0
 
-    file_count = 0
+    source_count = 0
     processed_count = 0
-    for file_path in local_files:
-        file_count += 1
-        rules_from_file = process_local_file(file_path)
-        if rules_from_file:
-            print(f"  从 {file_path} 获取到 {len(rules_from_file)} 条规则")
-            category_rules.update(rules_from_file)
-            processed_count += 1
-        # else: # process_local_file 内部会打印警告
-        #     print(f"  警告: 从 {file_path} 提取的规则为空或读取失败")
+    for source in sources:
+        source_count += 1
+        rules_from_source = set()
+        content = None
 
-        # 如果不合并，只处理第一个文件
-        if not should_merge:
+        # 判断是 URL 还是本地文件
+        if source.startswith('http://') or source.startswith('https://'):
+            content = fetch_url_content(source)
+            if content is None:
+                print(f"  警告: 无法从 URL {source} 获取内容，跳过...")
+                continue # 跳过这个源
+            # 根据内容（或假定为 list/txt）解析
+            # 注意：目前 URL 只支持 list/txt/conf 类型解析
+            # 如果需要支持从 URL 加载 YAML，需要增加逻辑
+            rules_from_source = parse_list_content(content)
+            # print(f"  从 URL {source} 解析...") # 减少冗余输出
+        else:
+            # 本地文件处理逻辑 (复用 process_local_file)
+            rules_from_source = process_local_file(source)
+            # process_local_file 内部会打印日志，这里不再重复
+
+        if rules_from_source:
+            source_display_name = source if source.startswith('http') else os.path.basename(source)
+            print(f"  从 {source_display_name} 获取到 {len(rules_from_source)} 条规则")
+            category_rules.update(rules_from_source)
+            processed_count += 1
+        # else: # 函数内部已打印警告
+        #     print(f"  警告: 从 {source} 提取的规则为空或处理失败")
+
+        # 如果不合并，只处理第一个源
+        if not should_merge and processed_count > 0: # 确保至少成功处理了一个
             break
 
-    if file_count > 0 and processed_count == 0:
-         print(f"警告: 分类 {category} 的所有源文件均未成功处理或为空。")
+    if source_count > 0 and processed_count == 0:
+        print(f"警告: 分类 {category} 的所有源均未成功处理或为空。")
 
     # 合并后进行比较
     new_rules_count = 0
