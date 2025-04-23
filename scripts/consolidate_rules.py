@@ -241,63 +241,92 @@ def fetch_url_content(url):
         return None
 
 def parse_list_content(content):
-    """解析 .list/.txt/.conf 文件内容，提取域名或模式，并转换为 Surge 格式 (严格模式)。"""
+    """解析 .list/.txt/.conf 文件内容，提取域名模式，并转换为 Surge 格式 (超严格模式 + 白名单)。"""
     rules = set()
+    # --- 白名单定义 ---
+    # 这些域名及其所有子域名不会被此列表屏蔽
+    whitelisted_domains = {
+        "github.com",
+        "notion.so",
+        # 可以根据需要添加更多核心域名
+        # "google.com",
+        # "apple.com",
+        # "microsoft.com",
+        # "icloud.com",
+    }
+
     if content is None:
         return rules
     lines = content.splitlines()
     for line in lines:
         line = line.strip()
         # 移除注释和空行
-        if not line or line.startswith(('#', '!', ';')): # 增加 '!' 注释符 (EasyList)
+        if not line or line.startswith(('#', '!', ';')):
             continue
 
         # 忽略 ABP 元素隐藏/注入规则
         if '##' in line or '#?#' in line or '#@#' in line:
             continue
 
-        # 忽略包含 ABP 选项/修饰符的规则 (通常以 $ 开头)
+        # 忽略包含 ABP 选项/修饰符的规则
         if '$' in line:
             continue
 
-        # 处理 AdGuard/ABP 域名规则: ||domain.com^
-        # 可能结尾没有 ^，也处理 ||domain.com
+        # --- 移除对 URL-REGEX 的处理 ---
+        # if line.startswith('/') and line.endswith('/'):
+        #     continue
+
+        # --- 处理 AdGuard/ABP 域名规则: ||domain.com^ 或 ||domain.com ---
         if line.startswith('||'):
-            # 去除 || 开头和可选的 ^ 结尾
             domain_part = line[2:].rstrip('^')
-            # 再次检查是否包含修饰符 (虽然前面检查过$，但以防万一)
-            if '$' in domain_part:
+            if not domain_part or '$' in domain_part: # 跳过空的或仍包含修饰符的
                 continue
+
+            # --- 白名单检查 ---
+            is_whitelisted = False
+            # 检查是否是白名单域名本身或其子域名
+            normalized_domain = domain_part.lstrip('*.') # 去掉通配符和前导点进行检查
+            for w_domain in whitelisted_domains:
+                if normalized_domain == w_domain or normalized_domain.endswith('.' + w_domain):
+                    # print(f"  跳过白名单规则: {line} (匹配 {w_domain})") # 调试时开启
+                    is_whitelisted = True
+                    break
+            if is_whitelisted:
+                continue
+            # --- 白名单检查结束 ---
+
             # 简单的域名/关键词验证 (允许 *)
             if re.match(r"^[a-zA-Z0-9.\-\*]+$", domain_part):
                 if '*' in domain_part:
                     keyword = domain_part.lstrip('.')
-                    rules.add(f"DOMAIN-KEYWORD,{keyword}")
+                    # 进一步过滤过于宽泛的关键词？例如，太短的？
+                    if len(keyword) > 2: # 避免像 *, a*, etc. 这样太短的关键词
+                         rules.add(f"DOMAIN-KEYWORD,{keyword}")
                 else:
-                    # 确保不是纯 IP 地址 (虽然 ||ip^ 格式不常见，但以防万一)
+                    # 确保不是纯 IP 地址
                     if not re.match(r"^(\d{1,3}\.){3}\d{1,3}$", domain_part):
                          rules.add(f"DOMAIN-SUFFIX,{domain_part}")
-            continue
+            continue # 处理完 || 规则就继续下一行
 
-        # 处理 AdGuard/ABP 正则规则: /regex/
-        if line.startswith('/') and line.endswith('/'):
-            regex = line[1:-1]
-            # 避免添加空的或过于简单的正则，可能误伤
-            if len(regex) > 2: # 简单长度检查
-                rules.add(f"URL-REGEX,{regex}")
-            continue
-
-        # 处理 Surge/Clash 格式的规则 (保留，以便于直接添加 Surge/Clash 规则)
-        # 移除行尾注释
+        # --- 处理已有的 Surge/Clash 格式规则 (保留) ---
         rule = line.split('#')[0].split('//')[0].strip()
         if rule:
             parts = rule.split(',')
             if len(parts) > 1 and parts[0].isupper() and '-' in parts[0]:
-                 # 简单的 Surge/Clash 格式判断 (TYPE,value,...)
                  if re.match(r"^[A-Z\-]+$", parts[0]):
-                    rules.add(rule) # 假定已经是 Surge/Clash 格式
-
-        # 不再有后备逻辑处理不明确的行
+                    # --- 对已有的 Surge 规则也做白名单检查？ ---
+                    # 例如，如果规则是 DOMAIN-SUFFIX,api.github.com，也应该跳过
+                    value_part = parts[1].strip()
+                    is_whitelisted = False
+                    for w_domain in whitelisted_domains:
+                        if value_part == w_domain or value_part.endswith('.' + w_domain):
+                            # print(f"  跳过白名单 Surge/Clash 规则: {rule} (匹配 {w_domain})") # 调试时开启
+                            is_whitelisted = True
+                            break
+                    if not is_whitelisted:
+                        rules.add(rule)
+                    # else: # 规则值在白名单内，跳过
+                    #    pass
 
     return rules
 
