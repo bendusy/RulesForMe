@@ -241,7 +241,7 @@ def fetch_url_content(url):
         return None
 
 def parse_list_content(content):
-    """解析 .list/.txt/.conf 文件内容，提取域名或模式，并转换为 Surge 格式。"""
+    """解析 .list/.txt/.conf 文件内容，提取域名或模式，并转换为 Surge 格式 (严格模式)。"""
     rules = set()
     if content is None:
         return rules
@@ -249,52 +249,55 @@ def parse_list_content(content):
     for line in lines:
         line = line.strip()
         # 移除注释和空行
-        if not line or line.startswith(('#', '!', ';')): # 增加 '!' 注释符
+        if not line or line.startswith(('#', '!', ';')): # 增加 '!' 注释符 (EasyList)
             continue
 
-        # 处理 AdGuard 域名规则: ||domain.com^
-        if line.startswith('||') and line.endswith('^'):
-            domain = line[2:-1]
-            # 简单的域名验证
-            if re.match(r"^[a-zA-Z0-9.\-\*]+$", domain):
-                # 如果包含通配符 *，则认为是 DOMAIN-KEYWORD，否则是 DOMAIN-SUFFIX
-                if '*' in domain:
-                    # 移除可能的前导点（如 *.example.com）
-                    keyword = domain.lstrip('.')
+        # 忽略 ABP 元素隐藏/注入规则
+        if '##' in line or '#?#' in line or '#@#' in line:
+            continue
+
+        # 忽略包含 ABP 选项/修饰符的规则 (通常以 $ 开头)
+        if '$' in line:
+            continue
+
+        # 处理 AdGuard/ABP 域名规则: ||domain.com^
+        # 可能结尾没有 ^，也处理 ||domain.com
+        if line.startswith('||'):
+            # 去除 || 开头和可选的 ^ 结尾
+            domain_part = line[2:].rstrip('^')
+            # 再次检查是否包含修饰符 (虽然前面检查过$，但以防万一)
+            if '$' in domain_part:
+                continue
+            # 简单的域名/关键词验证 (允许 *)
+            if re.match(r"^[a-zA-Z0-9.\-\*]+$", domain_part):
+                if '*' in domain_part:
+                    keyword = domain_part.lstrip('.')
                     rules.add(f"DOMAIN-KEYWORD,{keyword}")
                 else:
-                    rules.add(f"DOMAIN-SUFFIX,{domain}")
+                    # 确保不是纯 IP 地址 (虽然 ||ip^ 格式不常见，但以防万一)
+                    if not re.match(r"^(\d{1,3}\.){3}\d{1,3}$", domain_part):
+                         rules.add(f"DOMAIN-SUFFIX,{domain_part}")
             continue
 
-        # 处理 AdGuard 正则规则: /regex/
+        # 处理 AdGuard/ABP 正则规则: /regex/
         if line.startswith('/') and line.endswith('/'):
             regex = line[1:-1]
-            # 尝试验证正则表达式是否有效？可能过于复杂，暂时信任源
-            rules.add(f"URL-REGEX,{regex}")
+            # 避免添加空的或过于简单的正则，可能误伤
+            if len(regex) > 2: # 简单长度检查
+                rules.add(f"URL-REGEX,{regex}")
             continue
 
-        # 处理其他 Surge/Clash 风格的规则（保留原有逻辑）
+        # 处理 Surge/Clash 格式的规则 (保留，以便于直接添加 Surge/Clash 规则)
         # 移除行尾注释
         rule = line.split('#')[0].split('//')[0].strip()
-        # 跳过特殊指令或空规则
-        if rule and not rule.startswith(('payload:', 'proxies:', 'proxy-groups:', 'rules:', 'rule-providers:', 'policy-path', 'http-request', 'http-response')):
-            # 基本的域名/IP/关键词验证 (非常宽松)
-            # 允许逗号、斜杠、星号、加号、短横线、点、冒号、下划线等常见字符
-            # 修正：允许规则包含空格
-            if re.match(r"^[a-zA-Z0-9\.\-\_\:\/\*\+\,\s]+$", rule):
-                # 简单判断是否已经是 Surge 格式
-                parts = rule.split(',')
-                if len(parts) > 1 and parts[0].isupper() and '-' in parts[0]:
-                    rules.add(rule) # 假定已经是 Surge 格式
-                elif '.' in rule or '*' in rule: # 可能是域名或关键词
-                    # 无法确定类型，暂时添加为 DOMAIN-KEYWORD
-                    # 注意：这里可能不准确，需要根据实际情况调整
-                    # print(f"  警告: 无法确定规则类型 '{rule}', 添加为 DOMAIN-KEYWORD")
-                    rules.add(f"DOMAIN-KEYWORD,{rule}")
-                # else:
-                #     print(f"  跳过疑似无效或无法处理的规则: {rule}")
-            # else:
-            #     print(f"  跳过疑似无效规则: {rule}") # 调试时开启
+        if rule:
+            parts = rule.split(',')
+            if len(parts) > 1 and parts[0].isupper() and '-' in parts[0]:
+                 # 简单的 Surge/Clash 格式判断 (TYPE,value,...)
+                 if re.match(r"^[A-Z\-]+$", parts[0]):
+                    rules.add(rule) # 假定已经是 Surge/Clash 格式
+
+        # 不再有后备逻辑处理不明确的行
 
     return rules
 
