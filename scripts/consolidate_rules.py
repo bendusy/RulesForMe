@@ -36,8 +36,6 @@ RULE_CATEGORIES = {
             'rulesets/classical/BanAD.list',
             'rulesets/classical/BanProgramAD.list',
             'https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt',
-            'https://anti-ad.net/easylist.txt',
-            'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt',
             'https://easylist-downloads.adblockplus.org/easylistchina.txt',
             'https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt',
         ],
