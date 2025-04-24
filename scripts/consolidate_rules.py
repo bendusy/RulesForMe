@@ -33,11 +33,13 @@ RULE_CATEGORIES = {
     # --- 广告拦截整合 ---
     'ad_all': {
         'urls': [
-            'https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt', # 移除：调试 Notion 问题
-            # 'https://anti-ad.net/easylist.txt', # 移除：规则量过大
-            'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt', # 移除：规则量过大且易误伤
-            'https://easylist-downloads.adblockplus.org/easylistchina.txt', # 移除：规则量较大
-            'https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt', # 移除：调试 Notion 问题
+            'rulesets/classical/BanAD.list',
+            'rulesets/classical/BanProgramAD.list',
+            # 'https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt', # 移除：调试 Notion 问题
+             'https://anti-ad.net/easylist.txt', # 移除：规则量过大
+            # 'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt', # 移除：规则量过大且易误伤
+            # 'https://easylist-downloads.adblockplus.org/easylistchina.txt', # 移除：规则量较大
+            # 'https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt', # 移除：调试 Notion 问题
         ],
         'merge': True
     },
