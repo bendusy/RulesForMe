@@ -640,7 +640,13 @@ Object.keys(SERVICE_KEYWORDS).forEach(service => {
 const countryProtocolCounter = {};
 
 const inputFilePath = path.join('converter', 'base'); // Relative path from workspace root
-const remoteUrl = 'https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_RAW.txt'; // 新增远程 URL
+// 将单个 URL 改为 URL 数组
+const remoteUrls = [
+    'https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_RAW.txt',
+    'https://sub.shixina0118.workers.dev'
+    // 在这里添加其他 URL，例如:
+    // 'https://example.com/another_list.txt',
+];
 const outputFilePath = 'surge_proxies_js.txt';
 
 /**
@@ -667,38 +673,31 @@ let globalSkippedCount = 0;
 (async () => {
     try {
         let localFileContent = '';
-        let remoteFileContent = '';
+        let remoteFileContents = []; // 用于存储所有远程获取的内容
         let localReadSuccess = false;
-        let remoteFetchSuccess = false;
+        let remoteFetchSuccessCount = 0; // 统计成功获取的远程文件数量
 
         // 1. 尝试读取本地文件
         try {
             // Check if input file exists
             if (!fs.existsSync(inputFilePath)) {
                  console.warn(`本地输入文件 '${inputFilePath}' 不存在。将尝试仅从远程 URL 获取。`);
-                // throw new Error(`Input file '${inputFilePath}' not found. Make sure 'base' exists in the converter directory.`);
             } else {
-                // 首先以二进制形式读取文件内容
                 const fileBuffer = fs.readFileSync(inputFilePath);
-
-                // 尝试将内容视为base64编码的字符串解码
-                // 将前128个字节转为字符串来检测是否为base64
                 const sampleContent = fileBuffer.subarray(0, Math.min(128, fileBuffer.length)).toString('utf8').trim();
 
                 if (isBase64(sampleContent)) {
                     console.log('检测到本地文件为 base64 编码。尝试解码...');
                     try {
-                        // 尝试将整个文件内容作为base64解码
                         localFileContent = Buffer.from(fileBuffer.toString().trim(), 'base64').toString('utf8');
                         console.log('本地文件 Base64 解码成功！');
                         localReadSuccess = true;
                     } catch (e) {
                         console.warn(`本地文件 Base64 解码失败: ${e.message}。将尝试按 UTF-8 读取。`);
                         localFileContent = fileBuffer.toString('utf8');
-                        localReadSuccess = true; // 即使解码失败，也按 UTF-8 读取了
+                        localReadSuccess = true;
                     }
                 } else {
-                    // 如果不是base64编码，直接作为UTF-8读取
                     console.log('本地文件似乎是纯文本。按 UTF-8 读取。');
                     localFileContent = fileBuffer.toString('utf8');
                     localReadSuccess = true;
@@ -708,25 +707,57 @@ let globalSkippedCount = 0;
             console.warn(`读取本地文件 '${inputFilePath}' 出错: ${e.message}。将尝试仅从远程 URL 获取。`);
         }
 
-        // 2. 尝试获取远程内容
-        try {
-            console.log(`正在从 ${remoteUrl} 获取内容...`);
-            remoteFileContent = await fetchUrlContent(remoteUrl);
-            console.log('成功从远程 URL 获取内容。');
-            remoteFetchSuccess = true;
-        } catch (e) {
-            console.warn(`从 ${remoteUrl} 获取内容失败: ${e.message}。将尝试仅使用本地文件。`);
+        // 2. 尝试获取所有远程内容
+        console.log(`准备从 ${remoteUrls.length} 个远程 URL 获取内容...`);
+        for (const url of remoteUrls) {
+            try {
+                console.log(`正在从 ${url} 获取内容...`);
+                const rawRemoteContent = await fetchUrlContent(url);
+                console.log(`成功从 ${url} 获取原始数据。`);
+
+                let processedRemoteContent = '';
+                // 检测远程内容是否是 Base64
+                // 对获取的原始数据（可能是多行）进行 Base64 检测，可以取样检测第一行或前几行
+                const remoteLines = rawRemoteContent.split('\n');
+                const firstNonEmptyLine = remoteLines.find(line => line.trim().length > 0)?.trim() || '';
+
+                if (isBase64(firstNonEmptyLine)) { // 用第一行非空内容判断
+                    console.log(`检测到 ${url} 的内容可能为 Base64 编码。尝试解码...`);
+                    try {
+                        // 尝试解码整个内容
+                        processedRemoteContent = Buffer.from(rawRemoteContent.trim(), 'base64').toString('utf8');
+                        console.log(`URL ${url} 的内容 Base64 解码成功！`);
+                        remoteFileContents.push(processedRemoteContent);
+                        remoteFetchSuccessCount++;
+                    } catch (e) {
+                        console.warn(`URL ${url} 的内容 Base64 解码失败: ${e.message}。将尝试按 UTF-8 处理。`);
+                        // 解码失败，按 UTF-8 处理原始数据
+                        processedRemoteContent = rawRemoteContent;
+                        remoteFileContents.push(processedRemoteContent);
+                        remoteFetchSuccessCount++; // 即使解码失败，也获取到了内容
+                    }
+                } else {
+                    console.log(`URL ${url} 的内容似乎是纯文本。按 UTF-8 处理。`);
+                    processedRemoteContent = rawRemoteContent;
+                    remoteFileContents.push(processedRemoteContent);
+                    remoteFetchSuccessCount++;
+                }
+            } catch (e) {
+                console.warn(`从 ${url} 获取内容失败: ${e.message}。跳过此 URL。`);
+            }
         }
+        console.log(`成功从 ${remoteFetchSuccessCount} 个远程 URL 获取并处理了内容。`);
+
 
         // 3. 检查是否有任何可用内容
-        if (!localReadSuccess && !remoteFetchSuccess) {
-            throw new Error("本地文件读取和远程 URL 获取均失败，无法继续。");
+        if (!localReadSuccess && remoteFetchSuccessCount === 0) {
+            throw new Error("本地文件读取失败，且所有远程 URL 获取均失败，无法继续。");
         }
 
-        // 4. 合并内容
-        const combinedContent = localFileContent + '\n' + remoteFileContent; // 用换行符分隔
+        // 4. 合并内容 (本地 + 所有远程)
+        const combinedContent = [localFileContent, ...remoteFileContents].join('\n'); // 用换行符分隔所有内容
         const lines = combinedContent.split('\n');
-        console.log(`共加载 ${lines.length} 行（包含本地和远程）。`);
+        console.log(`共加载 ${lines.length} 行有效内容（包含本地和远程）。`);
 
         // 5. 处理合并后的行 (原有的处理逻辑)
         let convertedCount = 0;

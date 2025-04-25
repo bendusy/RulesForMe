@@ -51,9 +51,9 @@ RULE_CATEGORIES = {
             'rulesets/classical/SteamCN.list',
             'rulesets/classical/ChinaMedia.yaml',
             'rulesets/classical/Tencent.yaml',
-            'rulesets/classical/LAN.yaml',
-            'rulesets/classical/China.yaml',
-            'rulesets/geosite/ChinaDomain.list',
+            # 'rulesets/classical/LAN.yaml',              # Removed: Redundant with LocalAreaNetwork.list
+            # 'rulesets/classical/China.yaml',            # Removed: Too broad
+            # 'rulesets/geosite/ChinaDomain.list',      # Removed: Too broad
         ],
         'merge': True
     },
