@@ -2295,6 +2295,8 @@ rule-providers:
     format: text
     type: http
 rules:
+  # 强制直连白名单，最高优先级，确保这些域名不被任何屏蔽规则影响
+  - RULE-SET,rulesets/custom/ForceDirect.list,DIRECT
   - DOMAIN-SUFFIX,qichiyu.com,Proxy
   # 本地网络和直连规则
   - RULE-SET,CFnat,DIRECT

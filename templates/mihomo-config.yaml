@@ -146,6 +146,9 @@ proxy-groups:
 # 规则匹配
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
 rules:
+  # 强制直连白名单，最高优先级，确保这些域名不被任何屏蔽规则影响
+  - RULE-SET,ForceDirect,🎯 直连
+  
   # 广告和隐私拦截
   - RULE-SET,reject_domains,REJECT   # 使用合并的广告拦截规则
 
@@ -220,6 +223,9 @@ rule-anchor:
 
 rule-providers:
   # --- 从GitHub网络拉取规则集 ---
+  # 高优先级直连白名单
+  ForceDirect: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/custom/ForceDirect.list }
+  
   # Classical格式规则
   ai_all: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/ai_all.list }
   gaming: { <<: *class, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/classical/gaming.list }
