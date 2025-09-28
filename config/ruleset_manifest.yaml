@@ -1,0 +1,848 @@
+version: 1
+metadata:
+  description: RulesForMe rule source manifest
+  generated_at: "2025-09-28T04:05:12Z"
+defaults:
+  download_root: rulesets
+  cache_root: cache
+  encoding: utf-8
+sources:
+  -
+    id: cache_ad_txt
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt"
+    target: cache/ad.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: cache_ban_txt
+    type: remote
+    uri: "https://thhbdd.github.io/Block-pcdn-domains/ban.txt"
+    target: cache/ban.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: cache_easylist_txt
+    type: remote
+    uri: "https://anti-ad.net/easylist.txt"
+    target: cache/easylist.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: cache_easylistchina_txt
+    type: remote
+    uri: "https://easylist-downloads.adblockplus.org/easylistchina.txt"
+    target: cache/easylistchina.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: cache_fanboy_annoyance_txt
+    type: remote
+    uri: "https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"
+    target: cache/fanboy-annoyance.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: cache_pcdnfilter_txt
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/susetao/PCDNFilter-CHN-@main/PCDNFilter.txt"
+    target: cache/PCDNFilter.txt
+    format: list
+    group: cache
+    critical: false
+  -
+    id: classical_acl4ssr_advertisingtest_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AdvertisingTest.list"
+    target: classical/ACL4SSR_AdvertisingTest.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_acl4ssr_blockhttpdns_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BlockHttpDNS.list"
+    target: classical/ACL4SSR_BlockHttpDNS.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_acl4ssr_privacy_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Privacy.list"
+    target: classical/ACL4SSR_Privacy.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_adobe_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/adobe.list"
+    target: classical/Adobe.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_ai_all_list
+    type: local
+    path: rulesets/classical/ai_all.list
+    target: classical/ai_all.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_aiextra_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/juewuy/ShellClash/master/rules/ai.list"
+    target: classical/AiExtra.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_apple_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml"
+    target: classical/Apple_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_banad_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanAD.list"
+    target: classical/BanAD.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_banprogramad_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanProgramAD.list"
+    target: classical/BanProgramAD.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_bing_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml"
+    target: classical/Bing.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_blacklist_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/Steve5wutongyu6/DNSBlock/refs/heads/main/BlackList.txt"
+    target: classical/BlackList.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_blackmatrix7_bilibili_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/BiliBili/BiliBili.list"
+    target: classical/blackmatrix7_BiliBili.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_cfnat_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/refs/heads/main/Clash/CFnat.list"
+    target: classical/CFnat.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_china_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml"
+    target: classical/China.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_chinamedia_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMedia/ChinaMedia.yaml"
+    target: classical/ChinaMedia.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_claude_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Claude.list"
+    target: classical/Claude.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_cloudflare_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.list"
+    target: classical/Cloudflare.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_cloudflare_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare.yaml"
+    target: classical/Cloudflare.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_cmblog_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list"
+    target: classical/CMBlog.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_copilot_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Copilot.list"
+    target: classical/Copilot.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_disney_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney_No_Resolve.yaml"
+    target: classical/Disney+.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_epic_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Epic/Epic.yaml"
+    target: classical/Epic.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_github_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml"
+    target: classical/Github_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_githubcopilot_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/GithubCopilot.list"
+    target: classical/GithubCopilot.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_globalmedia_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml"
+    target: classical/GlobalMedia.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_googlecn_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/GoogleCN.list"
+    target: classical/GoogleCN.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_googlefcm_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list"
+    target: classical/GoogleFCM.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_lan_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml"
+    target: classical/LAN.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_localareanetwork_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/LocalAreaNetwork.list"
+    target: classical/LocalAreaNetwork.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_microsoft_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft_No_Resolve.yaml"
+    target: classical/Microsoft_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_nintendo_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Nintendo/Nintendo.yaml"
+    target: classical/Nintendo.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_onedrive_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml"
+    target: classical/Onedrive_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_openai_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI_No_Resolve.yaml"
+    target: classical/OpenAI_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_playstation_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PlayStation/PlayStation.yaml"
+    target: classical/PlayStation.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_proxy_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy_Classical_No_Resolve.yaml"
+    target: classical/Proxy.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_proxylite_classical_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list"
+    target: classical/ProxyLite_classical.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_proxylite_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/master/ProxyLite.list"
+    target: classical/proxylite.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_proxymedia_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list"
+    target: classical/ProxyMedia.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_rejectlist_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/reject-list.txt"
+    target: classical/RejectList.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_ai_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/ai.conf"
+    target: classical/skk_ai_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_apple_cn_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/apple_cn.conf"
+    target: classical/skk_apple_cn_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_download_domainset_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/domainset/download.conf"
+    target: classical/skk_download_domainset.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_download_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/download.conf"
+    target: classical/skk_download_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_domainset_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/domainset/reject.conf"
+    target: classical/skk_reject_domainset.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_drop_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/reject-drop.conf"
+    target: classical/skk_reject_drop_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_extra_domainset_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/domainset/reject_extra.conf"
+    target: classical/skk_reject_extra_domainset.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/ip/reject.conf"
+    target: classical/skk_reject_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_no_drop_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf"
+    target: classical/skk_reject_no_drop_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_skk_reject_non_ip_conf
+    type: remote
+    uri: "https://ruleset.skk.moe/List/non_ip/reject.conf"
+    target: classical/skk_reject_non_ip.conf
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_spotify_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml"
+    target: classical/Spotify.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_steamcn_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/SteamCN.list"
+    target: classical/SteamCN.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_talkatone_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/SIJULY/Rules/main/Surge/talkatone.list"
+    target: classical/Talkatone.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_telegram_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml"
+    target: classical/Telegram_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_tencent_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Tencent/Tencent.yaml"
+    target: classical/Tencent.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_tiktok_classical_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok_No_Resolve.yaml"
+    target: classical/TikTok_classical.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: classical_unban_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/UnBan.list"
+    target: classical/UnBan.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_unbreak_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list"
+    target: classical/Unbreak.list
+    format: list
+    group: classical
+    critical: true
+  -
+    id: classical_xbox_yaml
+    type: remote
+    uri: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Xbox/Xbox.yaml"
+    target: classical/Xbox.yaml
+    format: yaml
+    group: classical
+    critical: true
+  -
+    id: custom_aioai_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/aioai.list"
+    target: custom/aioai.list
+    format: list
+    group: custom
+    critical: false
+  -
+    id: custom_argotunnel_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/argotunnel.list"
+    target: custom/argotunnel.list
+    format: list
+    group: custom
+    critical: false
+  -
+    id: custom_notion_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/notion.list"
+    target: custom/notion.list
+    format: list
+    group: custom
+    critical: false
+  -
+    id: custom_tvb_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list"
+    target: custom/tvb.list
+    format: list
+    group: custom
+    critical: false
+  -
+    id: custom_wechat_list
+    type: remote
+    uri: "https://raw.githubusercontent.com/bendusy/RulesForMe/main/WeChat.list"
+    target: custom/WeChat.list
+    format: list
+    group: custom
+    critical: false
+  -
+    id: geoip_chinacompanyip_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list"
+    target: geoip/ChinaCompanyIp.list
+    format: list
+    group: geoip
+    critical: true
+  -
+    id: geoip_cn_ip_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
+    target: geoip/cn_ip.mrs
+    format: mrs
+    group: geoip
+    critical: true
+  -
+    id: geoip_google_ip_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+    target: geoip/google_ip.mrs
+    format: mrs
+    group: geoip
+    critical: true
+  -
+    id: geoip_netflix_ip_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+    target: geoip/netflix_ip.mrs
+    format: mrs
+    group: geoip
+    critical: true
+  -
+    id: geoip_telegram_ip_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+    target: geoip/telegram_ip.mrs
+    format: mrs
+    group: geoip
+    critical: true
+  -
+    id: geosite_ai_mrs
+    type: remote
+    uri: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
+    target: geosite/ai.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_apple_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
+    target: geosite/apple_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_chinadomain_list
+    type: remote
+    uri: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list"
+    target: geosite/ChinaDomain.list
+    format: list
+    group: geosite
+    critical: true
+  -
+    id: geosite_cn_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+    target: geosite/cn_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_geolocation_cn_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+    target: geosite/geolocation-!cn.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_gfw_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"
+    target: geosite/gfw_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_github_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+    target: geosite/github_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_google_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+    target: geosite/google_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_microsoft_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
+    target: geosite/microsoft_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_netflix_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+    target: geosite/netflix_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_onedrive_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"
+    target: geosite/onedrive_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_paypal_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"
+    target: geosite/paypal_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_private_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
+    target: geosite/private_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_speedtest_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"
+    target: geosite/speedtest_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_telegram_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+    target: geosite/telegram_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_tiktok_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
+    target: geosite/tiktok_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+  -
+    id: geosite_youtube_domain_mrs
+    type: remote
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+    target: geosite/youtube_domain.mrs
+    format: mrs
+    group: geosite
+    critical: true
+categories:
+  ai_all:
+    output: classical/ai_all.list
+    merge: true
+    parser: auto
+    sources:
+      - classical_ai_all_list
+      - custom_aioai_list
+      - classical_skk_ai_non_ip_conf
+      - classical_aiextra_list
+      - classical_copilot_list
+      - classical_githubcopilot_list
+      - classical_claude_list
+  ad_all:
+    output: classical/ad_all.list
+    merge: true
+    parser: auto
+    sources:
+      - classical_banad_list
+      - classical_banprogramad_list
+      - cache_ad_txt
+      - cache_easylist_txt
+      - cache_fanboy_annoyance_txt
+      - cache_easylistchina_txt
+  direct_all:
+    output: classical/direct_all.list
+    merge: true
+    parser: auto
+    sources:
+      - classical_localareanetwork_list
+      - classical_googlecn_list
+      - classical_steamcn_list
+      - classical_chinamedia_yaml
+      - classical_tencent_yaml
+  youtube:
+    output: classical/youtube.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_globalmedia_yaml
+  netflix:
+    output: classical/netflix.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_globalmedia_yaml
+  disney:
+    output: classical/disney.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_disney_yaml
+  tvb:
+    output: classical/tvb.list
+    merge: false
+    parser: auto
+    sources:
+      - custom_tvb_list
+  apple_domains:
+    output: classical/apple_domains.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_apple_classical_yaml
+  microsoft:
+    output: classical/microsoft.list
+    merge: true
+    parser: auto
+    sources:
+      - classical_microsoft_classical_yaml
+      - classical_onedrive_classical_yaml
+  github:
+    output: classical/github.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_github_classical_yaml
+  telegram:
+    output: classical/telegram.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_telegram_classical_yaml
+  gaming:
+    output: classical/gaming.list
+    merge: true
+    parser: auto
+    sources:
+      - classical_nintendo_yaml
+      - classical_playstation_yaml
+      - classical_epic_yaml
+      - classical_xbox_yaml
+  GoogleFCM:
+    output: classical/GoogleFCM.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_googlefcm_list
+  BiliBili:
+    output: classical/BiliBili.list
+    merge: false
+    parser: auto
+    sources:
+      - classical_blackmatrix7_bilibili_list
+  ban_pcdn:
+    output: classical/ban_pcdn.list
+    merge: true
+    parser: auto
+    sources:
+      - cache_pcdnfilter_txt
+      - cache_ban_txt

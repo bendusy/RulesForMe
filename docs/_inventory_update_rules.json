@@ -1,0 +1,338 @@
+[
+  {
+    "target": "rulesets/geosite/private_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
+  },
+  {
+    "target": "rulesets/geosite/ai.mrs",
+    "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
+  },
+  {
+    "target": "rulesets/geosite/youtube_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+  },
+  {
+    "target": "rulesets/geosite/google_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+  },
+  {
+    "target": "rulesets/geosite/github_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+  },
+  {
+    "target": "rulesets/geosite/telegram_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+  },
+  {
+    "target": "rulesets/geosite/netflix_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+  },
+  {
+    "target": "rulesets/geosite/paypal_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"
+  },
+  {
+    "target": "rulesets/geosite/onedrive_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"
+  },
+  {
+    "target": "rulesets/geosite/microsoft_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
+  },
+  {
+    "target": "rulesets/geosite/apple_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
+  },
+  {
+    "target": "rulesets/geosite/speedtest_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"
+  },
+  {
+    "target": "rulesets/geosite/tiktok_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
+  },
+  {
+    "target": "rulesets/geosite/gfw_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"
+  },
+  {
+    "target": "rulesets/geosite/geolocation-!cn.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+  },
+  {
+    "target": "rulesets/geosite/cn_domain.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+  },
+  {
+    "target": "rulesets/geoip/cn_ip.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
+  },
+  {
+    "target": "rulesets/geoip/google_ip.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+  },
+  {
+    "target": "rulesets/geoip/telegram_ip.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+  },
+  {
+    "target": "rulesets/geoip/netflix_ip.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+  },
+  {
+    "target": "rulesets/classical/proxylite.list",
+    "url": "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/master/ProxyLite.list"
+  },
+  {
+    "target": "rulesets/classical/GlobalMedia.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml"
+  },
+  {
+    "target": "rulesets/classical/ChinaMedia.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMedia/ChinaMedia.yaml"
+  },
+  {
+    "target": "rulesets/classical/Disney+.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/Apple_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/Microsoft_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/Nintendo.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Nintendo/Nintendo.yaml"
+  },
+  {
+    "target": "rulesets/classical/PlayStation.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PlayStation/PlayStation.yaml"
+  },
+  {
+    "target": "rulesets/classical/Epic.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Epic/Epic.yaml"
+  },
+  {
+    "target": "rulesets/classical/Xbox.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Xbox/Xbox.yaml"
+  },
+  {
+    "target": "rulesets/classical/TikTok_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/Spotify.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml"
+  },
+  {
+    "target": "rulesets/classical/OpenAI_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/Proxy.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy_Classical_No_Resolve.yaml"
+  },
+  {
+    "target": "rulesets/classical/China.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml"
+  },
+  {
+    "target": "rulesets/classical/Tencent.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Tencent/Tencent.yaml"
+  },
+  {
+    "target": "rulesets/classical/LAN.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml"
+  },
+  {
+    "target": "rulesets/classical/Cloudflare.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare.yaml"
+  },
+  {
+    "target": "rulesets/classical/Cloudflare.list",
+    "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.list"
+  },
+  {
+    "target": "rulesets/classical/Onedrive_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml"
+  },
+  {
+    "target": "rulesets/classical/Bing.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml"
+  },
+  {
+    "target": "rulesets/classical/Github_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml"
+  },
+  {
+    "target": "rulesets/classical/Telegram_classical.yaml",
+    "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml"
+  },
+  {
+    "target": "rulesets/classical/blackmatrix7_BiliBili.list",
+    "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/BiliBili/BiliBili.list"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_domainset.conf",
+    "url": "https://ruleset.skk.moe/List/domainset/reject.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_extra_domainset.conf",
+    "url": "https://ruleset.skk.moe/List/domainset/reject_extra.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/reject.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_no_drop_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_drop_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/reject-drop.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_reject_ip.conf",
+    "url": "https://ruleset.skk.moe/List/ip/reject.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_download_domainset.conf",
+    "url": "https://ruleset.skk.moe/List/domainset/download.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_download_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/download.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_apple_cn_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/apple_cn.conf"
+  },
+  {
+    "target": "rulesets/classical/skk_ai_non_ip.conf",
+    "url": "https://ruleset.skk.moe/List/non_ip/ai.conf"
+  },
+  {
+    "target": "rulesets/classical/LocalAreaNetwork.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/LocalAreaNetwork.list"
+  },
+  {
+    "target": "rulesets/classical/UnBan.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/UnBan.list"
+  },
+  {
+    "target": "rulesets/classical/CFnat.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/refs/heads/main/Clash/CFnat.list"
+  },
+  {
+    "target": "rulesets/custom/ArgoTunnel.list",
+    "url": "https://raw.githubusercontent.com/bendusy/RulesForMe/main/argotunnel.list"
+  },
+  {
+    "target": "rulesets/classical/BanAD.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanAD.list"
+  },
+  {
+    "target": "rulesets/classical/RejectList.list",
+    "url": "https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/reject-list.txt"
+  },
+  {
+    "target": "rulesets/classical/BlackList.list",
+    "url": "https://raw.githubusercontent.com/Steve5wutongyu6/DNSBlock/refs/heads/main/BlackList.txt"
+  },
+  {
+    "target": "rulesets/classical/BanProgramAD.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanProgramAD.list"
+  },
+  {
+    "target": "rulesets/classical/Adobe.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/adobe.list"
+  },
+  {
+    "target": "rulesets/custom/WeChat.list",
+    "url": "https://raw.githubusercontent.com/bendusy/RulesForMe/main/WeChat.list"
+  },
+  {
+    "target": "rulesets/classical/GoogleFCM.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list"
+  },
+  {
+    "target": "rulesets/classical/GoogleCN.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/GoogleCN.list"
+  },
+  {
+    "target": "rulesets/classical/SteamCN.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/SteamCN.list"
+  },
+  {
+    "target": "rulesets/classical/AiExtra.list",
+    "url": "https://raw.githubusercontent.com/juewuy/ShellClash/master/rules/ai.list"
+  },
+  {
+    "target": "rulesets/classical/Copilot.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Copilot.list"
+  },
+  {
+    "target": "rulesets/classical/GithubCopilot.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/GithubCopilot.list"
+  },
+  {
+    "target": "rulesets/classical/Claude.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Claude.list"
+  },
+  {
+    "target": "rulesets/custom/AIoAI.list",
+    "url": "https://raw.githubusercontent.com/bendusy/RulesForMe/main/aioai.list"
+  },
+  {
+    "target": "rulesets/classical/Talkatone.list",
+    "url": "https://raw.githubusercontent.com/SIJULY/Rules/main/Surge/talkatone.list"
+  },
+  {
+    "target": "rulesets/custom/Notion.list",
+    "url": "https://raw.githubusercontent.com/bendusy/RulesForMe/main/notion.list"
+  },
+  {
+    "target": "rulesets/custom/TVB.list",
+    "url": "https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list"
+  },
+  {
+    "target": "rulesets/classical/ProxyMedia.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list"
+  },
+  {
+    "target": "rulesets/classical/ProxyLite_classical.list",
+    "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list"
+  },
+  {
+    "target": "rulesets/classical/CMBlog.list",
+    "url": "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list"
+  },
+  {
+    "target": "rulesets/geosite/ChinaDomain.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list"
+  },
+  {
+    "target": "rulesets/geoip/ChinaCompanyIp.list",
+    "url": "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list"
+  },
+  {
+    "target": "rulesets/classical/Unbreak.list",
+    "url": "https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list"
+  },
+  {
+    "target": "rulesets/classical/ACL4SSR_BlockHttpDNS.list",
+    "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BlockHttpDNS.list"
+  },
+  {
+    "target": "rulesets/classical/ACL4SSR_Privacy.list",
+    "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Privacy.list"
+  },
+  {
+    "target": "rulesets/classical/ACL4SSR_AdvertisingTest.list",
+    "url": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AdvertisingTest.list"
+  }
+]

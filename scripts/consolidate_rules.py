@@ -1,155 +1,60 @@
-import requests
-import yaml
-import os
-import re
-import shutil
 import argparse
 import json
-from collections import defaultdict
-from urllib.parse import urlparse
-from datetime import datetime
+import os
+import re
+import sys
 import time
+from datetime import datetime
+from pathlib import Path
+
+import requests
+import yaml
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+SRC_DIR = ROOT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from rulesforme import ManifestError, RulesetManifest, load_manifest
 
 # --- 配置 ---
+# 定义规则分类信息全部来自 manifest
 
-# 定义规则分类及其源本地文件路径
-# 格式: '目标文件名 (无扩展名)': { 'urls': ['path1', 'path2', ...], 'merge': True/False }
-# merge: True 表示合并所有源文件到 <category_name>.list
-# merge: False 表示仅处理第一个源文件到 <category_name>.list (适用于单一源的情况)
-RULE_CATEGORIES = {
-    # --- AI 服务 ---
-    'ai_all': {
-        'urls': [
-            'rulesets/classical/ai_all.list',
-            'rulesets/custom/aioai.list',
-            'rulesets/classical/skk_ai_non_ip.conf',
-            'rulesets/classical/AiExtra.list',
-            'rulesets/classical/Copilot.list',
-            'rulesets/classical/GithubCopilot.list',
-            'rulesets/classical/Claude.list',
-        ],
-        'merge': True
-    },
-    # --- 广告拦截整合 ---
-    'ad_all': {
-        'urls': [
-            'rulesets/classical/BanAD.list',
-            'rulesets/classical/BanProgramAD.list',
-             'https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt', # 移除：调试 Notion 问题
-             'https://anti-ad.net/easylist.txt', # 移除：规则量过大
-             'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt', # 移除：规则量过大且易误伤
-             'https://easylist-downloads.adblockplus.org/easylistchina.txt', # 移除：规则量较大
-            #'https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockdns.txt', # 移除：调试 Notion 问题
-        ],
-        'merge': True
-    },
-    # --- 直连规则整合 ---
-    'direct_all': {
-        'urls': [
-            'rulesets/classical/LocalAreaNetwork.list',
-            'rulesets/classical/GoogleCN.list',
-            'rulesets/classical/SteamCN.list',
-            'rulesets/classical/ChinaMedia.yaml',
-            'rulesets/classical/Tencent.yaml',
-            # 'rulesets/classical/LAN.yaml',              # Removed: Redundant with LocalAreaNetwork.list
-            # 'rulesets/classical/China.yaml',            # Removed: Too broad
-            # 'rulesets/geosite/ChinaDomain.list',      # Removed: Too broad
-        ],
-        'merge': True
-    },
-    # --- 流媒体服务 ---
-    'youtube': {
-        'urls': [
-            'rulesets/classical/GlobalMedia.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    'netflix': {
-        'urls': [
-            'rulesets/classical/GlobalMedia.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    'disney': {
-        'urls': [
-            './rulesets/classical/Disney+.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    'tvb': {
-        'urls': [
-            './rulesets/custom/tvb.list',
-        ],
-        'merge': False # 单一源
-    },
-    # --- Apple 服务 ---
-    'apple_domains': {
-        'urls': [
-            './rulesets/classical/Apple_classical.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    # --- 微软服务 ---
-    'microsoft': {
-        'urls': [
-            './rulesets/classical/Microsoft_classical.yaml',
-            './rulesets/classical/Onedrive_classical.yaml',
-        ],
-        'merge': True
-    },
-    # --- GitHub ---
-    'github': {
-        'urls': [
-            './rulesets/classical/Github_classical.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    # --- Telegram ---
-    'telegram': {
-        'urls': [
-            './rulesets/classical/Telegram_classical.yaml',
-        ],
-        'merge': False # 单一源
-    },
-    # --- 游戏平台 ---
-    'gaming': {
-        'urls': [
-            './rulesets/classical/Nintendo.yaml',
-            './rulesets/classical/PlayStation.yaml',
-            './rulesets/classical/Epic.yaml',
-            './rulesets/classical/Xbox.yaml',
-        ],
-        'merge': True
-    },
-    # --- Surge 使用的独立列表 ---
-    'GoogleFCM': {
-        'urls': ['./rulesets/classical/GoogleFCM.list'],
-        'merge': False
-    },
-    'BiliBili': {
-        'urls': ['./rulesets/classical/blackmatrix7_BiliBili.list'],
-        'merge': False
-    },
-    # --- PCDN 拦截 ---
-    'ban_pcdn': {
-        'urls': [
-            'https://cdn.jsdelivr.net/gh/susetao/PCDNFilter-CHN-@main/PCDNFilter.txt',
-            'https://thhbdd.github.io/Block-pcdn-domains/ban.txt',
-        ],
-        'merge': True
-    },
-    # --- 以下是原配置中定义但 Surge 配置未使用的，已注释/删除 ---
-    # 'reject_domains': {...},
-    # 'direct_ips': {...},
-    # 'spotify': {...},
-    # 'tiktok': {...},
-    # 'proxy_common': {...},
-    # 'Cloudflare': {...},
-}
+MANIFEST_PATH = ROOT_DIR / "config" / "ruleset_manifest.yaml"
+
+
+def _resolve_source_path(manifest: RulesetManifest, source_id: str) -> str:
+    source = manifest.source_for(source_id)
+    if source.type == "local":
+        return source.path or source.target
+    target = source.target
+    cache_prefix = manifest.defaults.cache_root + "/"
+    if target.startswith(cache_prefix):
+        relative = target[len(cache_prefix) :]
+        return os.path.join(manifest.defaults.cache_root, relative)
+    return os.path.join(manifest.defaults.download_root, target)
+
+
+def _build_rule_categories(manifest: RulesetManifest) -> dict:
+    categories = {}
+    for name, category in manifest.categories.items():
+        resolved_sources = [_resolve_source_path(manifest, sid) for sid in category.sources]
+        categories[name] = {"urls": resolved_sources, "merge": category.merge}
+    return categories
+
+
+try:
+    _MANIFEST = load_manifest(MANIFEST_PATH)
+except ManifestError as exc:  # pragma: no cover - 在运行前即失败
+    print(f"加载 manifest 失败: {exc}")
+    sys.exit(1)
+
+
+RULE_CATEGORIES = _build_rule_categories(_MANIFEST)
 
 # 定义输出目录
-OUTPUT_DIR_CLASSICAL = "rulesets/classical"
-OUTPUT_DIR_CUSTOM = "rulesets/custom" # 自定义规则目录 (仅用于输入)
+OUTPUT_DIR_CLASSICAL = os.path.join(_MANIFEST.defaults.download_root, "classical")
+OUTPUT_DIR_CUSTOM = os.path.join(_MANIFEST.defaults.download_root, "custom")  # 自定义规则目录 (仅用于输入)
 STATS_FILE = "rule_stats.json"  # 统计信息文件
 
 # --- 工具函数 ---
@@ -192,9 +97,7 @@ def read_local_file_content(file_path):
     """读取本地文件内容，返回文本。"""
     # 规范化相对路径，确保它相对于项目根目录
     if not os.path.isabs(file_path):
-        # 获取脚本所在目录的父目录（项目根目录）
-        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) if '__file__' in globals() else os.getcwd()
-        abs_path = os.path.normpath(os.path.join(script_dir, file_path))
+        abs_path = os.path.normpath(os.path.join(str(ROOT_DIR), file_path))
     else:
         abs_path = file_path
 

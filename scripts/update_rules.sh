@@ -1,113 +1,14 @@
 #!/bin/bash
 
-# 创建目录
-echo "创建目录结构..."
-mkdir -p rulesets/geosite rulesets/geoip rulesets/classical rulesets/custom
+# 统一入口：使用 Python 脚本按照 manifest 下载规则文件。
+set -euo pipefail
 
-# 添加 -e 选项，确保脚本在任何命令失败时退出
-set -e
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-echo "Downloading rulesets..."
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "ERROR: 未找到 python3，请先安装后再运行。" >&2
+  exit 1
+fi
 
-# 切换到仓库根目录（如果在 Action 中运行，通常已经是根目录，但在本地运行时可能需要）
-# cd "$(dirname "$0")/.." || exit 1
-
-# --- MetaCubeX (.mrs) ---
-echo "Downloading MetaCubeX rules..."
-curl -L --fail -o 'rulesets/geosite/private_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs' || echo "WARN: Failed to download private_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/ai.mrs' 'https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs' || echo "WARN: Failed to download ai.mrs"
-curl -L --fail -o 'rulesets/geosite/youtube_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs' || echo "WARN: Failed to download youtube_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/google_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs' || echo "WARN: Failed to download google_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/github_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs' || echo "WARN: Failed to download github_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/telegram_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs' || echo "WARN: Failed to download telegram_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/netflix_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs' || echo "WARN: Failed to download netflix_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/paypal_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs' || echo "WARN: Failed to download paypal_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/onedrive_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs' || echo "WARN: Failed to download onedrive_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/microsoft_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs' || echo "WARN: Failed to download microsoft_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/apple_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs' || echo "WARN: Failed to download apple_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/speedtest_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs' || echo "WARN: Failed to download speedtest_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/tiktok_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs' || echo "WARN: Failed to download tiktok_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/gfw_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs' || echo "WARN: Failed to download gfw_domain.mrs"
-curl -L --fail -o 'rulesets/geosite/geolocation-!cn.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs' || echo "WARN: Failed to download geolocation-!cn.mrs"
-curl -L --fail -o 'rulesets/geosite/cn_domain.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs' || echo "WARN: Failed to download cn_domain.mrs"
-curl -L --fail -o 'rulesets/geoip/cn_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs' || echo "WARN: Failed to download cn_ip.mrs"
-curl -L --fail -o 'rulesets/geoip/google_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs' || echo "WARN: Failed to download google_ip.mrs"
-curl -L --fail -o 'rulesets/geoip/telegram_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs' || echo "WARN: Failed to download telegram_ip.mrs"
-curl -L --fail -o 'rulesets/geoip/netflix_ip.mrs' 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs' || echo "WARN: Failed to download netflix_ip.mrs"
-
-# --- qichiyuhub (.list) ---
-echo "Downloading qichiyuhub rules..."
-curl -L --fail -o 'rulesets/classical/proxylite.list' 'https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/master/ProxyLite.list' || echo "WARN: Failed to download proxylite.list"
-
-# --- blackmatrix7 (.yaml) ---
-echo "Downloading blackmatrix7 rules..."
-curl -L --fail -o 'rulesets/classical/GlobalMedia.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml' || echo "WARN: Failed to download GlobalMedia.yaml"
-curl -L --fail -o 'rulesets/classical/ChinaMedia.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMedia/ChinaMedia.yaml' || echo "WARN: Failed to download ChinaMedia.yaml"
-curl -L --fail -o 'rulesets/classical/Disney+.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney_No_Resolve.yaml' || echo "WARN: Failed to download Disney+.yaml"
-curl -L --fail -o 'rulesets/classical/Apple_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Classical_No_Resolve.yaml' || echo "WARN: Failed to download Apple_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Microsoft_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft_No_Resolve.yaml' || echo "WARN: Failed to download Microsoft_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Nintendo.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Nintendo/Nintendo.yaml' || echo "WARN: Failed to download Nintendo.yaml"
-curl -L --fail -o 'rulesets/classical/PlayStation.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PlayStation/PlayStation.yaml' || echo "WARN: Failed to download PlayStation.yaml"
-curl -L --fail -o 'rulesets/classical/Epic.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Epic/Epic.yaml' || echo "WARN: Failed to download Epic.yaml"
-curl -L --fail -o 'rulesets/classical/Xbox.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Xbox/Xbox.yaml' || echo "WARN: Failed to download Xbox.yaml"
-curl -L --fail -o 'rulesets/classical/TikTok_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok_No_Resolve.yaml' || echo "WARN: Failed to download TikTok_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Spotify.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml' || echo "WARN: Failed to download Spotify.yaml"
-curl -L --fail -o 'rulesets/classical/OpenAI_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI_No_Resolve.yaml' || echo "WARN: Failed to download OpenAI_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Proxy.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy_Classical_No_Resolve.yaml' || echo "WARN: Failed to download Proxy.yaml"
-curl -L --fail -o 'rulesets/classical/China.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml' || echo "WARN: Failed to download China.yaml"
-curl -L --fail -o 'rulesets/classical/Tencent.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Tencent/Tencent.yaml' || echo "WARN: Failed to download Tencent.yaml"
-curl -L --fail -o 'rulesets/classical/LAN.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml' || echo "WARN: Failed to download LAN.yaml"
-curl -L --fail -o 'rulesets/classical/Cloudflare.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare.yaml' || echo "WARN: Failed to download Cloudflare.yaml"
-curl -L --fail -o 'rulesets/classical/Cloudflare.list' 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.list' || echo "WARN: Failed to download Cloudflare.list"
-curl -L --fail -o 'rulesets/classical/Onedrive_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml' || echo "WARN: Failed to download Onedrive_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Bing.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml' || echo "WARN: Failed to download Bing.yaml"
-curl -L --fail -o 'rulesets/classical/Github_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml' || echo "WARN: Failed to download Github_classical.yaml"
-curl -L --fail -o 'rulesets/classical/Telegram_classical.yaml' 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml' || echo "WARN: Failed to download Telegram_classical.yaml"
-curl -L --fail -o 'rulesets/classical/blackmatrix7_BiliBili.list' 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/BiliBili/BiliBili.list' || echo "WARN: Failed to download blackmatrix7_BiliBili.list"
-
-# --- skk.moe rules ---
-echo "Downloading skk.moe rules..."
-curl -L --fail -o 'rulesets/classical/skk_reject_domainset.conf' 'https://ruleset.skk.moe/List/domainset/reject.conf' || echo "WARN: Failed to download skk_reject_domainset.conf"
-curl -L --fail -o 'rulesets/classical/skk_reject_extra_domainset.conf' 'https://ruleset.skk.moe/List/domainset/reject_extra.conf' || echo "WARN: Failed to download skk_reject_extra_domainset.conf"
-curl -L --fail -o 'rulesets/classical/skk_reject_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject.conf' || echo "WARN: Failed to download skk_reject_non_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_reject_no_drop_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf' || echo "WARN: Failed to download skk_reject_no_drop_non_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_reject_drop_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/reject-drop.conf' || echo "WARN: Failed to download skk_reject_drop_non_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_reject_ip.conf' 'https://ruleset.skk.moe/List/ip/reject.conf' || echo "WARN: Failed to download skk_reject_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_download_domainset.conf' 'https://ruleset.skk.moe/List/domainset/download.conf' || echo "WARN: Failed to download skk_download_domainset.conf"
-curl -L --fail -o 'rulesets/classical/skk_download_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/download.conf' || echo "WARN: Failed to download skk_download_non_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_apple_cn_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/apple_cn.conf' || echo "WARN: Failed to download skk_apple_cn_non_ip.conf"
-curl -L --fail -o 'rulesets/classical/skk_ai_non_ip.conf' 'https://ruleset.skk.moe/List/non_ip/ai.conf' || echo "WARN: Failed to download skk_ai_non_ip.conf"
-
-# --- ACL4SSR & cmliu & others (.list/.txt) ---
-echo "Downloading ACL4SSR and other rules..."
-curl -L --fail -o 'rulesets/classical/LocalAreaNetwork.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/LocalAreaNetwork.list' || echo "WARN: Failed to download LocalAreaNetwork.list"
-curl -L --fail -o 'rulesets/classical/UnBan.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/UnBan.list' || echo "WARN: Failed to download UnBan.list"
-curl -L --fail -o 'rulesets/classical/CFnat.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/refs/heads/main/Clash/CFnat.list' || echo "WARN: Failed to download CFnat.list"
-curl -L --fail -o 'rulesets/custom/ArgoTunnel.list' 'https://raw.githubusercontent.com/bendusy/RulesForMe/main/argotunnel.list' || echo "WARN: Failed to download ArgoTunnel.list"
-curl -L --fail -o 'rulesets/classical/BanAD.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanAD.list' || echo "WARN: Failed to download BanAD.list"
-curl -L --fail -o 'rulesets/classical/RejectList.list' 'https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/reject-list.txt' || echo "WARN: Failed to download RejectList.list"
-curl -L --fail -o 'rulesets/classical/BlackList.list' 'https://raw.githubusercontent.com/Steve5wutongyu6/DNSBlock/refs/heads/main/BlackList.txt' || echo "WARN: Failed to download BlackList.list"
-curl -L --fail -o 'rulesets/classical/BanProgramAD.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanProgramAD.list' || echo "WARN: Failed to download BanProgramAD.list"
-curl -L --fail -o 'rulesets/classical/Adobe.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/adobe.list' || echo "WARN: Failed to download Adobe.list"
-curl -L --fail -o 'rulesets/custom/WeChat.list' 'https://raw.githubusercontent.com/bendusy/RulesForMe/main/WeChat.list' || echo "WARN: Failed to download WeChat.list"
-curl -L --fail -o 'rulesets/classical/GoogleFCM.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list' || echo "WARN: Failed to download GoogleFCM.list"
-curl -L --fail -o 'rulesets/classical/GoogleCN.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/GoogleCN.list' || echo "WARN: Failed to download GoogleCN.list"
-curl -L --fail -o 'rulesets/classical/SteamCN.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/SteamCN.list' || echo "WARN: Failed to download SteamCN.list"
-curl -L --fail -o 'rulesets/classical/AiExtra.list' 'https://raw.githubusercontent.com/juewuy/ShellClash/master/rules/ai.list' || echo "WARN: Failed to download AiExtra.list"
-curl -L --fail -o 'rulesets/classical/Copilot.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Copilot.list' || echo "WARN: Failed to download Copilot.list"
-curl -L --fail -o 'rulesets/classical/GithubCopilot.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/GithubCopilot.list' || echo "WARN: Failed to download GithubCopilot.list"
-curl -L --fail -o 'rulesets/classical/Claude.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/Claude.list' || echo "WARN: Failed to download Claude.list"
-curl -L --fail -o 'rulesets/custom/AIoAI.list' 'https://raw.githubusercontent.com/bendusy/RulesForMe/main/aioai.list' || echo "WARN: Failed to download AIoAI.list"
-curl -L --fail -o 'rulesets/classical/Talkatone.list' 'https://raw.githubusercontent.com/SIJULY/Rules/main/Surge/talkatone.list' || echo "WARN: Failed to download Talkatone.list"
-curl -L --fail -o 'rulesets/custom/Notion.list' 'https://raw.githubusercontent.com/bendusy/RulesForMe/main/notion.list' || echo "WARN: Failed to download Notion.list"
-curl -L --fail -o 'rulesets/custom/TVB.list' 'https://raw.githubusercontent.com/bendusy/RulesForMe/main/tvb.list' || echo "WARN: Failed to download TVB.list"
-curl -L --fail -o 'rulesets/classical/ProxyMedia.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list' || echo "WARN: Failed to download ProxyMedia.list"
-curl -L --fail -o 'rulesets/classical/ProxyLite_classical.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list' || echo "WARN: Failed to download ProxyLite_classical.list"
-curl -L --fail -o 'rulesets/classical/CMBlog.list' 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/CMBlog.list' || echo "WARN: Failed to download CMBlog.list"
-curl -L --fail -o 'rulesets/geosite/ChinaDomain.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list' || echo "WARN: Failed to download ChinaDomain.list"
-curl -L --fail -o 'rulesets/geoip/ChinaCompanyIp.list' 'https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list' || echo "WARN: Failed to download ChinaCompanyIp.list"
-curl -L --fail -o 'rulesets/classical/Unbreak.list' 'https://raw.githubusercontent.com/Runeston/Rule/main/Unbreak.list' || echo "WARN: Failed to download Unbreak.list"
-curl -L --fail -o 'rulesets/classical/ACL4SSR_BlockHttpDNS.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/BlockHttpDNS.list' || echo "WARN: Failed to download ACL4SSR_BlockHttpDNS.list"
-curl -L --fail -o 'rulesets/classical/ACL4SSR_Privacy.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Privacy.list' || echo "WARN: Failed to download ACL4SSR_Privacy.list"
-curl -L --fail -o 'rulesets/classical/ACL4SSR_AdvertisingTest.list' 'https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AdvertisingTest.list' || echo "WARN: Failed to download ACL4SSR_AdvertisingTest.list"
-echo "Downloads finished." 
+python3 "$REPO_ROOT/scripts/fetch_rules.py" "$@"

@@ -1,0 +1,112 @@
+{
+  "ai_all": {
+    "urls": [
+      "rulesets/classical/ai_all.list",
+      "rulesets/custom/aioai.list",
+      "rulesets/classical/skk_ai_non_ip.conf",
+      "rulesets/classical/AiExtra.list",
+      "rulesets/classical/Copilot.list",
+      "rulesets/classical/GithubCopilot.list",
+      "rulesets/classical/Claude.list"
+    ],
+    "merge": true
+  },
+  "ad_all": {
+    "urls": [
+      "rulesets/classical/BanAD.list",
+      "rulesets/classical/BanProgramAD.list",
+      "https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt",
+      "https://anti-ad.net/easylist.txt",
+      "https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt",
+      "https://easylist-downloads.adblockplus.org/easylistchina.txt"
+    ],
+    "merge": true
+  },
+  "direct_all": {
+    "urls": [
+      "rulesets/classical/LocalAreaNetwork.list",
+      "rulesets/classical/GoogleCN.list",
+      "rulesets/classical/SteamCN.list",
+      "rulesets/classical/ChinaMedia.yaml",
+      "rulesets/classical/Tencent.yaml"
+    ],
+    "merge": true
+  },
+  "youtube": {
+    "urls": [
+      "rulesets/classical/GlobalMedia.yaml"
+    ],
+    "merge": false
+  },
+  "netflix": {
+    "urls": [
+      "rulesets/classical/GlobalMedia.yaml"
+    ],
+    "merge": false
+  },
+  "disney": {
+    "urls": [
+      "./rulesets/classical/Disney+.yaml"
+    ],
+    "merge": false
+  },
+  "tvb": {
+    "urls": [
+      "./rulesets/custom/tvb.list"
+    ],
+    "merge": false
+  },
+  "apple_domains": {
+    "urls": [
+      "./rulesets/classical/Apple_classical.yaml"
+    ],
+    "merge": false
+  },
+  "microsoft": {
+    "urls": [
+      "./rulesets/classical/Microsoft_classical.yaml",
+      "./rulesets/classical/Onedrive_classical.yaml"
+    ],
+    "merge": true
+  },
+  "github": {
+    "urls": [
+      "./rulesets/classical/Github_classical.yaml"
+    ],
+    "merge": false
+  },
+  "telegram": {
+    "urls": [
+      "./rulesets/classical/Telegram_classical.yaml"
+    ],
+    "merge": false
+  },
+  "gaming": {
+    "urls": [
+      "./rulesets/classical/Nintendo.yaml",
+      "./rulesets/classical/PlayStation.yaml",
+      "./rulesets/classical/Epic.yaml",
+      "./rulesets/classical/Xbox.yaml"
+    ],
+    "merge": true
+  },
+  "GoogleFCM": {
+    "urls": [
+      "./rulesets/classical/GoogleFCM.list"
+    ],
+    "merge": false
+  },
+  "BiliBili": {
+    "urls": [
+      "./rulesets/classical/blackmatrix7_BiliBili.list"
+    ],
+    "merge": false
+  },
+  "ban_pcdn": {
+    "urls": [
+      "https://cdn.jsdelivr.net/gh/susetao/PCDNFilter-CHN-@main/PCDNFilter.txt",
+      "https://thhbdd.github.io/Block-pcdn-domains/ban.txt"
+    ],
+    "merge": true
+  }
+}
