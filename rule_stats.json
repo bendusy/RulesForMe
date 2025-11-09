@@ -1,5 +1,5 @@
 {
-  "last_update": "2025-11-08T03:35:15.012481",
+  "last_update": "2025-11-09T03:43:32.290763",
   "categories": {
     "reject_domains": {
       "rule_count": 117315,
@@ -19,15 +19,15 @@
     },
     "netflix": {
       "rule_count": 2261,
-      "last_updated": "2025-11-08T03:35:14.556397"
+      "last_updated": "2025-11-09T03:43:31.732086"
     },
     "disney": {
       "rule_count": 174,
-      "last_updated": "2025-11-08T03:35:14.566222"
+      "last_updated": "2025-11-09T03:43:31.741867"
     },
     "youtube": {
       "rule_count": 2261,
-      "last_updated": "2025-11-08T03:35:14.438645"
+      "last_updated": "2025-11-09T03:43:31.614062"
     },
     "spotify": {
       "rule_count": 30,
@@ -39,19 +39,19 @@
     },
     "microsoft": {
       "rule_count": 675,
-      "last_updated": "2025-11-08T03:35:14.691985"
+      "last_updated": "2025-11-09T03:43:31.867474"
     },
     "github": {
       "rule_count": 31,
-      "last_updated": "2025-11-08T03:35:14.694132"
+      "last_updated": "2025-11-09T03:43:31.869435"
     },
     "telegram": {
       "rule_count": 46,
-      "last_updated": "2025-11-08T03:35:14.696846"
+      "last_updated": "2025-11-09T03:43:31.872050"
     },
     "gaming": {
       "rule_count": 188,
-      "last_updated": "2025-11-08T03:35:14.708058"
+      "last_updated": "2025-11-09T03:43:31.883179"
     },
     "proxy_common": {
       "rule_count": 6561,
@@ -59,7 +59,7 @@
     },
     "apple_domains": {
       "rule_count": 1589,
-      "last_updated": "2025-11-08T03:35:14.653934"
+      "last_updated": "2025-11-09T03:43:31.829742"
     },
     "Cloudflare": {
       "rule_count": 65,
@@ -67,11 +67,11 @@
     },
     "ai_all": {
       "rule_count": 153,
-      "last_updated": "2025-11-08T03:35:11.738220"
+      "last_updated": "2025-11-09T03:43:28.783666"
     },
     "direct_all": {
       "rule_count": 491,
-      "last_updated": "2025-11-08T03:35:14.320992"
+      "last_updated": "2025-11-09T03:43:31.494835"
     },
     "BlockHttpDNS": {
       "rule_count": 0,
@@ -87,15 +87,15 @@
     },
     "GoogleFCM": {
       "rule_count": 26,
-      "last_updated": "2025-11-08T03:35:14.708321"
+      "last_updated": "2025-11-09T03:43:31.883416"
     },
     "BiliBili": {
       "rule_count": 80,
-      "last_updated": "2025-11-08T03:35:14.708740"
+      "last_updated": "2025-11-09T03:43:31.883831"
     },
     "ad_all": {
-      "rule_count": 95760,
-      "last_updated": "2025-11-08T03:35:14.286270"
+      "rule_count": 95772,
+      "last_updated": "2025-11-09T03:43:31.459535"
     },
     "privacy_all": {
       "rule_count": 0,
@@ -103,11 +103,11 @@
     },
     "tvb": {
       "rule_count": 7,
-      "last_updated": "2025-11-08T03:35:14.566436"
+      "last_updated": "2025-11-09T03:43:31.742053"
     },
     "ban_pcdn": {
       "rule_count": 33,
-      "last_updated": "2025-11-08T03:35:14.953067"
+      "last_updated": "2025-11-09T03:43:32.235596"
     }
   }
 }
