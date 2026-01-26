@@ -197,7 +197,7 @@ rules:
   # 代理规则 & 国际流量
   - RULE-SET,proxy_common,🚀 默认代理 # 使用proxy_common规则
   - RULE-SET,gfw_domain,🚀 默认代理
-  - RULE-SET,geolocation-!cn,🚀 默认代理
+  - RULE-SET,geolocation-non-cn,🚀 默认代理
 
   # IP 规则 (放在后面，no-resolve)
   - RULE-SET,google_ip,🍀 Google,no-resolve
@@ -253,7 +253,7 @@ rule-providers:
   ChinaDomain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/ChinaDomain.list }
   private_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/private_domain.mrs }
   cn_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/cn_domain.mrs }
-  geolocation-!cn: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-!cn.mrs }
+  geolocation-non-cn: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/geolocation-non-cn.mrs }
   gfw_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/gfw_domain.mrs }
   tiktok_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/tiktok_domain.mrs }
   speedtest_domain: { <<: *domain, url: https://raw.githubusercontent.com/bendusy/RulesForMe/main/rulesets/geosite/speedtest_domain.mrs }

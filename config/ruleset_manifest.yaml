@@ -634,8 +634,8 @@ sources:
   -
     id: geosite_geolocation_cn_mrs
     type: remote
-    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
-    target: geosite/geolocation-!cn.mrs
+    uri: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-non-cn.mrs"
+    target: geosite/geolocation-non-cn.mrs
     format: mrs
     group: geosite
     critical: true

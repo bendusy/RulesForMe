@@ -56,8 +56,8 @@
     "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"
   },
   {
-    "target": "rulesets/geosite/geolocation-!cn.mrs",
-    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+    "target": "rulesets/geosite/geolocation-non-cn.mrs",
+    "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-non-cn.mrs"
   },
   {
     "target": "rulesets/geosite/cn_domain.mrs",
