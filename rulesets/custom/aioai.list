@@ -1,53 +1,75 @@
 # 内容：AI服务相关域名规则
-# 数量：120条
+# 2026.2.2 更新：合并 DustinWin AI 规则集
+# 数量：200+ 条
 
-# Google AI相关
+# ===== Google AI 相关 =====
 DOMAIN,ai.google.dev
 DOMAIN,alkalimakersuite-pa.clients6.google.com
+DOMAIN,alkalicore-pa.clients6.google.com
+DOMAIN,antigravity-pa.googleapis.com
+DOMAIN,antigravity.googleapis.com
+DOMAIN,cloudaicompanion.googleapis.com
+DOMAIN,cloudcode-pa.googleapis.com
+DOMAIN,daily-cloudcode-pa.googleapis.com
 DOMAIN,makersuite.google.com
+DOMAIN,notebooklm-pa.googleapis.com
+DOMAIN,notebooklm.googleapis.com
+DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com
+DOMAIN-SUFFIX,aida.googleapis.com
+DOMAIN-SUFFIX,aisandbox-pa.googleapis.com
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN-SUFFIX,antigravity-unleash.goog
+DOMAIN-SUFFIX,antigravity.google
 DOMAIN-SUFFIX,bard.google.com
 DOMAIN-SUFFIX,deepmind.com
 DOMAIN-SUFFIX,deepmind.google
+DOMAIN-SUFFIX,geller-pa.googleapis.com
+DOMAIN-SUFFIX,gemini.google
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,generativelanguage.googleapis.com
 DOMAIN-SUFFIX,googleai.com
-DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
-DOMAIN-SUFFIX,apis.google.com
+DOMAIN-SUFFIX,jules.google
+DOMAIN-SUFFIX,jules.google.com
 DOMAIN-SUFFIX,labs.google
-DOMAIN-SUFFIX,aisandbox-pa.googleapis.com
+DOMAIN-SUFFIX,labs.google.com
 DOMAIN-SUFFIX,notebooklm.google
 DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-SUFFIX,opal.google
+DOMAIN-SUFFIX,opal.google.com
+DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com
 DOMAIN-KEYWORD,colab
 DOMAIN-KEYWORD,developerprofiles
 DOMAIN-KEYWORD,generativelanguage
 DOMAIN-KEYWORD,aistudio
 
-# OpenAI相关
-DOMAIN-KEYWORD,openai
-DOMAIN-SUFFIX,openai.com
-DOMAIN-SUFFIX,oaistatic.com
-DOMAIN-SUFFIX,oaiusercontent.com
-DOMAIN-SUFFIX,chatgpt.com
-DOMAIN-SUFFIX,openaiapi-site.azureedge.net
-DOMAIN-SUFFIX,chat.com
-DOMAIN-SUFFIX,sora.com
-DOMAIN-SUFFIX,ai.com
+# ===== OpenAI 相关 =====
 DOMAIN,chat.openai.com.cdn.cloudflare.net
 DOMAIN,openai-api.arkoselabs.com
 DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
 DOMAIN,openaicomproductionae4b.blob.core.windows.net
 DOMAIN,production-openaicom-storage.azureedge.net
+DOMAIN,o33249.ingest.sentry.io
+DOMAIN,browser-intake-datadoghq.com
+DOMAIN,static.cloudflareinsights.com
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,openai.com.cdn.cloudflare.net
+DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,chatgpt.livekit.cloud
+DOMAIN-SUFFIX,chat.com
+DOMAIN-SUFFIX,sora.com
+DOMAIN-SUFFIX,ai.com
 DOMAIN-SUFFIX,host.livekit.cloud
+DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,observeit.net
 DOMAIN-SUFFIX,openaicom.imgix.net
 DOMAIN-SUFFIX,segment.io
-DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-SUFFIX,cdn.oaistatic.com
-DOMAIN,o33249.ingest.sentry.io
-DOMAIN,browser-intake-datadoghq.com
-DOMAIN,static.cloudflareinsights.com
 DOMAIN-SUFFIX,algolia.net
 DOMAIN-SUFFIX,api.statsig.com
 DOMAIN-SUFFIX,pay.openai.com
@@ -56,30 +78,40 @@ DOMAIN-SUFFIX,auth0.openai.com
 DOMAIN-SUFFIX,invoice.stripe.com
 DOMAIN-SUFFIX,azureedge.net
 DOMAIN-SUFFIX,azurefd.net
+DOMAIN-KEYWORD,openai
 IP-CIDR,24.199.123.28/32,no-resolve
 IP-CIDR,64.23.132.171/32,no-resolve
 IP-ASN,20473,no-resolve
 
-# Claude相关
+# ===== Claude/Anthropic 相关 =====
 DOMAIN,cdn.usefathom.com
+DOMAIN,servd-anthropic-website.b-cdn.net
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,claudemcpclient.com
+DOMAIN-SUFFIX,claudeusercontent.com
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
-DOMAIN,servd-anthropic-website.b-cdn.net
 
-# GitHub Copilot相关
+# ===== Cursor 相关（新增）=====
+DOMAIN-SUFFIX,cursor.com
+DOMAIN-SUFFIX,cursor.sh
+DOMAIN-SUFFIX,cursor-cdn.com
+DOMAIN-SUFFIX,cursorapi.com
+
+# ===== GitHub Copilot 相关 =====
+DOMAIN,api.githubcopilot.com
+DOMAIN,copilot-proxy.githubusercontent.com
 DOMAIN-SUFFIX,copilot.github.com
-DOMAIN-KEYWORD,copilot
 DOMAIN-SUFFIX,github.dev
+DOMAIN-KEYWORD,copilot
 
-# Microsoft Copilot相关
+# ===== Microsoft Copilot 相关 =====
 DOMAIN,copilot.microsoft.com
 DOMAIN,gateway.bingviz.microsoft.net
 DOMAIN,gateway.bingviz.microsoftapp.net
-DOMAIN-SUFFIX,api.microsoftapp.net
-DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
-DOMAIN-SUFFIX,edgeservices.bing.com
+DOMAIN,sydney.bing.com
 DOMAIN,api.msn.com
 DOMAIN,assets.msn.com
 DOMAIN,in.appcenter.ms
@@ -88,54 +120,113 @@ DOMAIN,odc.officeapps.live.com
 DOMAIN,r.bing.com
 DOMAIN,self.events.data.microsoft.com
 DOMAIN,services.bingapis.com
-DOMAIN,sydney.bing.com
 DOMAIN,www.bing.com
+DOMAIN-SUFFIX,copilot.cloud.microsoft
+DOMAIN-SUFFIX,copilot.microsoft.com
+DOMAIN-SUFFIX,api.microsoftapp.net
+DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
+DOMAIN-SUFFIX,edgeservices.bing.com
 DOMAIN-SUFFIX,microsoft.com
 DOMAIN-SUFFIX,sfx.ms
-DOMAIN,opilot.microsoft.com
+DOMAIN-SUFFIX,ai.azure.com
+DOMAIN-SUFFIX,ai.studio
 DOMAIN-KEYWORD,openaicom-api
 IP-ASN,14061,no-resolve
 
-# 通用AI服务认证
-DOMAIN-SUFFIX,auth0.com
-DOMAIN-SUFFIX,identrust.com
+# ===== xAI/Grok 相关 =====
+DOMAIN-SUFFIX,x.ai
+DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,grok.x.com
+
+# ===== Meta AI 相关（新增）=====
+DOMAIN-SUFFIX,meta.ai
+
+# ===== Perplexity 相关（新增）=====
+DOMAIN,pplx-res.cloudinary.com
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,perplexity.com
+DOMAIN-SUFFIX,pplx.ai
+
+# ===== HuggingFace 相关（新增）=====
+DOMAIN-SUFFIX,huggingface.co
+DOMAIN-SUFFIX,hf.co
+DOMAIN-SUFFIX,hf.space
+
+# ===== Groq 相关 =====
 DOMAIN-SUFFIX,groq.com
 DOMAIN-SUFFIX,console.groq.com
 DOMAIN-SUFFIX,chat.groq.com
-DOMAIN-SUFFIX,hcaptcha.com
-DOMAIN-SUFFIX,recaptcha.net
-DOMAIN-SUFFIX,cdn.auth0.com
+DOMAIN-KEYWORD,groq
 
-# AI服务依赖
-DOMAIN-SUFFIX,intercom.io
-DOMAIN-SUFFIX,intercomcdn.com
-DOMAIN-SUFFIX,sentry.io
-DOMAIN-SUFFIX,stripe.com
-DOMAIN-SUFFIX,client-api.arkoselabs.com
-DOMAIN-SUFFIX,events.statsigapi.net
-DOMAIN-SUFFIX,featuregates.org
-DOMAIN-SUFFIX,challenges.cloudflare.com
-DOMAIN-SUFFIX,intercom.cdn.com
-
-# 新增其他 AI 服务
+# ===== 其他 AI 服务 =====
 DOMAIN-SUFFIX,lmsys.org
 DOMAIN-SUFFIX,poe.com
+DOMAIN-SUFFIX,poecdn.net
 DOMAIN-SUFFIX,coze.com
 DOMAIN-SUFFIX,grazie.ai
 DOMAIN-SUFFIX,grazie.aws.intellij.net
+DOMAIN-SUFFIX,jetbrains.ai
 DOMAIN-SUFFIX,klingai.com
 DOMAIN-SUFFIX,sider.ai
 DOMAIN-SUFFIX,mistral.ai
 DOMAIN-SUFFIX,codeium.com
 DOMAIN-SUFFIX,codeiumdata.com
 DOMAIN-SUFFIX,hcompany.ai
-DOMAIN-SUFFIX,x.ai
-DOMAIN-SUFFIX,grok.com
-DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,cohere.ai
+DOMAIN-SUFFIX,cohere.com
+DOMAIN-SUFFIX,together.xyz
+DOMAIN-SUFFIX,cerebras.ai
+DOMAIN-SUFFIX,openrouter.ai
+DOMAIN-SUFFIX,openart.ai
+DOMAIN-SUFFIX,elevenlabs.com
+DOMAIN-SUFFIX,elevenlabs.io
+DOMAIN-SUFFIX,jasper.ai
+DOMAIN-SUFFIX,dify.ai
+DOMAIN-SUFFIX,devin.ai
+DOMAIN-SUFFIX,coderabbit.ai
+DOMAIN-SUFFIX,marscode.com
+DOMAIN-SUFFIX,trae.ai
+DOMAIN-SUFFIX,crixet.com
+DOMAIN-SUFFIX,diabrowser.com
+DOMAIN-SUFFIX,kiro.dev
+DOMAIN-SUFFIX,duck.ai
+DOMAIN-SUFFIX,dola.com
+DOMAIN-SUFFIX,clipdrop.co
+DOMAIN-SUFFIX,comfy.org
+DOMAIN-SUFFIX,comfyci.org
+DOMAIN-SUFFIX,comfyregistry.org
+DOMAIN-SUFFIX,cici.com
+DOMAIN-SUFFIX,ciciai.com
+DOMAIN-SUFFIX,ciciaicdn.com
+DOMAIN-SUFFIX,chutes.ai
+DOMAIN-SUFFIX,youmind.ai
+DOMAIN-SUFFIX,youmind.com
+DOMAIN-SUFFIX,youmind.site
 DOMAIN-KEYWORD,cohere
 DOMAIN-KEYWORD,hcompany
-DOMAIN-KEYWORD,groq
+DOMAIN,api.together.xyz
 
-# 苹果服务相关
+# ===== 通用 AI 服务认证 =====
+DOMAIN-SUFFIX,auth0.com
+DOMAIN-SUFFIX,cdn.auth0.com
+DOMAIN-SUFFIX,identrust.com
+DOMAIN-SUFFIX,hcaptcha.com
+DOMAIN-SUFFIX,recaptcha.net
+DOMAIN-SUFFIX,client-api.arkoselabs.com
+
+# ===== AI 服务依赖 =====
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+DOMAIN-SUFFIX,sentry.io
+DOMAIN-SUFFIX,stripe.com
+DOMAIN-SUFFIX,events.statsigapi.net
+DOMAIN-SUFFIX,featuregates.org
+DOMAIN-SUFFIX,challenges.cloudflare.com
+DOMAIN-SUFFIX,gateway.ai.cloudflare.com
+DOMAIN-SUFFIX,liveperson.net
+DOMAIN-SUFFIX,lpsnmedia.net
+
+# ===== 苹果 Private Relay =====
 DOMAIN,apple-relay.apple.com
 DOMAIN,apple-relay.cloudflare.com
+
